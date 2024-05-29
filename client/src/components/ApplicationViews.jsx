@@ -4,6 +4,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
+import { Reaction } from "./reaction/Reaction";
+import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -46,6 +48,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               }
             />
           </Route>
+        <Route path="/reactions" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <Reaction />
+              </AuthorizedRoute>
+            }/>         
+          
+        <Route path="/posts">
+            <Route index element={<ViewPosts />}/>
+        </Route>
         <Route
           path="login"
           element={<Login setLoggedInUser={setLoggedInUser} />}

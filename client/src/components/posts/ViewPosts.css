@@ -1,0 +1,10 @@
+.post-master-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.post {
+    background-color: lightcoral;
+    border: 2px solid black;
+    margin: 10px 0;
+}
