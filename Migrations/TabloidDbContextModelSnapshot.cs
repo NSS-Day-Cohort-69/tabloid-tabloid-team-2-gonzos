@@ -150,13 +150,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4451bcb0-caf8-4d24-9f15-2154255113c5",
+                            ConcurrencyStamp = "7a40b20f-32ca-4ca4-8668-d06b50b7ad28",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEE5Dc5RBntPFIfRtHK1rrFD4vcC7ok9D5iUqHkaM7Rw0anna2Bryekja0mODmZBBBw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELSx8H2/VdceKOtjSiCG9frF71xLrKPlfcvdDXG6OfG+G2rNG+CwtX429qP7IXMnUg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "22083985-e27f-44bf-a75c-a925305a9f80",
+                            SecurityStamp = "d1290873-e96f-4a64-9708-eedcb20d347b",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         },
@@ -164,13 +164,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "d8d76512-74f1-43bb-b1fd-87d3a8aa36df",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a1374ea-64f1-481e-826c-b37f3b873685",
+                            ConcurrencyStamp = "68db5a88-b177-4ab3-a555-302d0a24875b",
                             Email = "john@doe.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEJul9F3tMZXHVcizWM/RJGk0606/EdOnG7okZOoit/Lwv/4WN0zUZYZxF+mqoUgXjw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMWda00wOAn/JmtdtjEoSY5aksBb8l8+qoXo6q8WdZk1MYvQfo0EKqiFAj43LTG0QA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "61e60957-f304-4692-b45c-3477f43b92e1",
+                            SecurityStamp = "a7973345-b06d-4459-90fb-6b7f319530fb",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -178,13 +178,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "a7d21fac-3b21-454a-a747-075f072d0cf3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6986f2a6-aa2a-4d3a-aeda-038aeee2b959",
+                            ConcurrencyStamp = "ce78a1c5-7adf-4653-a0e5-95373abe6dfb",
                             Email = "jane@smith.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAELDO0QyvxyjneXyvIxT1uXZf+zfzkJ36bz8EvOpjfwtdMmDfau5d5Cq6UgwZmygztQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO/kYG2QFpVTR+LQc2lx4VL+OkZmEHPz1N/IYgrUSGmLpAmqascobH8dh14tX0apWA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bc72d42b-bb91-4b63-8e8a-743231700c58",
+                            SecurityStamp = "280aa5e4-8074-402d-a9d0-d97be5033638",
                             TwoFactorEnabled = false,
                             UserName = "JaneSmith"
                         },
@@ -192,13 +192,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "c806cfae-bda9-47c5-8473-dd52fd056a9b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "991672f0-f060-4e8c-87a1-3eec9ae44dc4",
+                            ConcurrencyStamp = "aa1267cb-f78f-4b5e-a95e-bae58abcf8b1",
                             Email = "alice@johnson.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEG6Y88pQIMSNdi5t30MQD8gjZSamjgv2ijztnL+kPS8vxGfDDRolcRYS7n47hK/Yfw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAj63vZftFZPuyzpZOzT3STv7oz0htg4xxP+pMrsBm4wc2ax1eB2kzAEbBZlmlqlYA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8a560cbf-cbde-4fd7-a5de-ea0a4f01811e",
+                            SecurityStamp = "59d01bfa-b51e-4b34-8d17-b1905c7a4a15",
                             TwoFactorEnabled = false,
                             UserName = "AliceJohnson"
                         },
@@ -206,13 +206,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "9ce89d88-75da-4a80-9b0d-3fe58582b8e2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d380feca-0ad9-4691-9e07-554ad95e352d",
+                            ConcurrencyStamp = "a35a21ad-e6f0-4623-ad21-d5bf6bc7bdf6",
                             Email = "bob@williams.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEL0Jrw6x69HklpFTCg3J9Cuqc1NKxHOo/YDBp4fPH2d1HPmPtpNGK379EOZP2AwayA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFccgcV4Xi9ULKxc2QZeCFrfCeLWPsxdvyghARmRjFPIUcx7l0rzmYv7dXhY4qNBKg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "004b5f3c-98eb-4f24-9f38-446fb40f60ab",
+                            SecurityStamp = "c719022d-2c9b-4fc2-b172-400465538384",
                             TwoFactorEnabled = false,
                             UserName = "BobWilliams"
                         },
@@ -220,13 +220,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "d224a03d-bf0c-4a05-b728-e3521e45d74d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c37857f0-534b-42d2-8e75-51222b418108",
+                            ConcurrencyStamp = "222dc68e-573b-4b6c-8dae-57e1188027e5",
                             Email = "Eve@Davis.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAECqM7NZWPea5w8TQnedJbHxfDodhz0pTvb4bdaBTvUfsVpRHqWjGtluBdC1zDWeWZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOVF51d0dhSylLmN6eFjapVUKM5UCu6nc2QaMgTUkr2qySO856xz/GiCzhtPv4Al4Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ffeee32c-32d0-4176-b569-f62378bb71c0",
+                            SecurityStamp = "bad33b3d-c2e8-4128-8ceb-5276533fc52e",
                             TwoFactorEnabled = false,
                             UserName = "EveDavis"
                         });
@@ -408,7 +408,7 @@ namespace Tabloid.Migrations
                             Id = 1,
                             AuthorId = 1,
                             Content = "Really enjoyed reading this.",
-                            CreationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2934),
+                            CreationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8342),
                             PostId = 1,
                             Subject = "Great Post!"
                         },
@@ -417,7 +417,7 @@ namespace Tabloid.Migrations
                             Id = 2,
                             AuthorId = 2,
                             Content = "Thanks for sharing.",
-                            CreationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2941),
+                            CreationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8360),
                             PostId = 1,
                             Subject = "Interesting"
                         },
@@ -426,7 +426,7 @@ namespace Tabloid.Migrations
                             Id = 3,
                             AuthorId = 3,
                             Content = "Learned something new today.",
-                            CreationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2950),
+                            CreationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8375),
                             PostId = 2,
                             Subject = "Informative"
                         },
@@ -435,7 +435,7 @@ namespace Tabloid.Migrations
                             Id = 4,
                             AuthorId = 4,
                             Content = "Keep up the good work.",
-                            CreationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2959),
+                            CreationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8386),
                             PostId = 2,
                             Subject = "Good Read"
                         },
@@ -444,7 +444,7 @@ namespace Tabloid.Migrations
                             Id = 5,
                             AuthorId = 5,
                             Content = "Well articulated points.",
-                            CreationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2961),
+                            CreationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8390),
                             PostId = 3,
                             Subject = "Well Written"
                         },
@@ -453,7 +453,7 @@ namespace Tabloid.Migrations
                             Id = 6,
                             AuthorId = 1,
                             Content = "Really enjoyed this post.",
-                            CreationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2963),
+                            CreationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8394),
                             PostId = 3,
                             Subject = "Enjoyable"
                         });
@@ -540,7 +540,7 @@ namespace Tabloid.Migrations
                             Body = "This is the first post body.",
                             CategoryId = 1,
                             PostApproved = true,
-                            PublicationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2796),
+                            PublicationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(7481),
                             Title = "First Post"
                         },
                         new
@@ -550,7 +550,7 @@ namespace Tabloid.Migrations
                             Body = "This is the second post body.",
                             CategoryId = 2,
                             PostApproved = true,
-                            PublicationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2882),
+                            PublicationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(7592),
                             Title = "Second Post"
                         },
                         new
@@ -560,7 +560,7 @@ namespace Tabloid.Migrations
                             Body = "This is the third post body.",
                             CategoryId = 3,
                             PostApproved = true,
-                            PublicationDate = new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2884),
+                            PublicationDate = new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(7596),
                             Title = "Third Post"
                         });
                 });

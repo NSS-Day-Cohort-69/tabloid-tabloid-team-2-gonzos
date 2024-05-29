@@ -409,12 +409,12 @@ namespace Tabloid.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "9ce89d88-75da-4a80-9b0d-3fe58582b8e2", 0, "d380feca-0ad9-4691-9e07-554ad95e352d", "bob@williams.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEL0Jrw6x69HklpFTCg3J9Cuqc1NKxHOo/YDBp4fPH2d1HPmPtpNGK379EOZP2AwayA==", null, false, "004b5f3c-98eb-4f24-9f38-446fb40f60ab", false, "BobWilliams" },
-                    { "a7d21fac-3b21-454a-a747-075f072d0cf3", 0, "6986f2a6-aa2a-4d3a-aeda-038aeee2b959", "jane@smith.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAELDO0QyvxyjneXyvIxT1uXZf+zfzkJ36bz8EvOpjfwtdMmDfau5d5Cq6UgwZmygztQ==", null, false, "bc72d42b-bb91-4b63-8e8a-743231700c58", false, "JaneSmith" },
-                    { "c806cfae-bda9-47c5-8473-dd52fd056a9b", 0, "991672f0-f060-4e8c-87a1-3eec9ae44dc4", "alice@johnson.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEG6Y88pQIMSNdi5t30MQD8gjZSamjgv2ijztnL+kPS8vxGfDDRolcRYS7n47hK/Yfw==", null, false, "8a560cbf-cbde-4fd7-a5de-ea0a4f01811e", false, "AliceJohnson" },
-                    { "d224a03d-bf0c-4a05-b728-e3521e45d74d", 0, "c37857f0-534b-42d2-8e75-51222b418108", "Eve@Davis.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAECqM7NZWPea5w8TQnedJbHxfDodhz0pTvb4bdaBTvUfsVpRHqWjGtluBdC1zDWeWZA==", null, false, "ffeee32c-32d0-4176-b569-f62378bb71c0", false, "EveDavis" },
-                    { "d8d76512-74f1-43bb-b1fd-87d3a8aa36df", 0, "8a1374ea-64f1-481e-826c-b37f3b873685", "john@doe.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEJul9F3tMZXHVcizWM/RJGk0606/EdOnG7okZOoit/Lwv/4WN0zUZYZxF+mqoUgXjw==", null, false, "61e60957-f304-4692-b45c-3477f43b92e1", false, "JohnDoe" },
-                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "4451bcb0-caf8-4d24-9f15-2154255113c5", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEE5Dc5RBntPFIfRtHK1rrFD4vcC7ok9D5iUqHkaM7Rw0anna2Bryekja0mODmZBBBw==", null, false, "22083985-e27f-44bf-a75c-a925305a9f80", false, "Administrator" }
+                    { "9ce89d88-75da-4a80-9b0d-3fe58582b8e2", 0, "a35a21ad-e6f0-4623-ad21-d5bf6bc7bdf6", "bob@williams.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEFccgcV4Xi9ULKxc2QZeCFrfCeLWPsxdvyghARmRjFPIUcx7l0rzmYv7dXhY4qNBKg==", null, false, "c719022d-2c9b-4fc2-b172-400465538384", false, "BobWilliams" },
+                    { "a7d21fac-3b21-454a-a747-075f072d0cf3", 0, "ce78a1c5-7adf-4653-a0e5-95373abe6dfb", "jane@smith.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEO/kYG2QFpVTR+LQc2lx4VL+OkZmEHPz1N/IYgrUSGmLpAmqascobH8dh14tX0apWA==", null, false, "280aa5e4-8074-402d-a9d0-d97be5033638", false, "JaneSmith" },
+                    { "c806cfae-bda9-47c5-8473-dd52fd056a9b", 0, "aa1267cb-f78f-4b5e-a95e-bae58abcf8b1", "alice@johnson.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEAj63vZftFZPuyzpZOzT3STv7oz0htg4xxP+pMrsBm4wc2ax1eB2kzAEbBZlmlqlYA==", null, false, "59d01bfa-b51e-4b34-8d17-b1905c7a4a15", false, "AliceJohnson" },
+                    { "d224a03d-bf0c-4a05-b728-e3521e45d74d", 0, "222dc68e-573b-4b6c-8dae-57e1188027e5", "Eve@Davis.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEOVF51d0dhSylLmN6eFjapVUKM5UCu6nc2QaMgTUkr2qySO856xz/GiCzhtPv4Al4Q==", null, false, "bad33b3d-c2e8-4128-8ceb-5276533fc52e", false, "EveDavis" },
+                    { "d8d76512-74f1-43bb-b1fd-87d3a8aa36df", 0, "68db5a88-b177-4ab3-a555-302d0a24875b", "john@doe.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEMWda00wOAn/JmtdtjEoSY5aksBb8l8+qoXo6q8WdZk1MYvQfo0EKqiFAj43LTG0QA==", null, false, "a7973345-b06d-4459-90fb-6b7f319530fb", false, "JohnDoe" },
+                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "7a40b20f-32ca-4ca4-8668-d06b50b7ad28", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAELSx8H2/VdceKOtjSiCG9frF71xLrKPlfcvdDXG6OfG+G2rNG+CwtX429qP7IXMnUg==", null, false, "d1290873-e96f-4a64-9708-eedcb20d347b", false, "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -490,9 +490,9 @@ namespace Tabloid.Migrations
                 columns: new[] { "Id", "AuthorId", "Body", "CategoryId", "EstimatedReadTime", "HeaderImage", "PostApproved", "PublicationDate", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, "This is the first post body.", 1, null, null, true, new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2796), "First Post" },
-                    { 2, 2, "This is the second post body.", 2, null, null, true, new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2882), "Second Post" },
-                    { 3, 3, "This is the third post body.", 3, null, null, true, new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2884), "Third Post" }
+                    { 1, 1, "This is the first post body.", 1, null, null, true, new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(7481), "First Post" },
+                    { 2, 2, "This is the second post body.", 2, null, null, true, new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(7592), "Second Post" },
+                    { 3, 3, "This is the third post body.", 3, null, null, true, new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(7596), "Third Post" }
                 });
 
             migrationBuilder.InsertData(
@@ -512,12 +512,12 @@ namespace Tabloid.Migrations
                 columns: new[] { "Id", "AuthorId", "Content", "CreationDate", "PostId", "Subject" },
                 values: new object[,]
                 {
-                    { 1, 1, "Really enjoyed reading this.", new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2934), 1, "Great Post!" },
-                    { 2, 2, "Thanks for sharing.", new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2941), 1, "Interesting" },
-                    { 3, 3, "Learned something new today.", new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2950), 2, "Informative" },
-                    { 4, 4, "Keep up the good work.", new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2959), 2, "Good Read" },
-                    { 5, 5, "Well articulated points.", new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2961), 3, "Well Written" },
-                    { 6, 1, "Really enjoyed this post.", new DateTime(2024, 5, 29, 10, 12, 51, 939, DateTimeKind.Local).AddTicks(2963), 3, "Enjoyable" }
+                    { 1, 1, "Really enjoyed reading this.", new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8342), 1, "Great Post!" },
+                    { 2, 2, "Thanks for sharing.", new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8360), 1, "Interesting" },
+                    { 3, 3, "Learned something new today.", new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8375), 2, "Informative" },
+                    { 4, 4, "Keep up the good work.", new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8386), 2, "Good Read" },
+                    { 5, 5, "Well articulated points.", new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8390), 3, "Well Written" },
+                    { 6, 1, "Really enjoyed this post.", new DateTime(2024, 5, 29, 9, 25, 9, 54, DateTimeKind.Local).AddTicks(8394), 3, "Enjoyable" }
                 });
 
             migrationBuilder.InsertData(
