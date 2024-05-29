@@ -4,6 +4,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
+import { Reaction } from "./reaction/Reaction";
+import { ViewPosts } from "./posts/ViewPosts";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -34,6 +36,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+        </Route>
+        <Route path="/reactions" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <Reaction />
+              </AuthorizedRoute>
+            }/>         
+          
+        <Route path="/posts">
+            <Route index element={<ViewPosts />}/>
         </Route>
         <Route
           path="login"
