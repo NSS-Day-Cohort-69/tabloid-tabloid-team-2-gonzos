@@ -1,44 +1,57 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace Tabloid.Models;
-public class UserProfile
+namespace Tabloid.Models
 {
-    public int Id { get; set; }
-
-    [Required]
-    [MaxLength(50)]
-    public string FirstName { get; set; }
-
-    [Required]
-    [MaxLength(50)]
-    public string LastName { get; set; }
-
-    [NotMapped]
-    public string UserName { get; set; }
-
-    [NotMapped]
-    public string Email { get; set; }
-
-    public DateTime CreateDateTime { get; set; }
-
-    [DataType(DataType.Url)]
-    [MaxLength(255)]
-    public string ImageLocation { get; set; }
-
-    [NotMapped]
-    public List<string> Roles { get; set; }
-
-    public string IdentityUserId { get; set; }
-
-    public IdentityUser IdentityUser { get; set; }
-
-    public string FullName
+    public class UserProfile
     {
-        get
-        {
-            return $"{FirstName} {LastName}";
-        }
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        // [Required]
+        public string UserName { get; set; }
+
+        // [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public DateTime CreateDateTime { get; set; }
+
+        public string ImageLocation { get; set; }
+
+        [Required]
+        public string IdentityUserId { get; set; }
+        public IdentityUser IdentityUser { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
+        
+        public List<string> Roles { get; set; }
+        public List<Post> Posts { get; set; }
+
+        public List<Comment> Comments { get; set; }
+        public List<Subscription> Subscriptions { get; set; }
+        [NotMapped]
+        public List<Demotion>? AdminDemotions { get; set; }  // Changed from Demotions to AdminDemotions
+        [NotMapped]
+        public List<Demotion>? UserProfileDemotions { get; set; } // Added UserProfileDemotions
+        public List<ReactionPost> ReactionPosts { get; set; }
+        public string FullName
+            {
+                get
+                {
+                    return $"{FirstName} {LastName}";
+                }
+            }
     }
 }
+
+
