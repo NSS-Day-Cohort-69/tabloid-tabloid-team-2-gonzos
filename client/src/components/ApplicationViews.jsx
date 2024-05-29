@@ -6,6 +6,7 @@ import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import { Reaction } from "./reaction/Reaction";
 import { ViewPosts } from "./posts/ViewPosts";
+import TagsList from "./tags/TagsList.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -37,6 +38,16 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
+          <Route path="/tag">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                  <TagsList />
+                </AuthorizedRoute>
+              }
+            />
+          </Route>
         <Route path="/reactions" element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />

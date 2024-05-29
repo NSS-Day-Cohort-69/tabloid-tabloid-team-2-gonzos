@@ -34,11 +34,18 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   </NavLink>
                 </NavItem>
                 {loggedInUser.roles.includes("Admin") && (
+                  <>
                   <NavItem>
                     <NavLink tag={RRNavLink} to="/userprofiles">
                       User Profiles
                     </NavLink>
                   </NavItem>
+                  <NavItem>
+                    <NavLink tag={RRNavLink} to="/tag">
+                      Tag Management
+                    </NavLink>
+                  </NavItem>
+                  </>
                 )}
               </Nav>
             </Collapse>
