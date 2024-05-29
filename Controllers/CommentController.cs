@@ -68,4 +68,47 @@ public class CommentController : ControllerBase
         return NoContent();
     }
 
+    [HttpDelete("{commentId}")]
+    public IActionResult DeleteComment(int commentId)
+    {
+        Comment commentToBeRemoved = _dbContext.Comments.FirstOrDefault(c => c.Id == commentId);
+        
+        if (commentToBeRemoved == null)
+        {
+            return BadRequest();
+        }
+
+        _dbContext.Comments.Remove(commentToBeRemoved);
+        _dbContext.SaveChanges();
+        return Ok();
+    }
+
+    [HttpPut("{commentId}")]
+    public IActionResult EditComment(int commentId, string? Subject, string? Content)
+    {
+        if (string.IsNullOrEmpty(Subject) && string.IsNullOrEmpty(Content))
+        {
+            return BadRequest();
+        }
+        
+        Comment commentToEdit = _dbContext.Comments.FirstOrDefault(c => c.Id == commentId);
+
+        if (commentToEdit == null)
+        {
+            return NotFound();
+        }
+
+        if (Subject != null)
+        {
+            commentToEdit.Subject = Subject;
+        }
+
+        if (Content != null)
+        {
+            commentToEdit.Content = Content;
+        }
+
+        _dbContext.SaveChanges();
+        return Ok();
+    }
 }
