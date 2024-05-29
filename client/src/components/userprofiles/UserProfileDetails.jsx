@@ -7,9 +7,14 @@ export default function UserProfileDetails() {
 
   const { id } = useParams();
 
+
+
   useEffect(() => {
     getProfile(id).then(setUserProfile);
   }, [id]);
+
+  let role = userProfile?.roles[0]
+  role = role || "Author";
 
   if (!userProfile) {
     return null;
@@ -19,6 +24,9 @@ export default function UserProfileDetails() {
       <img src={userProfile.imageLocation} alt={userProfile.firstName} />
       <h3>{userProfile.fullName}</h3>
       <p>Username: {userProfile.userName}</p>
+      <p>Email: {userProfile.email}</p>
+      <p>Creation Date: {userProfile.formattedDateTime}</p>
+      <p>Role: {role}</p>
     </>
   );
 }

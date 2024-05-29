@@ -24,6 +24,10 @@ namespace Tabloid.Models
 
         [Required]
         public DateTime CreateDateTime { get; set; }
+        public string FormattedDateTime
+        {
+            get { return CreateDateTime.Date.ToString("MM - dd - yyyy"); }
+        }
 
         public string ImageLocation { get; set; }
 
