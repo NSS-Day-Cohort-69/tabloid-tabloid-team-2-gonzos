@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Tabloid.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class UserProfileController : ControllerBase
