@@ -64,7 +64,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         <Route path="/posts">
             <Route index element={<ViewPosts loggedInUser={loggedInUser} />}/>
             <Route path="edit/:id" element={<EditPost />}/>
-            <Route path=":id" element={<PostDetails loggedInUser={loggedInUser} />} />
+            <Route path=":id" element={<PostDetails loggedInUser={loggedInUser}loggedInUser={loggedInUser} />} />
         </Route>
         <Route
           path="/categories"
