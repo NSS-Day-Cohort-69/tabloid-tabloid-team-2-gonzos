@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { deletePost, getPostById } from "../../managers/postManager";
 import { useNavigate, useParams } from "react-router-dom";
-import { createComment, getComments } from "../../managers/commentManager.js"
+import { createComment, deleteComment, getComments } from "../../managers/commentManager.js"
 import { Button, Input, Label } from "reactstrap"
 
 export const PostDetails = ({ loggedInUser }) => {
@@ -45,6 +45,13 @@ export const PostDetails = ({ loggedInUser }) => {
             ...prevState,
             [name]: value
         }))
+    }
+
+    const handleCommentDeletion = (id) => {
+        deleteComment(id).then(() => {
+            getComments(post.id).then(setComments)
+        toggleDeleteConfirmWindow(0)
+        })
     }
 
     const resetCommentFields = () => {
@@ -117,7 +124,8 @@ export const PostDetails = ({ loggedInUser }) => {
                                     </Button>
                                     <Button
                                         className="comment-option"
-                                        color="success">
+                                        color="success"
+                                        onClick={() => handleCommentDeletion(c.id)}>
                                         Yes
                                     </Button>
                                 </div>
