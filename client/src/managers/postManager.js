@@ -39,3 +39,12 @@ export const updatePost = async (postId, updatedPostObj) => {
     }
 };
 
+export const deletePost = (postId) => {
+    return fetch(`${_apiUrl}/${postId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
+

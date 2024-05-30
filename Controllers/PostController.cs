@@ -148,5 +148,22 @@ public class PostController : ControllerBase
         return Ok(existingPost);
     }
 
+    [HttpDelete("{id}")]
+    // [Authorize]
+    public IActionResult Delete(int id)
+    {
+        Post existingPost = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+        if (existingPost == null)
+        {
+            return NotFound();
+        }
+
+        _dbContext.Posts.Remove(existingPost);
+        _dbContext.SaveChanges();
+
+        return Ok(existingPost);
+    }
+
+
 
 }

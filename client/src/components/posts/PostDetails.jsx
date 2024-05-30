@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"
-import { getPostById } from "../../managers/postManager"
-import { useParams } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { deletePost, getPostById } from "../../managers/postManager";
+import { useNavigate, useParams } from "react-router-dom";
 import { createComment, getComments } from "../../managers/commentManager.js"
 import { Button, Input, Label } from "reactstrap"
 
-export const PostDetails = ({loggedInUser}) => {
-    const [post, setPost] = useState({})
+export const PostDetails = ({ loggedInUser }) => {
+    const [post, setPost] = useState({});
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const { id } = useParams();
     const [comments, setComments] = useState([])
     const [addCommentSwitch, toggleAddComment] = useState(false)
@@ -17,10 +18,22 @@ export const PostDetails = ({loggedInUser}) => {
         PostId: id,
         AuthorId: loggedInUser.id
     })
+    const navigate = useNavigate();
 
     useEffect(() => {
-        getPostById(id).then(setPost)
-    }, [])
+        getPostById(id).then(setPost);
+    }, [id]);
+
+    const handleDelete = () => {
+        deletePost(id)
+            .then(() => {
+                console.log("Post deleted successfully");
+                navigate("/posts")
+            })
+            .catch((error) => {
+                console.error("Failed to delete post:", error);
+            });
+    };
 
     useEffect(() => {
         getComments(id).then(setComments)
@@ -39,18 +52,16 @@ export const PostDetails = ({loggedInUser}) => {
         commentObj.Subject = "";
     }
 
-
-
     return (
         <>
-            <h2>Here are yur details...</h2>
+            <h2>Here are your details...</h2>
             <div className="post-main-container">
                 <h3>Title: {post.title}</h3>
                 <h4>Body: {post.body}</h4>
                 <h5>Header Img: {post.headerImage}</h5>
                 <h6>
-                Publication Date: 
-                {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString('en-US') : 'N/A'}
+                    Publication Date:{" "}
+                    {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
                 <div className="comments-container">
@@ -115,7 +126,19 @@ export const PostDetails = ({loggedInUser}) => {
                         )
                     })}
                 </div>
+                {loggedInUser && post.authorId === loggedInUser.id && (
+                    <>
+                        <button onClick={() => setShowConfirmation(true)}>Delete</button>
+                        {showConfirmation && (
+                            <div>
+                                <p>Are you sure you want to delete this post?</p>
+                                <button onClick={handleDelete}>Yes</button>
+                                <button onClick={() => setShowConfirmation(false)}>No</button>
+                            </div>
+                        )}
+                    </>
+                )}
             </div>
         </>
-    )
-}
+    );
+};
