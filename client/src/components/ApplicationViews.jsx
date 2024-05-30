@@ -4,11 +4,13 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
+import CategoryList from "./categories/CategoryList";
 import { Reaction } from "./reaction/Reaction";
 import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 import { PostDetails } from "./posts/PostDetails.jsx";
 import { NewPost } from "./posts/NewPost.jsx";
+
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -62,6 +64,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             <Route index element={<ViewPosts />}/>
             <Route path=":id" element={<PostDetails />} />
         </Route>
+        <Route
+          path="/categories"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <CategoryList />
+            </AuthorizedRoute>
+          }
+        />
         <Route
           path="login"
           element={<Login setLoggedInUser={setLoggedInUser} />}
