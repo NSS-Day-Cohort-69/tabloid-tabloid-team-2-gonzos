@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import { getPosts } from "../../managers/postManager";
-import "./ViewPosts.css";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { getPosts } from "../../managers/postManager"
+import "./ViewPosts.css"
+import { useNavigate } from "react-router-dom"
 
-export const ViewPosts = ({ loggedInUser }) => {
-    const [posts, setPosts] = useState([]);
-    const navigate = useNavigate();
+export const ViewPosts = ({loggedinuser}) => {
+    const [posts, setPosts] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         getPosts().then(fetchedPosts => {
             const filteredPosts = fetchedPosts
                 .filter(post => post.postApproved && new Date(post.publicationDate) <= new Date())
-                .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
-            setPosts(filteredPosts);
-        });
-    }, []);
+                .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate))
+            setPosts(filteredPosts)
+        })
+    }, [])
 
     return (
         <>
@@ -29,14 +29,9 @@ export const ViewPosts = ({ loggedInUser }) => {
                         <button onClick={() => {
                             navigate(`/posts/${post.id}`)
                         }}>Details</button>
-                        {loggedInUser && loggedInUser.id === post.authorId && (
-                            <button onClick={() => {
-                                navigate(`/posts/edit/${post.id}`)
-                            }}>Edit</button>
-                        )}
                     </div>
                 ))}
             </div>
         </>
-    );
-};
+    )
+}
