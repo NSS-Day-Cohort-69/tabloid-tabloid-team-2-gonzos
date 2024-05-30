@@ -10,6 +10,7 @@ import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 import { PostDetails } from "./posts/PostDetails.jsx";
 import { NewPost } from "./posts/NewPost.jsx";
+import { EditPost } from "./posts/EditPost.jsx";
 
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -61,7 +62,8 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             <Route index element={<NewPost loggedInUser={loggedInUser} />} />
         </Route>
         <Route path="/posts">
-            <Route index element={<ViewPosts />}/>
+            <Route index element={<ViewPosts loggedInUser={loggedInUser} />}/>
+            <Route path="edit/:id" element={<EditPost />}/>
             <Route path=":id" element={<PostDetails />} />
         </Route>
         <Route
