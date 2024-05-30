@@ -65,7 +65,7 @@ public class CommentController : ControllerBase
         });
         
         _dbContext.SaveChanges();
-        return NoContent();
+        return Ok(comment);
     }
 
     [HttpDelete("{commentId}")]

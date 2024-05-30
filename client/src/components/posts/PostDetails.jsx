@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react"
 import { getPostById } from "../../managers/postManager"
 import { useParams } from "react-router-dom"
-import { getComments } from "../../managers/commentManager.js"
+import { createComment, getComments } from "../../managers/commentManager.js"
+import { Button, Input, Label } from "reactstrap"
 
-export const PostDetails = () => {
+export const PostDetails = ({loggedInUser}) => {
     const [post, setPost] = useState({})
     const { id } = useParams();
     const [comments, setComments] = useState([])
     const [addCommentSwitch, toggleAddComment] = useState(false)
+    const [commentObj, setCommentObj] = useState(
+    {
+        Subject: "",
+        Content: "",
+        PostId: id,
+        AuthorId: loggedInUser.id
+    })
 
     useEffect(() => {
         getPostById(id).then(setPost)
@@ -16,6 +24,19 @@ export const PostDetails = () => {
     useEffect(() => {
         getComments(id).then(setComments)
     }, [post])
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setCommentObj(prevState => ({
+            ...prevState,
+            [name]: value
+        }))
+    }
+
+    const resetCommentFields = () => {
+        commentObj.Content = "";
+        commentObj.Subject = "";
+    }
 
     return (
         <>
@@ -31,9 +52,26 @@ export const PostDetails = () => {
                 <p>Username: {post.author?.identityUser?.userName}</p>
                 <div className="comments-container">
                     <h3>Comments</h3>
+                    <Button onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}</Button>
                     {addCommentSwitch ?
                     <div>
-                        Test
+                        <Label>
+                            Subject
+                        </Label>
+                        <Input
+                            name="Subject" 
+                            onChange={handleInputChange} 
+                            value={commentObj.Subject} />
+                        <Label>
+                            Content
+                        </Label>
+                        <Input
+                            name="Content" 
+                            onChange={handleInputChange} 
+                            value={commentObj.Content} />
+                        <Button onClick={() => createComment(commentObj).then(() => getComments(post.id).then(setComments).then(() => resetCommentFields()))}>
+                            Post Comment
+                        </Button>
                     </div> : <div></div>}
                     {comments.map(c => {
                         return(
