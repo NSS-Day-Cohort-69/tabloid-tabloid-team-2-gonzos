@@ -36,7 +36,7 @@ public class PostController : ControllerBase
                 Id = p.Author.Id,
                 FirstName = p.Author.FirstName,
                 LastName = p.Author.LastName,
-                Username = p.Author.UserName,
+                UserName = p.Author.UserName,
                 Email = p.Author.Email,
                 CreateDateTime = p.Author.CreateDateTime,
                 ImageLocation = p.Author.ImageLocation,
@@ -53,5 +53,52 @@ public class PostController : ControllerBase
 
         return Ok(postDTOs);
     }
+
+    [HttpGet("{id}")]
+    // [Authorize]
+    public IActionResult GetById(int id)
+    {
+        var post = _dbContext.Posts
+                            .Include(p => p.Author)
+                            .ThenInclude(up => up.IdentityUser)
+                            .FirstOrDefault(p => p.Id == id);
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        PostDTO postDTO = new PostDTO
+        {
+            Id = post.Id,
+            Title = post.Title,
+            AuthorId = post.AuthorId,
+            Author = new UserProfileDTO
+            {
+                Id = post.Author.Id,
+                FirstName = post.Author.FirstName,
+                LastName = post.Author.LastName,
+                UserName = post.Author.UserName,
+                Email = post.Author.Email,
+                CreateDateTime = post.Author.CreateDateTime,
+                ImageLocation = post.Author.ImageLocation,
+                IsActive = post.Author.IsActive,
+                IdentityUser = new IdentityUser
+                {
+                    Id = post.Author.IdentityUser.Id,
+                    UserName = post.Author.IdentityUser.UserName
+                }
+            },
+            PublicationDate = post.PublicationDate,
+            Body = post.Body,
+            CategoryId = post.CategoryId,
+            HeaderImage = post.HeaderImage,
+            PostApproved = post.PostApproved,
+            EstimatedReadTime = post.EstimatedReadTime
+        };
+
+        return Ok(postDTO);
+    }
+
 
 }

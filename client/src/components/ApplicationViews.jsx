@@ -7,6 +7,7 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import { Reaction } from "./reaction/Reaction";
 import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
+import { PostDetails } from "./posts/PostDetails.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -56,6 +57,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           
         <Route path="/posts">
             <Route index element={<ViewPosts />}/>
+            <Route path=":id" element={<PostDetails />} />
         </Route>
         <Route
           path="login"
