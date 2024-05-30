@@ -100,5 +100,31 @@ public class PostController : ControllerBase
         return Ok(postDTO);
     }
 
+    [HttpPost]
+    // [Authorize]
+    public IActionResult Post(Post post)
+    {
+        if (post == null)
+        {
+            return BadRequest("Post object cannot be null");
+        }
+
+        if (string.IsNullOrEmpty(post.Title))
+        {
+            return BadRequest("Title is required.");
+        }
+
+        if (string.IsNullOrEmpty(post.Body))
+        {
+            return BadRequest("Body is required.");
+        }
+
+        post.PublicationDate = DateTime.Now;
+
+        _dbContext.Posts.Add(post);
+        _dbContext.SaveChanges();
+
+        return Ok(post);
+    }
 
 }

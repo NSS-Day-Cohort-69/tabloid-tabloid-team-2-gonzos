@@ -17,8 +17,11 @@ export const PostDetails = () => {
                 <h3>Title: {post.title}</h3>
                 <h4>Body: {post.body}</h4>
                 <h5>Header Img: {post.headerImage}</h5>
-                <h6>Publication Date: {post.publicationDate}</h6>
-                <p>Username: {post.author?.identityUser.userName}</p>
+                <h6>
+                Publication Date: 
+                {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString('en-US') : 'N/A'}
+                </h6>
+                <p>Username: {post.author?.identityUser?.userName}</p>
             </div>
         </>
     )
