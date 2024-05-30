@@ -18,7 +18,7 @@ export const PostDetails = () => {
                 <h4>Body: {post.body}</h4>
                 <h5>Header Img: {post.headerImage}</h5>
                 <h6>Publication Date: {post.publicationDate}</h6>
-                <p>Username: {post.author.identityUser.userName}</p>
+                <p>Username: {post.author?.identityUser.userName}</p>
             </div>
         </>
     )
