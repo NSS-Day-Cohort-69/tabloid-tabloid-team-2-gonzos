@@ -8,6 +8,7 @@ import { Reaction } from "./reaction/Reaction";
 import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 import { PostDetails } from "./posts/PostDetails.jsx";
+import { NewPost } from "./posts/NewPost.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -54,7 +55,9 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
                 <Reaction />
               </AuthorizedRoute>
             }/>         
-          
+        <Route path="/newpost">
+            <Route index element={<NewPost />} />
+        </Route>
         <Route path="/posts">
             <Route index element={<ViewPosts />}/>
             <Route path=":id" element={<PostDetails />} />
