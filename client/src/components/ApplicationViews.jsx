@@ -9,6 +9,7 @@ import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 import { PostDetails } from "./posts/PostDetails.jsx";
 import { NewPost } from "./posts/NewPost.jsx";
+import { NewTag } from "./tags/CreateTag.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -41,15 +42,12 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           />
         </Route>
           <Route path="/tag">
-            <Route
-              index
-              element={
-                <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                  <TagsList />
-                </AuthorizedRoute>
-              }
-            />
+            <Route index
+              element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><TagsList /></AuthorizedRoute>} />
+              <Route path="/tag/create" 
+              element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><NewTag /></AuthorizedRoute>} />
           </Route>
+
         <Route path="/reactions" element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />
