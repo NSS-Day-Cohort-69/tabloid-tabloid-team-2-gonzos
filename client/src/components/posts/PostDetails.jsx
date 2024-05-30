@@ -7,6 +7,7 @@ export const PostDetails = () => {
     const [post, setPost] = useState({})
     const { id } = useParams();
     const [comments, setComments] = useState([])
+    const [addCommentSwitch, toggleAddComment] = useState(false)
 
     useEffect(() => {
         getPostById(id).then(setPost)
@@ -30,6 +31,10 @@ export const PostDetails = () => {
                 <p>Username: {post.author?.identityUser?.userName}</p>
                 <div className="comments-container">
                     <h3>Comments</h3>
+                    {addCommentSwitch ?
+                    <div>
+                        Test
+                    </div> : <div></div>}
                     {comments.map(c => {
                         return(
                             <div className="comment-container" key={c.id}>
