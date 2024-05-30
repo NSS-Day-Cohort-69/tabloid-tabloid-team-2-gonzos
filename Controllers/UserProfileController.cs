@@ -4,6 +4,7 @@ using Tabloid.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Tabloid.Models.DTOs;
 
 namespace Tabloid.Controllers;
 
@@ -102,5 +103,77 @@ public class UserProfileController : ControllerBase
         .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
         .ToList();
         return Ok(user);
+    }
+
+    [HttpGet("InactiveList")]
+    [Authorize(Roles ="Admin")]
+    public IActionResult GetAllDeactivatedUserProfiles()
+    {
+        List<UserProfileDTO> userProfileDeactiveList=_dbContext.UserProfiles
+                                                                .Where(up=>up.IsActive==false)
+                                                                .Select(up=>new UserProfileDTO
+                                                                {
+                                                                    Id=up.Id,
+                                                                    FirstName=up.FirstName,
+                                                                    LastName=up.LastName,
+                                                                    UserName=up.UserName,
+                                                                    Email=up.Email 
+                                                                }).ToList();
+        if(userProfileDeactiveList==null)
+        {
+            return BadRequest("No Deactivated userProfile");
+        }
+        return Ok(userProfileDeactiveList);
+    }
+
+    [HttpGet("ActiveList")]
+    [Authorize(Roles ="Admin")]
+    public IActionResult GetAllReactivatedUserProfiles()
+    {
+        List<UserProfileDTO> userProfileReactiveList=_dbContext.UserProfiles
+                                                                .Where(up=>up.IsActive==true)
+                                                                .Select(up=>new UserProfileDTO
+                                                                {
+                                                                    Id=up.Id,
+                                                                    FirstName=up.FirstName,
+                                                                    LastName=up.LastName,
+                                                                    UserName=up.UserName,
+                                                                    Email=up.Email 
+                                                                }).ToList();
+        if(userProfileReactiveList==null)
+        {
+            return BadRequest("No active userProfile");
+        }
+        return Ok(userProfileReactiveList);
+    }
+
+    //reactivate a userProfile
+    [HttpPost("{id}/activate")]
+    [Authorize(Roles ="Admin")]
+    public IActionResult ReactivateUserProfile(int id)
+    {
+        UserProfile userProfileToReactivate = _dbContext.UserProfiles.SingleOrDefault(up => up.Id == id);
+        if (userProfileToReactivate == null)
+        {
+            return NotFound();
+        }
+        userProfileToReactivate.IsActive=true;
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
+
+    //deactivate a userProfile
+    [HttpPost("{id}/deactivate")]
+    [Authorize(Roles ="Admin")]
+    public IActionResult DeactivateUserProfile(int id)
+    {
+        UserProfile userProfileToDeactivate = _dbContext.UserProfiles.SingleOrDefault(up => up.Id == id);
+        if (userProfileToDeactivate == null)
+        {
+            return NotFound();
+        }
+        userProfileToDeactivate.IsActive=false;
+        _dbContext.SaveChanges();
+        return NoContent();
     }
 }

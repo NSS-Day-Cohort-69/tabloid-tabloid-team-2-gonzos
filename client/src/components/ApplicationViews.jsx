@@ -10,6 +10,8 @@ import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 import { PostDetails } from "./posts/PostDetails.jsx";
 import { NewPost } from "./posts/NewPost.jsx";
+import { ActivateAUserProfile } from "./userprofiles/ActviateAUserProfile.jsx";
+import { DeactivateAUserProfile } from "./userprofiles/DeactviateAUserProfile.jsx";
 import { EditPost } from "./posts/EditPost.jsx";
 
 
@@ -57,7 +59,17 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />
               </AuthorizedRoute>
-            }/>         
+            }/>   
+          <Route path="/activateUserProfile" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <ActivateAUserProfile />
+              </AuthorizedRoute>
+            }/>   
+            <Route path="/deactivateUserProfile" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <DeactivateAUserProfile />
+              </AuthorizedRoute>
+            }/>    
         <Route path="/newpost">
             <Route index element={<NewPost loggedInUser={loggedInUser} />} />
         </Route>
