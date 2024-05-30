@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
+import CategoryList from "./categories/CategoryList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -35,6 +36,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
+        <Route
+          path="/categories"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <CategoryList />
+            </AuthorizedRoute>
+          }
+        />
         <Route
           path="login"
           element={<Login setLoggedInUser={setLoggedInUser} />}
