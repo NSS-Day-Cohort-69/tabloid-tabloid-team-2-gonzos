@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react"
-import { getPosts } from "../../managers/postManager"
-import "./ViewPosts.css"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { getPosts } from "../../managers/postManager";
+import "./ViewPosts.css";
+import { useNavigate } from "react-router-dom";
 
-export const ViewPosts = ({loggedinuser}) => {
-    const [posts, setPosts] = useState([])
-    const navigate = useNavigate()
+export const ViewPosts = ({ loggedInUser }) => {
+    const [posts, setPosts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getPosts().then(fetchedPosts => {
             const filteredPosts = fetchedPosts
                 .filter(post => post.postApproved && new Date(post.publicationDate) <= new Date())
-                .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate))
-            setPosts(filteredPosts)
-        })
-    }, [])
+                .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
+            setPosts(filteredPosts);
+        });
+    }, []);
+
+    const handleEdit = (postId) => {
+        navigate(`/posts/edit/${postId}`);
+    };
 
     return (
         <>
@@ -27,11 +31,14 @@ export const ViewPosts = ({loggedinuser}) => {
                         <h6>Author: {post.author.firstName + " " + post.author.lastName}</h6>
                         <p>Published on: {new Date(post.publicationDate).toLocaleDateString()}</p>
                         <button onClick={() => {
-                            navigate(`/posts/${post.id}`)
+                            navigate(`/posts/${post.id}`);
                         }}>Details</button>
+                        {loggedInUser && post.authorId === loggedInUser.id && (
+                            <button onClick={() => handleEdit(post.id)}>Edit</button>
+                        )}
                     </div>
                 ))}
             </div>
         </>
-    )
-}
+    );
+};
