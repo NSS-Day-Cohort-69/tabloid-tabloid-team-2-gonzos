@@ -56,7 +56,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }/>         
         <Route path="/newpost">
-            <Route index element={<NewPost />} />
+            <Route index element={<NewPost loggedInUser={loggedInUser} />} />
         </Route>
         <Route path="/posts">
             <Route index element={<ViewPosts />}/>
