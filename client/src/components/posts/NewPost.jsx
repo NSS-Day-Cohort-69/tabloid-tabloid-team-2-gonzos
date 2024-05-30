@@ -10,7 +10,7 @@ export const NewPost = ({ loggedInUser }) => {
         body: "",
         categoryId: 1, 
         headerImage: "",
-        postApproved: false,
+        postApproved: true,
         estimatedReadTime: null,
     });
 
@@ -26,8 +26,8 @@ export const NewPost = ({ loggedInUser }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        createPost(postObj).then(() => {
-            navigate("/posts")
+        createPost(postObj).then((newPostId) => {
+            navigate(`/posts/${newPostId}`)
         }).catch((error) => {
             console.error("Error creating post:", error);
         });

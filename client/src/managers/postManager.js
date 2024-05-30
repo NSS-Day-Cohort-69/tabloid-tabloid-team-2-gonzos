@@ -8,12 +8,19 @@ export const getPostById = (id) => {
     return fetch(`${_apiUrl}/${id}`).then((res) => res.json())
 }
 
-export const createPost = (postObj) => {
-    return fetch(`${_apiUrl}`, {
+export const createPost = async (postObj) => {
+    const response = await fetch(`${_apiUrl}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(postObj)
-    })
-}
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to create post");
+    }
+
+    const result = await response.json();
+    return result.id;
+};

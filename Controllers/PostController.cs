@@ -124,7 +124,7 @@ public class PostController : ControllerBase
         _dbContext.Posts.Add(post);
         _dbContext.SaveChanges();
 
-        return Ok(post);
+        return Ok(new { post.Id });
     }
 
 }
