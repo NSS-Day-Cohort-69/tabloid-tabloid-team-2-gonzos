@@ -105,7 +105,7 @@ public class UserProfileController : ControllerBase
         return Ok(user);
     }
 
-    [HttpGet("/inactiveList")]
+    [HttpGet("InactiveList")]
     // [Authorize(Roles ="Admin")]
     public IActionResult GetAllDeactivatedUserProfiles()
     {
@@ -126,7 +126,7 @@ public class UserProfileController : ControllerBase
         return Ok(userProfileDeactiveList);
     }
 
-    [HttpGet("/activeList")]
+    [HttpGet("ActiveList")]
     // [Authorize(Roles ="Admin")]
     public IActionResult GetAllReactivatedUserProfiles()
     {

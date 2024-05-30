@@ -1,5 +1,6 @@
 const _apiUrl = "/api/userprofile";
 
+
 export const getProfiles = () => {
   return fetch(_apiUrl + "/withroles").then((res) => res.json());
 };
@@ -9,7 +10,8 @@ export const getProfile = (id) => {
 };
 
 export const getAllInactiveList=()=>{
-  return fetch(_apiUrl + `/inactiveList`).then((res)=>res.json());
+  const url=_apiUrl + `/inactiveList`
+  return fetch(url).then((res)=>res.json());
 }
 
 export const getAllActiveList=()=>{
