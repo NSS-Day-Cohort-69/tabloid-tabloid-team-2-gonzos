@@ -10,10 +10,17 @@ export const getProfile = (id) => {
 };
 
 export const getAllInactiveList=()=>{
-  const url=_apiUrl + `/inactiveList`
-  return fetch(url).then((res)=>res.json());
+  return fetch(_apiUrl + `/inactiveList`).then((res)=>res.json());
 }
 
 export const getAllActiveList=()=>{
   return fetch(_apiUrl + `/activeList`).then((res)=>res.json());
+}
+
+export const deactivateUserProfile=(id)=>{
+  return fetch(_apiUrl+`/${id}`+`/deactivate`,{method:"POST"});
+}
+
+export const activateUserProfile=(id)=>{
+  return fetch(_apiUrl+`/${id}`+`/activate`,{method:"POST"});
 }

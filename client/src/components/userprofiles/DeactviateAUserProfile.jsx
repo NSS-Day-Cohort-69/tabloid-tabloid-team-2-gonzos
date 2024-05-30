@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
-import { getAllActiveList } from "../../managers/userProfileManager"
+import { deactivateUserProfile, getAllActiveList } from "../../managers/userProfileManager"
+import { Table } from "reactstrap"
+import { useNavigate } from "react-router-dom"
 
 export const DeactivateAUserProfile=()=>{
     const[activeList,setActiveList]=useState([])
+    const navigate=useNavigate();
 
     useEffect(()=>{
         getAllActiveList().then(data=>{
@@ -10,15 +13,38 @@ export const DeactivateAUserProfile=()=>{
         })
     },[])
 
+    const handleDeactivate=(e)=>{
+        deactivateUserProfile(e.target.name).then(
+            ()=>{
+                getAllActiveList().then(data=>setActiveList(data))
+                navigate(`/deactivateUserProfile`)
+            }
+        )
+    }
+
     return <>
     Deactivate a user Profile
-    {
-        activeList.map((up) => (
-            <p key={up.id}>
-              {up.firstName} {up.lastName} {up.userName}{" "}
-              {/* <Link to={`/userprofiles/${p.id}`}>Details</Link> */}
-            </p>
+    <div style={{alignContent:"center"}}>
+    <Table striped>
+        <thead>
+            <tr>
+                <th>Users</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {
+        activeList.map((up) => (           
+             <tr key={up.id}>
+                <td >
+                    {up.firstName} {up.lastName} {up.userName}{" "}
+                </td>               
+                <td><button name={up.id} onClick={handleDeactivate}>Deactivate</button></td>
+            </tr>   
           ))
-    }
+        }
+        </tbody>
+    </Table>
+    </div>
     </>
 }

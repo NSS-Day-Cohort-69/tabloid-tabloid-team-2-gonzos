@@ -106,7 +106,7 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpGet("InactiveList")]
-    // [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     public IActionResult GetAllDeactivatedUserProfiles()
     {
         List<UserProfileDTO> userProfileDeactiveList=_dbContext.UserProfiles
@@ -127,7 +127,7 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpGet("ActiveList")]
-    // [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     public IActionResult GetAllReactivatedUserProfiles()
     {
         List<UserProfileDTO> userProfileReactiveList=_dbContext.UserProfiles
@@ -148,7 +148,7 @@ public class UserProfileController : ControllerBase
     }
 
     //reactivate a userProfile
-    [HttpPost("{id}/reactivate")]
+    [HttpPost("{id}/activate")]
     [Authorize(Roles ="Admin")]
     public IActionResult ReactivateUserProfile(int id)
     {
