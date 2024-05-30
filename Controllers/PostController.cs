@@ -36,7 +36,7 @@ public class PostController : ControllerBase
                 Id = p.Author.Id,
                 FirstName = p.Author.FirstName,
                 LastName = p.Author.LastName,
-                Username = p.Author.UserName,
+                UserName = p.Author.UserName,
                 Email = p.Author.Email,
                 CreateDateTime = p.Author.CreateDateTime,
                 ImageLocation = p.Author.ImageLocation,
