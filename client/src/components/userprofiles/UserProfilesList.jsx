@@ -14,7 +14,9 @@ export default function UserProfileList() {
   return (
     <>
       <p>User Profile List</p>
-      {userprofiles.map((p) => (
+      <div><Link to={`/reactivateUserProfile`}>Reactivate a UserProfile</Link></div>
+      <div><Link to={`/DeactivateUserProfile`}>Deactivate a UserProfile</Link></div>
+      {userprofiles.map((p) =>(        
         <p key={p.id}>
           {p.firstName} {p.lastName} {p.userName}{" "}
           <Link to={`/userprofiles/${p.id}`}>Details</Link>

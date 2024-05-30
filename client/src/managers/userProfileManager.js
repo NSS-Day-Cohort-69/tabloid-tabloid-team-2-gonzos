@@ -7,3 +7,11 @@ export const getProfiles = () => {
 export const getProfile = (id) => {
   return fetch(_apiUrl + `/${id}`).then((res) => res.json());
 };
+
+export const getAllInactiveList=()=>{
+  return fetch(_apiUrl + `/inactiveList`).then((res)=>res.json());
+}
+
+export const getAllActiveList=()=>{
+  return fetch(_apiUrl + `/activeList`).then((res)=>res.json());
+}

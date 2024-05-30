@@ -7,6 +7,8 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import { Reaction } from "./reaction/Reaction";
 import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
+import { ReactivateAUserProfile } from "./userprofiles/ReactviateAUserProfile.jsx";
+import { DeactivateAUserProfile } from "./userprofiles/DeactviateAUserProfile.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -52,7 +54,17 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />
               </AuthorizedRoute>
-            }/>         
+            }/>   
+          <Route path="/reactivateUserProfile" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <ReactivateAUserProfile />
+              </AuthorizedRoute>
+            }/>   
+            <Route path="/deactivateUserProfile" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <DeactivateAUserProfile />
+              </AuthorizedRoute>
+            }/>    
           
         <Route path="/posts">
             <Route index element={<ViewPosts />}/>
