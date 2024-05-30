@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react"
 import { getPostById } from "../../managers/postManager"
 import { useParams } from "react-router-dom"
+import { getComments } from "../../managers/commentManager.js"
 
 export const PostDetails = () => {
     const [post, setPost] = useState({})
     const { id } = useParams();
+    const [comments, setComments] = useState([])
 
     useEffect(() => {
         getPostById(id).then(setPost)
     }, [])
+
+    useEffect(() => {
+        getComments(id).then(setComments)
+    }, [post])
 
     return (
         <>
@@ -22,6 +28,9 @@ export const PostDetails = () => {
                 {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString('en-US') : 'N/A'}
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
+                <div className="comments-container">
+
+                </div>
             </div>
         </>
     )
