@@ -52,11 +52,6 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   </NavItem>
                   </>
                 )}
-              </Nav>
-            </Collapse>
-
-            <Collapse isOpen={open} navbar>
-              <Nav navbar>
                 {loggedInUser.roles.includes("Admin") && (
                   <>
                   <NavItem>
