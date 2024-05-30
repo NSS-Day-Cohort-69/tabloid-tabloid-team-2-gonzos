@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Tabloid.Models.DTOs
 {
     public class UserProfileDTO
@@ -10,6 +12,8 @@ namespace Tabloid.Models.DTOs
         public DateTime CreateDateTime { get; set; }
         public string ImageLocation { get; set; }
         public string IdentityUserId { get; set; }
+
+        public IdentityUser IdentityUser {get; set;}
         public bool IsActive { get; set; }
     }
 }
