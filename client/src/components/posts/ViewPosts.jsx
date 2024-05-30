@@ -29,6 +29,9 @@ export const ViewPosts = () => {
                         <button onClick={() => {
                             navigate(`/posts/${post.id}`)
                         }}>Details</button>
+                        <button onClick={() => {
+                            navigate(`/posts/edit/${post.id}`)
+                        }}>Edit</button>
                     </div>
                 ))}
             </div>
