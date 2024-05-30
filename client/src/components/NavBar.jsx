@@ -65,8 +65,6 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    </NavLink>
-
                     <NavLink tag={RRNavLink} to="/reactions">
                       Reactions
                     </NavLink>

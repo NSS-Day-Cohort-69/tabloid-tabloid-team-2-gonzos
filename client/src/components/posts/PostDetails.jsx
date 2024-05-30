@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { createComment, getComments } from "../../managers/commentManager.js"
 import { Button, Input, Label } from "reactstrap"
 
-export const PostDetails = ({ loggedInUser }{loggedInUser}) => {
+export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
     const [showConfirmation, setShowConfirmation] = useState(false);
     const { id } = useParams();
@@ -51,8 +51,6 @@ export const PostDetails = ({ loggedInUser }{loggedInUser}) => {
         commentObj.Content = "";
         commentObj.Subject = "";
     }
-
-
 
     return (
         <>
