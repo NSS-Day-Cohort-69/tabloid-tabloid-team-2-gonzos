@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Tabloid.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class UserProfileController : ControllerBase
@@ -79,7 +78,7 @@ public class UserProfileController : ControllerBase
         return NoContent();
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
@@ -92,8 +91,16 @@ public class UserProfileController : ControllerBase
         {
             return NotFound();
         }
-        user.Email = user.IdentityUser.Email;
+        user.FirstName = user.FirstName;
+        user.LastName = user.LastName;
+        user.ImageLocation = user.ImageLocation;
+        user.CreateDateTime = user.CreateDateTime;
         user.UserName = user.IdentityUser.UserName;
+        user.Email = user.IdentityUser.Email;
+        user.Roles = _dbContext.UserRoles
+        .Where(ur => ur.UserId == user.IdentityUser.Id)
+        .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
+        .ToList();
         return Ok(user);
     }
 }

@@ -5,6 +5,12 @@ import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import CategoryList from "./categories/CategoryList";
+import { Reaction } from "./reaction/Reaction";
+import { ViewPosts } from "./posts/ViewPosts";
+import TagsList from "./tags/TagsList.jsx";
+import { PostDetails } from "./posts/PostDetails.jsx";
+import { NewPost } from "./posts/NewPost.jsx";
+
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -35,6 +41,28 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+        </Route>
+          <Route path="/tag">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                  <TagsList />
+                </AuthorizedRoute>
+              }
+            />
+          </Route>
+        <Route path="/reactions" element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <Reaction />
+              </AuthorizedRoute>
+            }/>         
+        <Route path="/newpost">
+            <Route index element={<NewPost loggedInUser={loggedInUser} />} />
+        </Route>
+        <Route path="/posts">
+            <Route index element={<ViewPosts />}/>
+            <Route path=":id" element={<PostDetails />} />
         </Route>
         <Route
           path="/categories"
