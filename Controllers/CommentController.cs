@@ -47,21 +47,21 @@ public class CommentController : ControllerBase
         }).ToList());
     }
 
-    [HttpPost("posts/{postId}")]
-    public IActionResult PostComment(int postId, int AuthorId, string Subject, string Content)
+    [HttpPost()]
+    public IActionResult PostComment(Comment comment)
     {
-        if (AuthorId == 0 || Subject == null || Content == null)
+        if (comment.AuthorId == 0 || comment.Subject == null || comment.Content == null)
         {
             return BadRequest();
         }
         
         _dbContext.Comments.Add(new Comment
         {
-            AuthorId = AuthorId,
-            PostId = postId,
+            AuthorId = comment.AuthorId,
+            PostId = comment.PostId,
             CreationDate = DateTime.Now,
-            Subject = Subject,
-            Content = Content
+            Subject = comment.Subject,
+            Content = comment.Content
         });
         
         _dbContext.SaveChanges();
