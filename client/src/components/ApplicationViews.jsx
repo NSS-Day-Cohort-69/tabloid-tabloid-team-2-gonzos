@@ -38,24 +38,27 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
-          <Route path="/tag">
-            <Route
-              index
-              element={
-                <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                  <TagsList />
-                </AuthorizedRoute>
-              }
-            />
-          </Route>
-        <Route path="/reactions" element={
+        <Route path="/tag">
+          <Route
+            index
+            element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                <Reaction />
+                <TagsList />
               </AuthorizedRoute>
-            }/>         
-          
+            }
+          />
+        </Route>
+        <Route
+          path="/reactions"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <Reaction />
+            </AuthorizedRoute>
+          }
+        />
+
         <Route path="/posts">
-            <Route index element={<ViewPosts />}/>
+          <Route index element={<ViewPosts />} />
         </Route>
         <Route
           path="login"
