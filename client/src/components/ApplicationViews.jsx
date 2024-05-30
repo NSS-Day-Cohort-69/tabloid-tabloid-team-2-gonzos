@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
+import CategoryList from "./categories/CategoryList";
 import { Reaction } from "./reaction/Reaction";
 import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
@@ -11,6 +12,8 @@ import { PostDetails } from "./posts/PostDetails.jsx";
 import { NewPost } from "./posts/NewPost.jsx";
 import { ActivateAUserProfile } from "./userprofiles/ActviateAUserProfile.jsx";
 import { DeactivateAUserProfile } from "./userprofiles/DeactviateAUserProfile.jsx";
+import { EditPost } from "./posts/EditPost.jsx";
+
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -68,12 +71,21 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }/>    
         <Route path="/newpost">
-            <Route index element={<NewPost />} />
+            <Route index element={<NewPost loggedInUser={loggedInUser} />} />
         </Route>
         <Route path="/posts">
-            <Route index element={<ViewPosts />}/>
-            <Route path=":id" element={<PostDetails />} />
+            <Route index element={<ViewPosts loggedInUser={loggedInUser} />}/>
+            <Route path="edit/:id" element={<EditPost />}/>
+            <Route path=":id" element={<PostDetails loggedInUser={loggedInUser}/>} />
         </Route>
+        <Route
+          path="/categories"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <CategoryList />
+            </AuthorizedRoute>
+          }
+        />
         <Route
           path="login"
           element={<Login setLoggedInUser={setLoggedInUser} />}

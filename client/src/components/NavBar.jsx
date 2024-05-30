@@ -53,15 +53,21 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   </>
                 )}
                 {loggedInUser.roles.includes("Admin") && (
+                  <>
+                  <NavItem>
+                    <NavLink tag={RRNavLink} to="/categories">
+                      Categories
+                    </NavLink>
+                  </NavItem>
                   <NavItem>
                     <NavLink tag={RRNavLink} to="/reactions">
                       Reactions
                     </NavLink>
                   </NavItem>
-                )} 
+                  </>
+                )}
               </Nav>
-            </Collapse>           
-                          
+            </Collapse>
             <Button
               color="primary"
               onClick={(e) => {

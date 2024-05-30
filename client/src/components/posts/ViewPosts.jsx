@@ -3,7 +3,7 @@ import { getPosts } from "../../managers/postManager"
 import "./ViewPosts.css"
 import { useNavigate } from "react-router-dom"
 
-export const ViewPosts = () => {
+export const ViewPosts = ({loggedinuser}) => {
     const [posts, setPosts] = useState([])
     const navigate = useNavigate()
 
