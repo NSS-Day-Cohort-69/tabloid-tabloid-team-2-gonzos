@@ -29,7 +29,16 @@ export const PostDetails = () => {
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
                 <div className="comments-container">
-
+                    <h3>Comments</h3>
+                    {comments.map(c => {
+                        return(
+                            <div className="comment-container" key={c.id}>
+                                <p><b>{c.author.firstName} {c.author.lastName}</b> • {c.creationDate ? new Date(c.creationDate).toLocaleDateString('en-US') : 'N/A'}</p>
+                                <p>Subject: {c.subject}</p>
+                                <p>{c.content}</p>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </>

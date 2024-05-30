@@ -8,3 +8,14 @@
     border: 2px solid black;
     margin: 10px 0;
 }
+
+.comments-container {
+    margin: 20px;
+}
+
+.comment-container {
+    border: 2px solid black;
+    width: 33%;
+    margin: 10px 0px;
+    padding: 10px;
+}
