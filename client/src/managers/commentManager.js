@@ -16,3 +16,12 @@ export const createComment = async (commentObj) => {
     const result = await response.json();
     return result
 };
+
+export const deleteComment = async (commentId) => {
+    return fetch(`${_apiUrl}/${commentId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
