@@ -99,6 +99,9 @@ export const EditPost = () => {
                 </div>
                 <button type="submit">Update Post</button>
             </form>
+            <button onClick={() => {
+                navigate("/posts")
+            }}>Cancel Edit</button>
         </>
     );
 };
