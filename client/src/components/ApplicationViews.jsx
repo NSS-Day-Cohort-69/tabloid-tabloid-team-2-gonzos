@@ -15,6 +15,8 @@ import { DeactivateAUserProfile } from "./userprofiles/DeactviateAUserProfile.js
 import { EditPost } from "./posts/EditPost.jsx";
 
 import { NewTag } from "./tags/CreateTag.jsx";
+import { EditComment } from "./posts/EditComment.jsx";
+import { CommentDetail } from "./posts/CommentDetail.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -75,6 +77,11 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             <Route index element={<ViewPosts loggedInUser={loggedInUser} />}/>
             <Route path="edit/:id" element={<EditPost />}/>
             <Route path=":id" element={<PostDetails loggedInUser={loggedInUser}/>} />
+            <Route path="editComment/:id" element={<EditComment loggedInUser={loggedInUser}/> } />
+            <Route path=":id" element={<CommentDetail loggedInUser={loggedInUser}/> } />
+        </Route>
+        <Route path="/comments">
+          <Route path="detail/:id" element={<CommentDetail loggedInUser={loggedInUser} />} />
         </Route>
         <Route
           path="/categories"

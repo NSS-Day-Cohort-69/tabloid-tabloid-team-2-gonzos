@@ -9,16 +9,17 @@ export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
     const [showConfirmation, setShowConfirmation] = useState(false);
     const { id } = useParams();
-    const [comments, setComments] = useState([])
-    const [addCommentSwitch, toggleAddComment] = useState(false)
-    const [deleteConfirmWindow, toggleDeleteConfirmWindow] = useState(0)
+    const [comments, setComments] = useState([]);
+    const [addCommentSwitch, toggleAddComment] = useState(false);
+    const [deleteConfirmWindow, toggleDeleteConfirmWindow] = useState(0);
     const [commentObj, setCommentObj] = useState(
     {
         Subject: "",
         Content: "",
         PostId: id,
         AuthorId: loggedInUser.id
-    })
+    });
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,7 +39,7 @@ export const PostDetails = ({ loggedInUser }) => {
 
     useEffect(() => {
         getComments(id).then(setComments)
-    }, [post])
+    }, [post]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -46,19 +47,19 @@ export const PostDetails = ({ loggedInUser }) => {
             ...prevState,
             [name]: value
         }))
-    }
+    };
 
     const handleCommentDeletion = (id) => {
         deleteComment(id).then(() => {
             getComments(post.id).then(setComments)
         toggleDeleteConfirmWindow(0)
         })
-    }
+    };
 
     const resetCommentFields = () => {
         commentObj.Content = "";
         commentObj.Subject = "";
-    }
+    };
 
     return (
         <>
@@ -109,7 +110,10 @@ export const PostDetails = ({ loggedInUser }) => {
                                         onClick={() => toggleDeleteConfirmWindow(c.id)}>
                                         🗑️
                                     </Button>
-                                    <Button className="comment-option" color="success">
+                                    <Button
+                                        className="comment-option"
+                                        color="success"
+                                        onClick={() => navigate(`/posts/editComment/${c.id}`)}>
                                         ✏️
                                     </Button>
                                 </div>
