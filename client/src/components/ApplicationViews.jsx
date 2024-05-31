@@ -85,7 +85,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           <Route path="detail/:id" element={<CommentDetail loggedInUser={loggedInUser} />} />
         </Route>
         <Route
-          path="/newcategory"
+          path="/category"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
               <NewCategory />

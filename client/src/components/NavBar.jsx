@@ -61,7 +61,7 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   <>
 
                     <NavItem>
-                      <NavLink tag={RRNavLink} to="/categories">
+                      <NavLink tag={RRNavLink} to="/category">
                         Categories
                       </NavLink>
                     </NavItem>
@@ -70,18 +70,6 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                         Reactions
                       </NavLink>
                     </NavItem>
-
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/categories">
-                      Categories
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/reactions">
-                      Reactions
-                    </NavLink>
-                  </NavItem>
-
                   </>
                 )}
               </Nav>
