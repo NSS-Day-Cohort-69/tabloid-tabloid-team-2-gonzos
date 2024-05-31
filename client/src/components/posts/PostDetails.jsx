@@ -3,6 +3,7 @@ import { deletePost, getPostById } from "../../managers/postManager";
 import { useNavigate, useParams } from "react-router-dom";
 import { createComment, deleteComment, getComments } from "../../managers/commentManager.js"
 import { Button, Input, Label } from "reactstrap"
+import "./PostDetails.css"
 
 export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
@@ -65,7 +66,7 @@ export const PostDetails = ({ loggedInUser }) => {
             <div className="post-main-container">
                 <h3>Title: {post.title}</h3>
                 <h4>Body: {post.body}</h4>
-                <h5>Header Img: {post.headerImage}</h5>
+                {post.headerImage && <img className="post-image-header" src={post.headerImage} alt={`${post.title} header`} />}
                 <h6>
                     Publication Date:{" "}
                     {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}
