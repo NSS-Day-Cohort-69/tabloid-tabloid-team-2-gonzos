@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPost } from "../../managers/postManager";
 import { useNavigate } from "react-router-dom";
+import { getAllCategories } from "../../managers/categoryManager";
 
 export const NewPost = ({ loggedInUser }) => {
     const [postObj, setPostObj] = useState({
@@ -8,11 +9,17 @@ export const NewPost = ({ loggedInUser }) => {
         authorId: loggedInUser.id, 
         publicationDate: new Date().toISOString(),
         body: "",
-        categoryId: 1, 
+        categoryId: "", 
         headerImage: "",
         postApproved: true,
         estimatedReadTime: null,
     });
+
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        getAllCategories().then(setCategories)
+    }, [])
 
     const navigate = useNavigate()
 
@@ -21,6 +28,13 @@ export const NewPost = ({ loggedInUser }) => {
         setPostObj({
             ...postObj,
             [name]: value,
+        });
+    };
+
+    const handleCategoryChange = (event) => {
+        setPostObj({
+            ...postObj,
+            categoryId: parseInt(event.target.value),
         });
     };
 
@@ -66,14 +80,20 @@ export const NewPost = ({ loggedInUser }) => {
                     />
                 </div>
                 <div>
-                    <label>Category ID:</label>
-                    <input
-                        type="number"
+                    <label>Category:</label>
+                    <select
                         name="categoryId"
                         value={postObj.categoryId}
-                        onChange={handleInputChange}
+                        onChange={handleCategoryChange}
                         required
-                    />
+                    >
+                        <option value="" disabled>Select a category</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Estimated Read Time (minutes):</label>
