@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { createPost } from "../../managers/postManager";
-import { useNavigate } from "react-router-dom";
-import { getAllCategories } from "../../managers/categoryManager";
+import React, { useState, useEffect } from "react";
+import { updatePost, getPostById } from "../../managers/postManager";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const NewPost = ({ loggedInUser }) => {
+export const EditPost = () => {
     const [postObj, setPostObj] = useState({
         title: "",
-        authorId: loggedInUser.id, 
-        publicationDate: new Date().toISOString(),
         body: "",
-        categoryId: "", 
         headerImage: "",
-        postApproved: true,
+        categoryId: 1, 
         estimatedReadTime: null,
     });
 
-    const [categories, setCategories] = useState([])
+    const { id } = useParams()
+
+    const navigate = useNavigate();
 
     useEffect(() => {
-        getAllCategories().then(setCategories)
-    }, [])
-
-    const navigate = useNavigate()
+        getPostById(id).then((post) => {
+            setPostObj({
+                title: post.title,
+                body: post.body,
+                headerImage: post.headerImage,
+                categoryId: post.categoryId,
+                estimatedReadTime: post.estimatedReadTime,
+            });
+        }).catch((error) => {
+            console.error("Error fetching post:", error);
+        });
+    }, [id]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -31,25 +37,18 @@ export const NewPost = ({ loggedInUser }) => {
         });
     };
 
-    const handleCategoryChange = (event) => {
-        setPostObj({
-            ...postObj,
-            categoryId: parseInt(event.target.value),
-        });
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        createPost(postObj).then((newPostId) => {
-            navigate(`/posts/${newPostId}`)
+        updatePost(id, postObj).then(() => {
+            navigate(`/posts/${id}`);
         }).catch((error) => {
-            console.error("Error creating post:", error);
+            console.error("Error updating post:", error);
         });
     };
 
     return (
         <>
-            <h1>New Post</h1>
+            <h1>Edit Post</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Title:</label>
@@ -80,20 +79,14 @@ export const NewPost = ({ loggedInUser }) => {
                     />
                 </div>
                 <div>
-                    <label>Category:</label>
-                    <select
+                    <label>Category ID:</label>
+                    <input
+                        type="number"
                         name="categoryId"
                         value={postObj.categoryId}
-                        onChange={handleCategoryChange}
+                        onChange={handleInputChange}
                         required
-                    >
-                        <option value="" disabled>Select a category</option>
-                        {categories.map(category => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
+                    />
                 </div>
                 <div>
                     <label>Estimated Read Time (minutes):</label>
@@ -104,8 +97,11 @@ export const NewPost = ({ loggedInUser }) => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type="submit">Create Post</button>
+                <button type="submit">Update Post</button>
             </form>
+            <button onClick={() => {
+                navigate("/posts")
+            }}>Cancel Edit</button>
         </>
     );
 };

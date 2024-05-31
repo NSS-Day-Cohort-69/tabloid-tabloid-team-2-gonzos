@@ -127,4 +127,43 @@ public class PostController : ControllerBase
         return Ok(new { post.Id });
     }
 
+    [HttpPut("{id}")]
+    // [Authorize]
+    public IActionResult Put(int id, [FromBody] Post updatedPost)
+    {
+        Post existingPost = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+        if (existingPost == null)
+        {
+            return NotFound();
+        }
+
+        existingPost.Title = updatedPost.Title ?? existingPost.Title;
+        existingPost.Body = updatedPost.Body ?? existingPost.Body;
+        existingPost.CategoryId = updatedPost.CategoryId;
+        existingPost.HeaderImage = updatedPost.HeaderImage ?? existingPost.HeaderImage;
+        existingPost.EstimatedReadTime = updatedPost.EstimatedReadTime ?? existingPost.EstimatedReadTime;
+
+        _dbContext.SaveChanges();
+
+        return Ok(existingPost);
+    }
+
+    [HttpDelete("{id}")]
+    // [Authorize]
+    public IActionResult Delete(int id)
+    {
+        Post existingPost = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+        if (existingPost == null)
+        {
+            return NotFound();
+        }
+
+        _dbContext.Posts.Remove(existingPost);
+        _dbContext.SaveChanges();
+
+        return Ok(existingPost);
+    }
+
+
+
 }

@@ -47,25 +47,25 @@ public class CommentController : ControllerBase
         }).ToList());
     }
 
-    [HttpPost("posts/{postId}")]
-    public IActionResult PostComment(int postId, int AuthorId, string Subject, string Content)
+    [HttpPost()]
+    public IActionResult PostComment(Comment comment)
     {
-        if (AuthorId == 0 || Subject == null || Content == null)
+        if (comment.AuthorId == 0 || comment.Subject == null || comment.Content == null)
         {
             return BadRequest();
         }
         
         _dbContext.Comments.Add(new Comment
         {
-            AuthorId = AuthorId,
-            PostId = postId,
+            AuthorId = comment.AuthorId,
+            PostId = comment.PostId,
             CreationDate = DateTime.Now,
-            Subject = Subject,
-            Content = Content
+            Subject = comment.Subject,
+            Content = comment.Content
         });
         
         _dbContext.SaveChanges();
-        return NoContent();
+        return Ok(comment);
     }
 
     [HttpDelete("{commentId}")]
@@ -83,29 +83,48 @@ public class CommentController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{commentId}")]
-    public IActionResult EditComment(int commentId, string? Subject, string? Content)
+    [HttpGet("{commentId}")]
+    public IActionResult GetCommentById(int commentId)
     {
-        if (string.IsNullOrEmpty(Subject) && string.IsNullOrEmpty(Content))
+        Comment c = _dbContext.Comments.FirstOrDefault(c => c.Id == commentId);
+        
+        if (c == null)
         {
-            return BadRequest();
+            return NotFound();
         }
         
-        Comment commentToEdit = _dbContext.Comments.FirstOrDefault(c => c.Id == commentId);
+        return Ok(new CommentDTO {
+            Id = c.Id,
+            AuthorId = c.AuthorId,
+            PostId = c.PostId,
+            Subject = c.Subject,
+            Content = c.Content
+        });
+    }
 
-        if (commentToEdit == null)
+    [HttpPut()]
+    public IActionResult EditComment(Comment comment)
+    {
+        if (comment == null)
         {
             return NotFound();
         }
 
-        if (Subject != null)
+        if (string.IsNullOrEmpty(comment.Subject) && string.IsNullOrEmpty(comment.Content))
         {
-            commentToEdit.Subject = Subject;
+            return BadRequest();
         }
 
-        if (Content != null)
+        Comment commentToEdit = _dbContext.Comments.FirstOrDefault(c => c.Id == comment.Id);
+
+        if (comment.Subject != null)
         {
-            commentToEdit.Content = Content;
+            commentToEdit.Subject = comment.Subject;
+        }
+
+        if (comment.Content != null)
+        {
+            commentToEdit.Content = comment.Content;
         }
 
         _dbContext.SaveChanges();
