@@ -10,7 +10,7 @@ import { ViewPosts } from "./posts/ViewPosts";
 import TagsList from "./tags/TagsList.jsx";
 import { PostDetails } from "./posts/PostDetails.jsx";
 import { NewPost } from "./posts/NewPost.jsx";
-
+import { NewCategory } from "./categories/NewCategory.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -42,33 +42,44 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
-          <Route path="/tag">
-            <Route
-              index
-              element={
-                <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                  <TagsList />
-                </AuthorizedRoute>
-              }
-            />
-          </Route>
-        <Route path="/reactions" element={
+        <Route path="/tag">
+          <Route
+            index
+            element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                <Reaction />
+                <TagsList />
               </AuthorizedRoute>
-            }/>         
+            }
+          />
+        </Route>
+        <Route
+          path="/reactions"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <Reaction />
+            </AuthorizedRoute>
+          }
+        />
         <Route path="/newpost">
-            <Route index element={<NewPost loggedInUser={loggedInUser} />} />
+          <Route index element={<NewPost loggedInUser={loggedInUser} />} />
         </Route>
         <Route path="/posts">
-            <Route index element={<ViewPosts />}/>
-            <Route path=":id" element={<PostDetails />} />
+          <Route index element={<ViewPosts />} />
+          <Route path=":id" element={<PostDetails />} />
         </Route>
         <Route
           path="/categories"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
               <CategoryList />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="/newcategory"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <NewCategory />
             </AuthorizedRoute>
           }
         />
