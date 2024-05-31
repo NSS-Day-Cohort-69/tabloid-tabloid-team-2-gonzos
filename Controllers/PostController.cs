@@ -24,7 +24,12 @@ public class PostController : ControllerBase
     // [Authorize]
     public IActionResult Get()
     {
-        List<Post> posts = _dbContext.Posts.Include(p => p.Author).ToList();
+        List<Post> posts = _dbContext.Posts
+                                    .Include(p => p.Author)
+                                    .ThenInclude(up => up.IdentityUser)
+                                    .Include(p => p.PostTags)
+                                    .ThenInclude(pt => pt.Tag)
+                                    .ToList();
 
         List<PostDTO> postDTOs = posts.Select(p => new PostDTO
         {
@@ -41,18 +46,29 @@ public class PostController : ControllerBase
                 CreateDateTime = p.Author.CreateDateTime,
                 ImageLocation = p.Author.ImageLocation,
                 IdentityUserId = p.Author.IdentityUserId,
-                IsActive = p.Author.IsActive
+                IsActive = p.Author.IsActive,
+                IdentityUser = new IdentityUser
+                {
+                    Id = p.Author.IdentityUser.Id,
+                    UserName = p.Author.IdentityUser.UserName
+                }
             },
             PublicationDate = p.PublicationDate,
             Body = p.Body,
             CategoryId = p.CategoryId,
             HeaderImage = p.HeaderImage,
             PostApproved = p.PostApproved,
-            EstimatedReadTime = p.EstimatedReadTime
+            EstimatedReadTime = p.EstimatedReadTime,
+            Tags = p.PostTags.Select(pt => new TagDTO
+            {
+                Id = pt.Tag.Id,
+                Name = pt.Tag.Name
+            }).ToList()
         }).ToList();
 
         return Ok(postDTOs);
     }
+
 
     [HttpGet("{id}")]
     // [Authorize]
@@ -61,6 +77,8 @@ public class PostController : ControllerBase
         var post = _dbContext.Posts
                             .Include(p => p.Author)
                             .ThenInclude(up => up.IdentityUser)
+                            .Include(p => p.PostTags)
+                            .ThenInclude(pt => pt.Tag)
                             .FirstOrDefault(p => p.Id == id);
 
         if (post == null)
@@ -94,11 +112,17 @@ public class PostController : ControllerBase
             CategoryId = post.CategoryId,
             HeaderImage = post.HeaderImage,
             PostApproved = post.PostApproved,
-            EstimatedReadTime = post.EstimatedReadTime
+            EstimatedReadTime = post.EstimatedReadTime,
+            Tags = post.PostTags.Select(pt => new TagDTO
+            {
+                Id = pt.Tag.Id,
+                Name = pt.Tag.Name
+            }).ToList()
         };
 
         return Ok(postDTO);
     }
+
 
     [HttpPost]
     // [Authorize]
@@ -123,6 +147,18 @@ public class PostController : ControllerBase
 
         _dbContext.Posts.Add(post);
         _dbContext.SaveChanges();
+
+        for(int i  = 0; i < post.PostTags.Count; i++)
+        {
+            PostTag tag = new PostTag
+            {
+                TagId = post.PostTags[i].Id,
+                PostId = post.Id
+            };
+
+            _dbContext.PostTags.Add(tag);
+            _dbContext.SaveChanges();
+        }
 
         return Ok(new { post.Id });
     }

@@ -12,5 +12,7 @@ namespace Tabloid.Models.DTOs
         public string HeaderImage { get; set; }
         public bool PostApproved { get; set; }
         public int? EstimatedReadTime { get; set; }
+
+        public List<TagDTO> Tags {get; set;} 
     }
 }
