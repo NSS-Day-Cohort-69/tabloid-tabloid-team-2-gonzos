@@ -34,16 +34,16 @@ public class CategoryController : ControllerBase
     }
 
 
-    //     [HttpPost]
-    //     [Authorize(Roles = "Admin")]
-    //     public IActionResult CreateCategory(Category category)
-    //     {
-    //         if (category == null)
-    //         {
-    //             return BadRequest();
-    //         }
-    //         _dbContext.Add(category);
-    //         _dbContext.SaveChanges();
-    //         return Created($"/api/category/{category.Id}", category);
-    //     }
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult CreateCategory(Category category)
+    {
+        if (category == null)
+        {
+            return BadRequest("Invalid Category Entered");
+        }
+        _dbContext.Add(category);
+        _dbContext.SaveChanges();
+        return Created($"/api/category/{category.Id}", category);
+    }
 }
