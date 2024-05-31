@@ -48,3 +48,6 @@ export const deletePost = (postId) => {
     })
 }
 
+export const getPostsByUserId = async (userId) => {
+    return await fetch(`${_apiUrl}/user/${userId}`).then((res) => res.json())
+}
