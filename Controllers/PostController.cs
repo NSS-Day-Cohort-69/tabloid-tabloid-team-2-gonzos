@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Tabloid.Models.DTOs;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Tabloid.Controllers;
 
@@ -200,6 +201,51 @@ public class PostController : ControllerBase
         return Ok(existingPost);
     }
 
+    [HttpGet("user/{userId}")]
+    public IActionResult Get(int userId)
+    {
+        List<PostDTO> posts = _dbContext.Posts
+        .Include(p => p.Author)
+        .Include(p => p.Category)
+        .Include(p => p.PostTags)
+        .ThenInclude(pt => pt.Tag)
+        .Where(p => p.AuthorId == userId)
+        .OrderByDescending(p => p.PublicationDate)
+        .Select(p => new PostDTO
+        {
+            Id = p.Id,
+            Title = p.Title,
+            AuthorId = p.AuthorId,
+            Author = new UserProfileDTO
+            {
+                Id = p.Author.Id,
+                FirstName = p.Author.FirstName,
+                LastName = p.Author.LastName,
+                UserName = p.Author.UserName,
+                Email = p.Author.Email,
+                CreateDateTime = p.Author.CreateDateTime,
+                ImageLocation = p.Author.ImageLocation,
+                IdentityUserId = p.Author.IdentityUserId,
+                IsActive = p.Author.IsActive
+            },
+            PublicationDate = p.PublicationDate,
+            Body = p.Body,
+            CategoryId = p.CategoryId,
+            Category = new CategoryDTO
+            {
+                Id = p.Category.Id,
+                Name = p.Category.Name
+            },
+            HeaderImage = p.HeaderImage,
+            PostApproved = p.PostApproved,
+            EstimatedReadTime = p.EstimatedReadTime,
+            Tags = p.PostTags.Select(pt => new TagDTO
+            {
+                Id = pt.Tag.Id,
+                Name = pt.Tag.Name
+            }).ToList()
+        }).ToList();
 
-
+        return Ok(posts);
+    }
 }

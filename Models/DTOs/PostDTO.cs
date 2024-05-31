@@ -9,6 +9,7 @@ namespace Tabloid.Models.DTOs
         public DateTime PublicationDate { get; set; }
         public string Body { get; set; }
         public int CategoryId { get; set; }
+        public CategoryDTO Category { get; set; }
         public string HeaderImage { get; set; }
         public bool PostApproved { get; set; }
         public int? EstimatedReadTime { get; set; }
