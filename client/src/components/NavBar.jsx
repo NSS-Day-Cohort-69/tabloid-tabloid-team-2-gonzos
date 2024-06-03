@@ -38,6 +38,11 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                     My Posts
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/newpost">
+                    Create Post
+                  </NavLink>
+                </NavItem>
                 {loggedInUser.roles.includes("Admin") && (
                   <>
                     <NavItem>
@@ -48,11 +53,6 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                     <NavItem>
                       <NavLink tag={RRNavLink} to="/tag">
                         Tag Management
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to="/newpost">
-                        Create Post
                       </NavLink>
                     </NavItem>
                   </>
