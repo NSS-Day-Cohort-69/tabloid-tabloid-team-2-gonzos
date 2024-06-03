@@ -5,6 +5,7 @@ using Tabloid.Data;
 using Tabloid.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 
 
 namespace Tabloid.Controllers;
@@ -32,6 +33,23 @@ public class CategoryController : ControllerBase
         }).ToList());
     }
 
+    [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult GetById(int id)
+    {
+        Category category = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
+        if (category == null)
+        {
+            return NotFound();
+        }
+        CategoryDTO categoryDTO = new CategoryDTO
+        {
+            Id = category.Id,
+            Name = category.Name
+        };
+        return Ok(categoryDTO);
+    }
+
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
@@ -45,4 +63,21 @@ public class CategoryController : ControllerBase
         _dbContext.SaveChanges();
         return Created($"/api/category/{category.Id}", category);
     }
+
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Put([FromBody] Category updatedCat, int id)
+    {
+        Category currentCat = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
+        if (currentCat.Id == null)
+        {
+            return BadRequest("Invalid Category Selected");
+        }
+        currentCat.Name = updatedCat.Name ?? currentCat.Name;
+        _dbContext.SaveChanges();
+        return Ok(currentCat);
+    }
 }
+
+
+
