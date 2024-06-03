@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { createComment, deleteComment, getComments } from "../../managers/commentManager.js"
 import { Button, Input, Label } from "reactstrap"
 import "./PostDetails.css"
+import { getTags } from "../../managers/tagManager.js";
+import { savePostTags } from "../../managers/postTagManager.js";
 
 export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
@@ -11,6 +13,10 @@ export const PostDetails = ({ loggedInUser }) => {
     const { id } = useParams();
     const [comments, setComments] = useState([]);
     const [addCommentSwitch, toggleAddComment] = useState(false);
+    const [tags, setTags] = useState([])
+    const [selectedTags, setSelectedTags] = useState([]);
+    // Manual Re-render after tags are saved
+    const [tagsSaved, setTagsSaved] = useState(false)
     const [deleteConfirmWindow, toggleDeleteConfirmWindow] = useState(0);
     const [commentObj, setCommentObj] = useState(
     {
@@ -24,7 +30,23 @@ export const PostDetails = ({ loggedInUser }) => {
 
     useEffect(() => {
         getPostById(id).then(setPost);
-    }, [id]);
+        getTags().then(setTags)
+    }, [id, tagsSaved]);
+
+    // Tag UseEffect needed after post is rendered.
+    useEffect(() => {
+        if (post.tags) {
+            setSelectedTags(post.tags.map(tag => tag.id));
+        }
+    }, [post, tagsSaved])
+
+    // Fetch post data again when tags are saved successfully
+    useEffect(() => {
+        if (tagsSaved) {
+            getPostById(id).then(setPost);
+            setTagsSaved(false);
+        }
+    }, [id, tagsSaved]);
 
     const handleDelete = () => {
         deletePost(id)
@@ -37,6 +59,7 @@ export const PostDetails = ({ loggedInUser }) => {
             });
     };
 
+    // Comment Functions
     useEffect(() => {
         getComments(id).then(setComments)
     }, [post]);
@@ -61,6 +84,27 @@ export const PostDetails = ({ loggedInUser }) => {
         commentObj.Subject = "";
     };
 
+    // Tag Functions
+    const handleSaveTags = async () => {
+        try {
+            await savePostTags(id, selectedTags).then(setTagsSaved(true));
+        } catch (error) {
+            console.error("Failed to save tags:", error);
+        }
+    };
+    
+    
+    const handleTagSelection = (tagId) => {
+        const updatedTags = [...selectedTags];
+        const index = updatedTags.indexOf(tagId);
+        if (index !== -1) {
+            updatedTags.splice(index, 1);
+        } else {
+            updatedTags.push(tagId);
+        }
+        setSelectedTags(updatedTags);
+    };
+
     return (
         <>
             <h2>Here are your details...</h2>
@@ -73,6 +117,24 @@ export const PostDetails = ({ loggedInUser }) => {
                     {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
+                {/* This section pertains to managing the associated tags */}
+                <div>
+                    <h3>Manage Tags</h3>
+                    {tags.map((tag) => (
+                        <div key={tag.id}>
+                            <Label>
+                                <Input
+                                    type="checkbox"
+                                    checked={selectedTags?.includes(tag.id)}
+                                    onChange={() => handleTagSelection(tag.id)}
+                                />
+                                {tag.name}
+                            </Label>
+                        </div>
+                    ))}
+                    <Button onClick={handleSaveTags}>Save Tags</Button>
+                </div>
+                {/* This section pertains to associating comments with the post */}
                 <div className="comments-container">
                     <h3>Comments</h3>
                     <Button onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}</Button>
