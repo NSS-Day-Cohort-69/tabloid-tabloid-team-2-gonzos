@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { deletePost, getPostById } from "../../managers/postManager";
 import { useNavigate, useParams } from "react-router-dom";
-import { createComment, deleteComment, getComments } from "../../managers/commentManager.js"
-import { Button, Input, Label } from "reactstrap"
-import "./PostDetails.css"
+import { createComment, deleteComment, getComments } from "../../managers/commentManager.js";
+import { Button, Input, Label } from "reactstrap";
+import "./PostDetails.css";
 import { getTags } from "../../managers/tagManager.js";
 import { savePostTags } from "../../managers/postTagManager.js";
 
@@ -12,13 +12,11 @@ export const PostDetails = ({ loggedInUser }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const { id } = useParams();
     const [addCommentSwitch, toggleAddComment] = useState(false);
-    const [tags, setTags] = useState([])
+    const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
-    // Manual Re-render after tags are saved
-    const [tagsSaved, setTagsSaved] = useState(false)
-    const [deleteConfirmWindow, toggleDeleteConfirmWindow] = useState(0);
-    const [commentObj, setCommentObj] = useState(
-    {
+    const [tagsSaved, setTagsSaved] = useState(false);
+    const [showTagManager, setShowTagManager] = useState(false);
+    const [commentObj, setCommentObj] = useState({
         Subject: "",
         Content: "",
         PostId: id,
@@ -29,29 +27,20 @@ export const PostDetails = ({ loggedInUser }) => {
 
     useEffect(() => {
         getPostById(id).then(setPost);
-        getTags().then(setTags)
+        getTags().then(setTags);
     }, [id, tagsSaved]);
 
-    // Tag UseEffect needed after post is rendered.
     useEffect(() => {
         if (post.tags) {
             setSelectedTags(post.tags.map(tag => tag.id));
         }
-    }, [post, tagsSaved])
-
-    // Fetch post data again when tags are saved successfully
-    useEffect(() => {
-        if (tagsSaved) {
-            getPostById(id).then(setPost);
-            setTagsSaved(false);
-        }
-    }, [id, tagsSaved]);
+    }, [post, tagsSaved]);
 
     const handleDelete = () => {
         deletePost(id)
             .then(() => {
                 console.log("Post deleted successfully");
-                navigate("/posts")
+                navigate("/posts");
             })
             .catch((error) => {
                 console.error("Failed to delete post:", error);
@@ -59,11 +48,11 @@ export const PostDetails = ({ loggedInUser }) => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setCommentObj(prevState => ({
             ...prevState,
             [name]: value
-        }))
+        }));
     };
 
     const resetCommentFields = () => {
@@ -75,16 +64,17 @@ export const PostDetails = ({ loggedInUser }) => {
         });
     };
 
-    // Tag Functions
     const handleSaveTags = async () => {
         try {
-            await savePostTags(id, selectedTags).then(setTagsSaved(true));
+            await savePostTags(id, selectedTags);
+            setTagsSaved(true);
+            setShowTagManager(false);
+            navigate(`/posts/${id}`);
         } catch (error) {
             console.error("Failed to save tags:", error);
         }
     };
-    
-    
+
     const handleTagSelection = (tagId) => {
         const updatedTags = [...selectedTags];
         const index = updatedTags.indexOf(tagId);
@@ -108,55 +98,65 @@ export const PostDetails = ({ loggedInUser }) => {
                     {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
-                {/* This section pertains to managing the associated tags */}
-                <div>
-                    <h3>Manage Tags</h3>
-                    {tags.map((tag) => (
-                        <div key={tag.id}>
-                            <Label>
-                                <Input
-                                    type="checkbox"
-                                    checked={selectedTags?.includes(tag.id)}
-                                    onChange={() => handleTagSelection(tag.id)}
-                                />
-                                {tag.name}
-                            </Label>
+                {showTagManager ? (
+                    <div>
+                        <h3>Manage Tags</h3>
+                        {tags.map((tag) => (
+                            <div key={tag.id}>
+                                <Label>
+                                    <Input
+                                        type="checkbox"
+                                        checked={selectedTags.includes(tag.id)}
+                                        onChange={() => handleTagSelection(tag.id)}
+                                    />
+                                    {tag.name}
+                                </Label>
+                            </div>
+                        ))}
+                        <Button onClick={handleSaveTags}>Save Tags</Button>
+                    </div>
+                ) : (
+                    <>
+                        <div>
+                            <h3>Tags:</h3>
+                            {post.tags && post.tags.map(tag => (
+                                <span key={tag.id} className="tag-label">{tag.name}</span>
+                            ))}
                         </div>
-                    ))}
-                    <Button onClick={handleSaveTags}>Save Tags</Button>
-                </div>
-                {/* This section pertains to associating comments with the post */}
+                        <Button onClick={() => setShowTagManager(true)}>Manage Tags</Button>
+                    </>
+                )}
                 <div className="comments-container">
                     <h3>Comments</h3>
                     <Button
                         color="success"
                         onClick={() => navigate(`/comments/post/${id}`)}
-                        >
-                            See comments
+                    >
+                        See comments
                     </Button>
                     <Button
                         onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}
                     </Button>
                     {addCommentSwitch ?
-                    <div>
-                        <Label>
-                            Subject
-                        </Label>
-                        <Input
-                            name="Subject" 
-                            onChange={handleInputChange} 
-                            value={commentObj.Subject} />
-                        <Label>
-                            Content
-                        </Label>
-                        <Input
-                            name="Content" 
-                            onChange={handleInputChange} 
-                            value={commentObj.Content} />
-                        <Button onClick={() => createComment(commentObj).then( () => resetCommentFields() )}>
-                            Post Comment
-                        </Button>
-                    </div> : <div></div>}
+                        <div>
+                            <Label>
+                                Subject
+                            </Label>
+                            <Input
+                                name="Subject"
+                                onChange={handleInputChange}
+                                value={commentObj.Subject} />
+                            <Label>
+                                Content
+                            </Label>
+                            <Input
+                                name="Content"
+                                onChange={handleInputChange}
+                                value={commentObj.Content} />
+                            <Button onClick={() => createComment(commentObj).then(() => resetCommentFields())}>
+                                Post Comment
+                            </Button>
+                        </div> : <div></div>}
                 </div>
                 {loggedInUser && post.authorId === loggedInUser.id && (
                     <>
@@ -165,7 +165,7 @@ export const PostDetails = ({ loggedInUser }) => {
                             <Button
                                 color="danger"
                                 onClick={() => setShowConfirmation(true)}>
-                                    Delete
+                                Delete
                             </Button>
                             {showConfirmation && (
                                 <div>
@@ -173,12 +173,12 @@ export const PostDetails = ({ loggedInUser }) => {
                                     <Button
                                         color="success"
                                         onClick={handleDelete}>
-                                            Yes
+                                        Yes
                                     </Button>
                                     <Button
                                         color="danger"
                                         onClick={() => setShowConfirmation(false)}>
-                                            No
+                                        No
                                     </Button>
                                 </div>
                             )}
