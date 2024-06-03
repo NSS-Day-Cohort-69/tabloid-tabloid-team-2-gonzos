@@ -58,11 +58,6 @@ export const PostDetails = ({ loggedInUser }) => {
             });
     };
 
-    // Comment Functions
-    useEffect(() => {
-        getComments(id).then(setComments)
-    }, [post]);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setCommentObj(prevState => ({
@@ -133,7 +128,15 @@ export const PostDetails = ({ loggedInUser }) => {
                 {/* This section pertains to associating comments with the post */}
                 <div className="comments-container">
                     <h3>Comments</h3>
-                    <Button onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}</Button>
+                    <Button
+                        color="success"
+                        onClick={() => navigate(`/comments/post/${id}`)}
+                        >
+                            See comments
+                    </Button>
+                    <Button
+                        onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}
+                    </Button>
                     {addCommentSwitch ?
                     <div>
                         <Label>
