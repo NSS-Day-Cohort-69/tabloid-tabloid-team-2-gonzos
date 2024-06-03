@@ -27,14 +27,19 @@ export const tryGetLoggedInUser = () => {
 };
 
 export const register = (userProfile) => {
-  userProfile.password = btoa(userProfile.password);
+  // userProfile.password = btoa(userProfile.password);
+  //As using file type for Image Upload,changed object to formData for registration
+  const formData = new FormData();
+  formData.append('firstName', userProfile.firstName);
+  formData.append('lastName', userProfile.lastName);
+  formData.append('userName', userProfile.userName);
+  formData.append('email', userProfile.email);
+  formData.append('password', btoa(userProfile.password)); // Encode password
+  formData.append('imageLocation', userProfile.imageLocation); // Assuming photo is a File object
   return fetch(_apiUrl + "/register", {
     credentials: "same-origin",
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userProfile),
+    body: formData,
   }).then((res) => {
     if (res.ok) {
       return fetch(_apiUrl + "/me").then((res) => res.json());

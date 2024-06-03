@@ -23,3 +23,31 @@
 .comment-option {
     margin: 0px 5px;
 }
+
+.options-container {
+    margin: 20px;
+}
+
+.post-container {
+    margin: 20px;
+}
+
+.comments-container-empty {
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.back-btn {
+    width: 100px;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    text-decoration: none;
+    color: rgb(105, 105, 105);
+}

@@ -28,7 +28,6 @@ namespace Tabloid.Models
         {
             get { return CreateDateTime.Date.ToString("MM - dd - yyyy"); }
         }
-
         public string ImageLocation { get; set; }
 
         [Required]
@@ -57,5 +56,4 @@ namespace Tabloid.Models
             }
     }
 }
-
 
