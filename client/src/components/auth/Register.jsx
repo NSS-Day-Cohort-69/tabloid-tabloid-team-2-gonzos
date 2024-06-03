@@ -12,6 +12,7 @@ export default function Register({ setLoggedInUser }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const[imgSrc,setImgSrc]=useState("/Images/emp.png")
 
   const [passwordMismatch, setPasswordMismatch] = useState();
 
@@ -41,6 +42,24 @@ export default function Register({ setLoggedInUser }) {
       });
     }
   };
+
+  const handleFileChange=(e)=>{
+    if(e.target.files&& e.target.files[0])
+    {
+      let imageFile=e.target.files[0];
+      const reader=new FileReader();
+      reader.onload=(x)=>{
+        setImageLocation(imageFile);
+        setImgSrc(x.target.result)
+      }
+      reader.readAsDataURL(imageFile)
+      }
+      else{
+        setImageLocation("");
+      setImgSrc("/Images/emp.png")
+      }
+    // setImageLocation(e.target.files[0])
+  }
 
   return (
     <div className="container" style={{ maxWidth: "500px" }}>
@@ -86,14 +105,9 @@ export default function Register({ setLoggedInUser }) {
         />
       </FormGroup>
       <FormGroup>
-        <Label>Image URL</Label>
-        <Input
-          type="text"
-          value={imageLocation}
-          onChange={(e) => {
-            setImageLocation(e.target.value);
-          }}
-        />
+        <Label>Upload Image</Label>           
+        <img style={{height: 120, width: 100}} src={imgSrc} className="card-img-top"/>   
+        <input type="file" onChange={handleFileChange} required />
       </FormGroup>
       <FormGroup>
         <Label>Password</Label>
