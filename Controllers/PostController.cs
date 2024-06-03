@@ -260,4 +260,66 @@ public class PostController : ControllerBase
 
         return Ok(posts);
     }
+
+    [HttpGet("subscriptions/{userId}")]
+    [Authorize]
+    public IActionResult GetSubscribedPosts(int userId)
+    {
+        List<int> subscribedAuthorIds = _dbContext.Subscriptions
+                                            .Where(s => s.SubscriberId == userId)
+                                            .Select(s => s.AuthorId)
+                                            .ToList();
+
+        var posts = _dbContext.Posts
+                            .Where(p => subscribedAuthorIds.Contains(p.AuthorId))
+                            .Include(p => p.Author)
+                            .ThenInclude(up => up.IdentityUser)
+                            .Include(p => p.Category)
+                            .Include(p => p.PostTags)
+                            .ThenInclude(pt => pt.Tag)
+                            .OrderByDescending(p => p.PublicationDate)
+                            .ToList();
+
+        var postDTOs = posts.Select(p => new PostDTO
+        {
+            Id = p.Id,
+            Title = p.Title,
+            AuthorId = p.AuthorId,
+            Author = new UserProfileDTO
+            {
+                Id = p.Author.Id,
+                FirstName = p.Author.FirstName,
+                LastName = p.Author.LastName,
+                UserName = p.Author.UserName,
+                Email = p.Author.Email,
+                CreateDateTime = p.Author.CreateDateTime,
+                ImageLocation = p.Author.ImageLocation,
+                IdentityUserId = p.Author.IdentityUserId,
+                IsActive = p.Author.IsActive,
+                IdentityUser = new IdentityUser
+                {
+                    Id = p.Author.IdentityUser.Id,
+                    UserName = p.Author.IdentityUser.UserName
+                }
+            },
+            PublicationDate = p.PublicationDate,
+            Body = p.Body,
+            CategoryId = p.CategoryId,
+            Category = new CategoryDTO
+            {
+                Id = p.Category.Id,
+                Name = p.Category.Name
+            },
+            HeaderImage = p.HeaderImage,
+            PostApproved = p.PostApproved,
+            EstimatedReadTime = p.EstimatedReadTime,
+            Tags = p.PostTags.Select(pt => new TagDTO
+            {
+                Id = pt.Tag.Id,
+                Name = pt.Tag.Name
+            }).ToList()
+        }).ToList();
+
+        return Ok(postDTOs);
+    }
 }
