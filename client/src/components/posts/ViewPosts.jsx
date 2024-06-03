@@ -3,12 +3,15 @@ import { getPosts } from "../../managers/postManager";
 import "./ViewPosts.css";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
+import { getSearchPostByTag } from "../../managers/tagManager.js";
 
 export const ViewPosts = ({ loggedInUser }) => {
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const [searchTerm, setSearchTerm] = useState("")
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,6 +41,40 @@ export const ViewPosts = ({ loggedInUser }) => {
         }
     };
 
+    const handleSearchChange = (event) =>{
+        const term = event.target.value;
+        setSearchTerm(term);
+        applySearchFilter(term);
+    }
+
+    const applyCategoryFilter = (category) => {
+        if (category === 'all')
+        {
+            setFilteredPosts(posts);
+        }
+        else
+        {
+            setFilteredPosts(posts.filter(post => post.categoryId === parseInt(category)));
+        }
+    };
+
+    const applySearchFilter = (term) => {
+        if (term)
+            {
+                getSearchPostByTag(term).then(fetchedPosts => 
+                    {
+                        setSearchResults(fetchedPosts);
+                    }
+                )
+            }
+            else
+            {
+                setSearchResults([]);
+            }
+    }
+
+    const displayedPosts = searchTerm ? searchResults : filteredPosts;
+
     return (
         <>
             <h2>Welcome to the posts</h2>
@@ -50,8 +87,18 @@ export const ViewPosts = ({ loggedInUser }) => {
                     ))}
                 </select>
             </div>
+            <div>
+                <label htmlFor="search-input">Search by tag</label>
+                <input
+                    id="search-input"
+                    type="text"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    placeholder="Enter tag name"
+                    />
+            </div>
             <div className="post-master-container">
-                {filteredPosts.map(post => (
+                {displayedPosts.map(post => (
                     <div className="post" key={post.id}>
                         <h3>Title: {post.title}</h3>
                         <h5>Body: {post.body}</h5>
