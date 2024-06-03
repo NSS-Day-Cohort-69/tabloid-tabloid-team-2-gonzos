@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../../managers/postManager";
 import "./ViewPosts.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
 
 export const ViewPosts = ({ loggedInUser }) => {
@@ -55,7 +55,7 @@ export const ViewPosts = ({ loggedInUser }) => {
                     <div className="post" key={post.id}>
                         <h3>Title: {post.title}</h3>
                         <h5>Body: {post.body}</h5>
-                        <h6>Author: {post.author.firstName + " " + post.author.lastName}</h6>
+                        <h6><Link className="link" to={`user/${post.authorId}`}>Author: {post.author.firstName + " " + post.author.lastName}</Link></h6>
                         <p>Published on: {new Date(post.publicationDate).toLocaleDateString()}</p>
                         <button onClick={() => {
                             navigate(`/posts/${post.id}`);
