@@ -20,6 +20,7 @@ import { CommentDetail } from "./posts/CommentDetail.jsx";
 import { MyPosts } from "./posts/MyPosts.jsx";
 import { CommentList } from "./posts/CommentList.jsx";
 import { EditCategory } from "./categories/EditCategory.jsx";
+import { Home } from "./Home.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -29,7 +30,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           index
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Welcome to Tabloid!</p>
+              <Home loggedInUser={loggedInUser}/>
             </AuthorizedRoute>
           }
         />
