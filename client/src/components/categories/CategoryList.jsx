@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
+import { EditCategory } from "./EditCategory";
 
 export default function CategoryList() {
   const [categories, setCategories] = useState([]);
@@ -16,12 +17,18 @@ export default function CategoryList() {
   useEffect(() => {
     getCategories();
   }, []);
+
   return (
     <>
       <p>Category List</p>
       <div>
         {categories.map((c) => (
-          <p key={c.id}>{c.name}</p>
+          <p key={c.id}>
+            {c.name}
+            <button>
+              <Link to={`/editcategory/${c.id}`}>Edit Category</Link>
+            </button>
+          </p>
         ))}
       </div>
       <button>

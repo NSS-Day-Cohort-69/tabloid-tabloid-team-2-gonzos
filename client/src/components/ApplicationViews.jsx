@@ -17,8 +17,12 @@ import { NewCategory } from "./categories/NewCategory.jsx";
 import { NewTag } from "./tags/CreateTag.jsx";
 import { EditComment } from "./posts/EditComment.jsx";
 import { CommentDetail } from "./posts/CommentDetail.jsx";
+
+import { EditCategory } from "./categories/EditCategory.jsx";
+
 import { MyPosts } from "./posts/MyPosts.jsx";
 import { CommentList } from "./posts/CommentList.jsx";
+
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -50,6 +54,12 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
+
+        <Route path="/tag">
+          <Route
+            index
+            element={
+
           <Route path="/tag">
             <Route index
               element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><TagsList /></AuthorizedRoute>} />
@@ -58,9 +68,48 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           </Route>
 
         <Route path="/reactions" element={
+
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />
               </AuthorizedRoute>
+
+            }
+          />
+          <Route
+            path="/tag/create"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <NewTag />
+              </AuthorizedRoute>
+            }
+          />
+        </Route>
+
+        <Route
+          path="/reactions"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <Reaction />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="/activateUserProfile"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <ActivateAUserProfile />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="/deactivateUserProfile"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <DeactivateAUserProfile />
+            </AuthorizedRoute>
+          }
+        />
+
             }/>   
           <Route path="/activateUserProfile" element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
@@ -72,11 +121,38 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
                 <DeactivateAUserProfile />
               </AuthorizedRoute>
             }/>    
+
         <Route path="/newpost">
             <Route index element={<AuthorizedRoute loggedInUser={loggedInUser}><NewPost loggedInUser={loggedInUser}/></AuthorizedRoute>} />
         </Route>
         <Route path="/posts">
+
+
+          <Route index element={<ViewPosts loggedInUser={loggedInUser} />} />
+          <Route path="edit/:id" element={<EditPost />} />
+          <Route
+            path=":id"
+            element={<PostDetails loggedInUser={loggedInUser} />}
+          />
+          <Route
+            path="editComment/:id"
+            element={<EditComment loggedInUser={loggedInUser} />}
+          />
+          <Route
+            path=":id"
+            element={<CommentDetail loggedInUser={loggedInUser} />}
+          />
+        </Route>
+        <Route path="/comments">
+          <Route
+            path="detail/:id"
+            element={<CommentDetail loggedInUser={loggedInUser} />}
+          />
+
+            <Route index element={<ViewPosts loggedInUser={loggedInUser} />}/>
+
             <Route index element={<AuthorizedRoute loggedInUser={loggedInUser}><ViewPosts loggedInUser={loggedInUser} /></AuthorizedRoute>}/>
+
             <Route path="edit/:id" element={<EditPost />}/>
             <Route path=":id" element={<PostDetails loggedInUser={loggedInUser}/>} />
             <Route path="editComment/:id" element={<EditComment loggedInUser={loggedInUser}/> } />
@@ -85,12 +161,21 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         <Route path="/comments">
           <Route path="post/:id" element={<CommentList loggedInUser={loggedInUser} />} />
           <Route path="detail/:id" element={<CommentDetail loggedInUser={loggedInUser} />} />
+
         </Route>
         <Route
           path="/category"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
               <NewCategory />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="/editcategory/:id"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <EditCategory />
             </AuthorizedRoute>
           }
         />
