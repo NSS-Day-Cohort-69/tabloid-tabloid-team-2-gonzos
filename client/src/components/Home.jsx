@@ -1,14 +1,3 @@
-<<<<<<< Updated upstream
-
-export const Home = () => {
-
-    return (
-        <>
-            <h2>Tester</h2>
-        </>
-    )
-}
-=======
 import { useEffect, useState } from "react"
 import { getUserSubscribedPosts } from "../managers/postManager"
 import "./Home.css"
@@ -42,4 +31,3 @@ export const Home = ({ loggedInUser }) => {
         </>
     )
 }
->>>>>>> Stashed changes
