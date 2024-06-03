@@ -109,6 +109,32 @@ public class AuthController : ControllerBase
         return NotFound();
     }
 
+    // public async Task<IActionResult> Register([FromForm] UserRegistrationModel model, IFormFile file)
+    //     {
+    //         if (file == null || file.Length == 0)
+    //         {
+    //             return BadRequest("No file uploaded.");
+    //         }
+
+    //         var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+
+    //         if (!Directory.Exists(uploadPath))
+    //         {
+    //             Directory.CreateDirectory(uploadPath);
+    //         }
+
+    //         var filePath = Path.Combine(uploadPath, file.FileName);
+
+    //         using (var stream = new FileStream(filePath, FileMode.Create))
+    //         {
+    //             await file.CopyToAsync(stream);
+    //         }
+
+    //         // Here you would typically save the user data and the file path to your database.
+
+    //         return Ok(new { model.FirstName, model.LastName, model.Email, FilePath = filePath });
+    //     }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(Registration registration)
     {
@@ -120,16 +146,25 @@ public class AuthController : ControllerBase
 
         var password = Encoding
             .GetEncoding("iso-8859-1")
-            .GetString(Convert.FromBase64String(registration.Password));
+            .GetString(Convert.FromBase64String(registration.Password));           
 
         var result = await _userManager.CreateAsync(user, password);
         if (result.Succeeded)
         {
+            string imagePath="";
+            if(registration.ImageLocation!=null)
+            {
+                imagePath = await SaveImage(registration.ImageLocation);
+            }
+            else{
+                imagePath=null;
+            }
+            
             _dbContext.UserProfiles.Add(new UserProfile
             {
                 FirstName = registration.FirstName,
                 LastName = registration.LastName,
-                ImageLocation = registration.ImageLocation,
+                ImageLocation = imagePath,
                 CreateDateTime = DateTime.Now,
                 IdentityUserId = user.Id,
             });
@@ -151,5 +186,17 @@ public class AuthController : ControllerBase
             return Ok();
         }
         return BadRequest(new { Errors = result.Errors.Select(ir => ir.Description) });
+    }
+
+    [NonAction]
+    public async Task<string> SaveImage(IFormFile imageFile)
+    {
+        string imageName = Guid.NewGuid() + Path.GetExtension (imageFile.FileName);
+        var imagePath = Path. Combine(Directory.GetCurrentDirectory(), "Uploads",imageName);
+        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        {
+          await imageFile.CopyToAsync(fileStream);
+        }
+        return imageName;
     }
 }
