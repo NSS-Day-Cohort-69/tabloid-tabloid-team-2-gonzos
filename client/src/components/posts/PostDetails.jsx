@@ -44,9 +44,14 @@ export const PostDetails = ({ loggedInUser }) => {
     };
 
     const resetCommentFields = () => {
-        commentObj.Content = "";
-        commentObj.Subject = "";
+        setCommentObj({
+            Subject: "",
+            Content: "",
+            PostId: id,
+            AuthorId: loggedInUser.id
+        });
     };
+
 
     return (
         <>
@@ -89,7 +94,7 @@ export const PostDetails = ({ loggedInUser }) => {
                             name="Content" 
                             onChange={handleInputChange} 
                             value={commentObj.Content} />
-                        <Button onClick={() => createComment(commentObj).then(() => getComments(post.id).then(setComments).then(() => resetCommentFields()))}>
+                        <Button onClick={() => createComment(commentObj).then( () => resetCommentFields() )}>
                             Post Comment
                         </Button>
                     </div> : <div></div>}
