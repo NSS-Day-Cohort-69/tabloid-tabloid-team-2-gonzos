@@ -10,10 +10,6 @@ export const createReaction=(reaction)=>{
       }).then((res) => res.json);
 }
 
-export const getPostsReactions = (postId) => {
-  return fetch(`${_apiURL}/${postId}`).then((res) => res.json());
-}
-
 export const getReactions = () => {
   return fetch(`${_apiURL}`).then((res) => res.json());
 }
