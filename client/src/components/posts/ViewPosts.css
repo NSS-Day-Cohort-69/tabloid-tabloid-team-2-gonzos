@@ -41,3 +41,13 @@
 .back-btn {
     width: 100px;
 }
+
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    text-decoration: none;
+    color: rgb(105, 105, 105);
+}
