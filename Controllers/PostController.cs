@@ -200,14 +200,9 @@ public class PostController : ControllerBase
             _dbContext.PostTags.AddRange(postTags);
             _dbContext.SaveChanges();
         }
+         return Ok(new { post.Id });
     }
-    catch(DbUpdateException ex)
-    {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-    }
-
-        return Ok(new { post.Id });
-    }
+   
 
 
     [HttpPut("{id}")]
