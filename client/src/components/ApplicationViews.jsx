@@ -18,6 +18,7 @@ import { NewTag } from "./tags/CreateTag.jsx";
 import { EditComment } from "./posts/EditComment.jsx";
 import { CommentDetail } from "./posts/CommentDetail.jsx";
 import { MyPosts } from "./posts/MyPosts.jsx";
+import { CommentList } from "./posts/CommentList.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -82,6 +83,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             <Route path="user/:id" element={<MyPosts loggedInUser={loggedInUser} />} />
         </Route>
         <Route path="/comments">
+          <Route path="post/:id" element={<CommentList loggedInUser={loggedInUser} />} />
           <Route path="detail/:id" element={<CommentDetail loggedInUser={loggedInUser} />} />
         </Route>
         <Route

@@ -19,9 +19,10 @@ export default function UserProfileDetails() {
   if (!userProfile) {
     return null;
   }
+  const imageUrl = `https://localhost:5001/Uploads/${userProfile.imageLocation}`;
   return (
     <>
-      <img src={userProfile.imageLocation} alt={userProfile.firstName} />
+      <img style={{height: 100, width: 100}} src={imageUrl} alt={userProfile.firstName} />
       <h3>{userProfile.fullName}</h3>
       <p>Username: {userProfile.userName}</p>
       <p>Email: {userProfile.email}</p>
