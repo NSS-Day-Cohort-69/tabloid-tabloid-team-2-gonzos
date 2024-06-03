@@ -9,6 +9,24 @@ export const getPostById = (id) => {
 }
 
 export const createPost = async (postObj) => {
+    // Convert image file to base64 string
+    const convertImageToBase64 = (imageFile) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(imageFile);
+        });
+    };
+
+    if (postObj.headerImage) {
+        try {
+            postObj.headerImage = await convertImageToBase64(postObj.headerImage);
+            // delete postObj.headerImage; // Remove the file object as it is now converted to base64
+        } catch (error) {
+            throw new Error("Failed to convert image to base64");
+        }
+    }
     const response = await fetch(`${_apiUrl}`, {
         method: "POST",
         headers: {

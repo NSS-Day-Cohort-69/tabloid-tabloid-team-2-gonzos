@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Tabloid.Models.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Text.RegularExpressions;
 
 namespace Tabloid.Controllers;
 
@@ -127,7 +128,7 @@ public class PostController : ControllerBase
 
     [HttpPost]
     // [Authorize]
-    public IActionResult Post(Post post)
+    public IActionResult Post([FromBody]Post post)
     {
         if (post == null)
         {
@@ -144,11 +145,40 @@ public class PostController : ControllerBase
             return BadRequest("Body is required.");
         }
 
+        // Decode the base64 image and save it
+            if (!string.IsNullOrEmpty(post.HeaderImage))
+            {
+                var base64Data = Regex.Match(post.HeaderImage, @"data:image/(?<type>.+?);base64,(?<data>.+)").Groups["data"].Value;
+                var imageType = Regex.Match(post.HeaderImage, @"data:image/(?<type>.+?);base64,(?<data>.+)").Groups["type"].Value;
+
+                if (!string.IsNullOrEmpty(base64Data) && !string.IsNullOrEmpty(imageType))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(base64Data);
+                    var imagePath = Path.Combine($"{Guid.NewGuid()}.{imageType}");
+                    Directory.CreateDirectory("Uploads"); // Ensure the directory exists
+
+                    try
+                    {
+                        System.IO.File.WriteAllBytes(imagePath, imageBytes);
+                        post.HeaderImage = imagePath; // Store the image path instead of base64 string
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid image format");
+                }
+            }
+
         post.PublicationDate = DateTime.Now;
 
         _dbContext.Posts.Add(post);
         _dbContext.SaveChanges();
 
+    try{
         for(int i  = 0; i < post.PostTags.Count; i++)
         {
             PostTag tag = new PostTag
@@ -160,6 +190,11 @@ public class PostController : ControllerBase
             _dbContext.PostTags.Add(tag);
             _dbContext.SaveChanges();
         }
+    }
+    catch(DbUpdateException ex)
+    {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
 
         return Ok(new { post.Id });
     }
