@@ -6,6 +6,7 @@ import { Button, Input, Label } from "reactstrap";
 import "./PostDetails.css";
 import { getTags } from "../../managers/tagManager.js";
 import { savePostTags } from "../../managers/postTagManager.js";
+import { getPostsReactions, getReactions } from "../../managers/reactionManager.js";
 
 export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
@@ -16,6 +17,8 @@ export const PostDetails = ({ loggedInUser }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [tagsSaved, setTagsSaved] = useState(false);
     const [showTagManager, setShowTagManager] = useState(false);
+    const [reactions, setReactions] = useState([]);
+    const [templateReactions, setTemplateReactions] = useState([]);
     const [commentObj, setCommentObj] = useState({
         Subject: "",
         Content: "",
@@ -31,10 +34,24 @@ export const PostDetails = ({ loggedInUser }) => {
     }, [id, tagsSaved]);
 
     useEffect(() => {
+        getPostsReactions(id).then(setReactions)
+    }, [id])
+
+    useEffect(() => {
+        getReactions().then(setTemplateReactions)
+    }, [])
+
+    useEffect(() => {
         if (post.tags) {
             setSelectedTags(post.tags.map(tag => tag.id));
         }
     }, [post, tagsSaved]);
+
+    useEffect(() => {
+        getPostsReactions(id).then((data) => {
+            setReactions(data)
+        })
+    }, [id])
 
     const handleDelete = () => {
         deletePost(id)
@@ -98,6 +115,27 @@ export const PostDetails = ({ loggedInUser }) => {
                     {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
+                <div className="reactions">
+                    <h3>Reactions:</h3>
+                    <div className="reaction-btns">
+                        {templateReactions.map(tR => {
+                            let count = 0;
+                            reactions.forEach(r => {
+                                if (r.name === tR.name) {
+                                    count++;
+                                }
+                            }
+                        );
+
+                        return(
+                        <div key={tR.id}>
+                            <Button className="reaction-btn">
+                                {tR.reaction} {count}
+                            </Button>
+                        </div>)
+                        })}
+                    </div>
+                </div>
                 {showTagManager ? (
                     <div>
                         <h3>Manage Tags</h3>
