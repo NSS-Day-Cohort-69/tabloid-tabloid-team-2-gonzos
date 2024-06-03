@@ -123,9 +123,10 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }/>    
 
         <Route path="/newpost">
-            <Route index element={<NewPost loggedInUser={loggedInUser} />} />
+            <Route index element={<AuthorizedRoute loggedInUser={loggedInUser}><NewPost loggedInUser={loggedInUser}/></AuthorizedRoute>} />
         </Route>
         <Route path="/posts">
+
 
           <Route index element={<ViewPosts loggedInUser={loggedInUser} />} />
           <Route path="edit/:id" element={<EditPost />} />
@@ -149,6 +150,9 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           />
 
             <Route index element={<ViewPosts loggedInUser={loggedInUser} />}/>
+
+            <Route index element={<AuthorizedRoute loggedInUser={loggedInUser}><ViewPosts loggedInUser={loggedInUser} /></AuthorizedRoute>}/>
+
             <Route path="edit/:id" element={<EditPost />}/>
             <Route path=":id" element={<PostDetails loggedInUser={loggedInUser}/>} />
             <Route path="editComment/:id" element={<EditComment loggedInUser={loggedInUser}/> } />

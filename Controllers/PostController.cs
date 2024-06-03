@@ -126,7 +126,7 @@ public class PostController : ControllerBase
 
 
     [HttpPost]
-    // [Authorize]
+    [Authorize]
     public IActionResult Post(Post post)
     {
         if (post == null)
@@ -149,20 +149,32 @@ public class PostController : ControllerBase
         _dbContext.Posts.Add(post);
         _dbContext.SaveChanges();
 
-        for(int i  = 0; i < post.PostTags.Count; i++)
+        if (post.PostTags != null && post.PostTags.Count > 0)
         {
-            PostTag tag = new PostTag
-            {
-                TagId = post.PostTags[i].Id,
-                PostId = post.Id
-            };
+            var postTags = new List<PostTag>();
 
-            _dbContext.PostTags.Add(tag);
+            foreach (var postTag in post.PostTags)
+            {
+                var tagExists = _dbContext.Tags.Any(t => t.Id == postTag.TagId);
+                if (!tagExists)
+                {
+                    return BadRequest($"Tag with ID {postTag.TagId} does not exist.");
+                }
+
+                postTags.Add(new PostTag
+                {
+                    TagId = postTag.TagId,
+                    PostId = post.Id
+                });
+            }
+
+            _dbContext.PostTags.AddRange(postTags);
             _dbContext.SaveChanges();
         }
 
         return Ok(new { post.Id });
     }
+
 
     [HttpPut("{id}")]
     // [Authorize]
