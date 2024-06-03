@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPost } from "../../managers/postManager";
 import { useNavigate } from "react-router-dom";
+import { getAllCategories } from "../../managers/categoryManager";
+import { getTags } from "../../managers/tagManager";
 
 export const NewPost = ({ loggedInUser }) => {
     const [postObj, setPostObj] = useState({
@@ -8,13 +10,22 @@ export const NewPost = ({ loggedInUser }) => {
         authorId: loggedInUser.id, 
         publicationDate: new Date().toISOString(),
         body: "",
-        categoryId: 1, 
+        categoryId: "", 
         headerImage: "",
         postApproved: true,
         estimatedReadTime: null,
+        PostTags: []
     });
 
-    const navigate = useNavigate()
+    const [categories, setCategories] = useState([]);
+    const [tags, setTags] = useState([]);
+
+    useEffect(() => {
+        getAllCategories().then(setCategories);
+        getTags().then(setTags);
+    }, []);
+
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -24,10 +35,25 @@ export const NewPost = ({ loggedInUser }) => {
         });
     };
 
+    const handleCategoryChange = (event) => {
+        setPostObj({
+            ...postObj,
+            categoryId: parseInt(event.target.value),
+        });
+    };
+
+    const handleTagChange = (event) => {
+        const selectedTags = Array.from(event.target.selectedOptions, option => ({ tagId: parseInt(option.value) }));
+        setPostObj({
+            ...postObj,
+            PostTags: selectedTags
+        });
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         createPost(postObj).then((newPostId) => {
-            navigate(`/posts/${newPostId}`)
+            navigate(`/posts/${newPostId}`);
         }).catch((error) => {
             console.error("Error creating post:", error);
         });
@@ -66,14 +92,35 @@ export const NewPost = ({ loggedInUser }) => {
                     />
                 </div>
                 <div>
-                    <label>Category ID:</label>
-                    <input
-                        type="number"
+                    <label>Category:</label>
+                    <select
                         name="categoryId"
                         value={postObj.categoryId}
-                        onChange={handleInputChange}
+                        onChange={handleCategoryChange}
                         required
-                    />
+                    >
+                        <option value="" disabled>Select a category</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label>Tags:</label>
+                    <select
+                        multiple
+                        name="tagIds"
+                        value={postObj.PostTags.map(tag => tag.tagId)}
+                        onChange={handleTagChange}
+                    >
+                        {tags.map(tag => (
+                            <option key={tag.id} value={tag.id}>
+                                {tag.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Estimated Read Time (minutes):</label>

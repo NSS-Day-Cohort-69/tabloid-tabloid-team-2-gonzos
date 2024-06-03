@@ -1,0 +1,9 @@
+.post-image-header {
+    width: 50%;
+    height: 200px;
+}
+
+.tag-label {
+    margin: 0 10px;
+    text-decoration-line: underline;
+}

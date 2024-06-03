@@ -33,37 +33,43 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                     Posts
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to={`/posts/user/${loggedInUser.id}`} >
+                    My Posts
+                  </NavLink>
+                </NavItem>
                 {loggedInUser.roles.includes("Admin") && (
                   <>
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/userprofiles">
-                      User Profiles
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/tag">
-                      Tag Management
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/newpost">
-                      Create Post
-                    </NavLink>
-                  </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/userprofiles">
+                        User Profiles
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/tag">
+                        Tag Management
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/newpost">
+                        Create Post
+                      </NavLink>
+                    </NavItem>
                   </>
                 )}
                 {loggedInUser.roles.includes("Admin") && (
                   <>
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/categories">
-                      Categories
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/reactions">
-                      Reactions
-                    </NavLink>
-                  </NavItem>
+
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/category">
+                        Categories
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/reactions">
+                        Reactions
+                      </NavLink>
+                    </NavItem>
                   </>
                 )}
               </Nav>

@@ -6,7 +6,12 @@ export default function CategoryList() {
   const [categories, setCategories] = useState([]);
 
   const getCategories = () => {
-    getAllCategories().then(setCategories);
+    getAllCategories().then((data) => {
+      const sortedCategories = data.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      setCategories(sortedCategories);
+    });
   };
   useEffect(() => {
     getCategories();
@@ -19,6 +24,9 @@ export default function CategoryList() {
           <p key={c.id}>{c.name}</p>
         ))}
       </div>
+      <button>
+        <Link to={"/newcategory"}>New Category</Link>
+      </button>
     </>
   );
 }
