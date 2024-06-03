@@ -17,7 +17,7 @@ export const NewCategory = () => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const category = { Name: newCategory };
-    createNewCategory(category).then(navigate("/categories"));
+    createNewCategory(category).then(navigate("/category"));
   };
 
   return (
