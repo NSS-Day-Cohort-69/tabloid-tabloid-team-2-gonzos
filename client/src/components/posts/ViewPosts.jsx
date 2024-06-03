@@ -11,7 +11,6 @@ export const ViewPosts = ({ loggedInUser }) => {
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState("")
-    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,47 +32,40 @@ export const ViewPosts = ({ loggedInUser }) => {
     const handleCategoryChange = (event) => {
         const category = event.target.value;
         setSelectedCategory(category);
-        
-        if (category === 'all') {
-            setFilteredPosts(posts);
-        } else {
-            setFilteredPosts(posts.filter(post => post.categoryId === parseInt(category)));
-        }
+        applyFilters(category, searchTerm);
     };
 
     const handleSearchChange = (event) =>{
         const term = event.target.value;
         setSearchTerm(term);
-        applySearchFilter(term);
+        applyFilters(selectedCategory, term);
     }
 
-    const applyCategoryFilter = (category) => {
-        if (category === 'all')
+    const applyFilters = (category, term) => {
+        let filtered = posts;
+
+        if (category !== 'all')
         {
-            setFilteredPosts(posts);
+            filtered = filtered.filter(post => post.categoryId === parseInt(category));
+        }
+
+        if(term)
+        {
+           getSearchPostByTag(term).then(fetchedPosts =>{
+            const postIds = fetchedPosts.map(post => post.id);
+            filtered = filtered.filter(post => postIds.includes(post.id));
+            setFilteredPosts(filtered);
+           });
         }
         else
         {
-            setFilteredPosts(posts.filter(post => post.categoryId === parseInt(category)));
+            setFilteredPosts(filtered);
         }
     };
 
-    const applySearchFilter = (term) => {
-        if (term)
-            {
-                getSearchPostByTag(term).then(fetchedPosts => 
-                    {
-                        setSearchResults(fetchedPosts);
-                    }
-                )
-            }
-            else
-            {
-                setSearchResults([]);
-            }
-    }
 
-    const displayedPosts = searchTerm ? searchResults : filteredPosts;
+
+    const displayedPosts = searchTerm ? filteredPosts : filteredPosts;
 
     return (
         <>
@@ -98,7 +90,7 @@ export const ViewPosts = ({ loggedInUser }) => {
                     />
             </div>
             <div className="post-master-container">
-                {displayedPosts.map(post => (
+                {filteredPosts.map(post => (
                     <div className="post" key={post.id}>
                         <h3>Title: {post.title}</h3>
                         <h5>Body: {post.body}</h5>
