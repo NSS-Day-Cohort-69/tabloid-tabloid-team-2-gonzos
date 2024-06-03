@@ -8,6 +8,10 @@ export const getPostById = (id) => {
     return fetch(`${_apiUrl}/${id}`).then((res) => res.json())
 }
 
+export const getUserSubscribedPosts = (userId) => {
+    return fetch(`${_apiUrl}/subscriptions/${userId}`).then((res) => res.json());
+}
+
 export const createPost = async (postObj) => {
     // Convert image file to base64 string
     const convertImageToBase64 = (imageFile) => {

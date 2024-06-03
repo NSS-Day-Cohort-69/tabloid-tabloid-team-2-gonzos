@@ -9,3 +9,7 @@ export const createReaction=(reaction)=>{
         body: JSON.stringify(reaction),
       }).then((res) => res.json);
 }
+
+export const getReactions = () => {
+  return fetch(`${_apiURL}`).then((res) => res.json());
+}

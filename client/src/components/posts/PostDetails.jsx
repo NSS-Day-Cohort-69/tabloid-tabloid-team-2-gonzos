@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { deletePost, getPostById } from "../../managers/postManager";
 import { useNavigate, useParams } from "react-router-dom";
-import { createComment, deleteComment, getComments } from "../../managers/commentManager.js";
+import { createComment } from "../../managers/commentManager.js";
 import { Button, Input, Label } from "reactstrap";
 import "./PostDetails.css";
 import { getTags } from "../../managers/tagManager.js";
 import { savePostTags } from "../../managers/postTagManager.js";
+import { getReactions } from "../../managers/reactionManager.js";
+import { addReactionPost, deleteReactionPost, getPostsReactions } from "../../managers/reactionPostManager.js";
 
 export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
@@ -16,12 +18,16 @@ export const PostDetails = ({ loggedInUser }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [tagsSaved, setTagsSaved] = useState(false);
     const [showTagManager, setShowTagManager] = useState(false);
+    const [postReactions, setReactions] = useState([]);
+    const [templateReactions, setTemplateReactions] = useState([]);
     const [commentObj, setCommentObj] = useState({
         Subject: "",
         Content: "",
         PostId: id,
         AuthorId: loggedInUser.id
     });
+
+    // Variables declared upon initial render
 
     const navigate = useNavigate();
 
@@ -31,10 +37,22 @@ export const PostDetails = ({ loggedInUser }) => {
     }, [id, tagsSaved]);
 
     useEffect(() => {
+        getReactions().then(setTemplateReactions)
+    }, [])
+
+    useEffect(() => {
         if (post.tags) {
             setSelectedTags(post.tags.map(tag => tag.id));
         }
     }, [post, tagsSaved]);
+
+    useEffect(() => {
+        getPostsReactions(id).then((data) => {
+            setReactions(data)
+        })
+    }, [id])
+
+    // Functions to be executed
 
     const handleDelete = () => {
         deletePost(id)
@@ -86,6 +104,38 @@ export const PostDetails = ({ loggedInUser }) => {
         setSelectedTags(updatedTags);
     };
 
+    const handleReactionPost = async (reactionId) => {
+        const reactionPost = {
+            reactionId: reactionId,
+            userProfileId: loggedInUser.id,
+            postId: post.id
+        }
+
+        const postReactionPost = async () => {
+            await addReactionPost(reactionPost);
+        }
+        const removeReactionPost = async (id) => {
+            await deleteReactionPost(id);
+        }
+
+        const existingReaction = postReactions.find(r =>
+            r.reactionId === reactionPost.reactionId &&
+            r.postId === reactionPost.postId &&
+            r.userProfileId === reactionPost.userProfileId
+        );
+    
+        if (existingReaction) {
+            await removeReactionPost(existingReaction.id);
+        } else {
+            await postReactionPost();
+        }
+    
+        const updatedReactions = await getPostsReactions(id);
+        setReactions(updatedReactions);
+    }
+
+    // HTML return
+
     return (
         <>
             <h2>Here are your details...</h2>
@@ -98,6 +148,29 @@ export const PostDetails = ({ loggedInUser }) => {
                     {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
+                <div className="reactions">
+                    <h3>Reactions:</h3>
+                    <div className="reaction-btns">
+                        {templateReactions.map(tR => {
+                            let count = 0;
+                            postReactions.forEach(r => {
+                                if (tR.id === r.reactionId) {
+                                    count++;
+                                }
+                            }
+                        );
+
+                        return(
+                        <div key={tR.id}>
+                            <Button
+                                className="reaction-btn"
+                                onClick={() => handleReactionPost(tR.id)}>
+                                {tR.reaction} {count}
+                            </Button>
+                        </div>)
+                        })}
+                    </div>
+                </div>
                 {showTagManager ? (
                     <div>
                         <h3>Manage Tags</h3>

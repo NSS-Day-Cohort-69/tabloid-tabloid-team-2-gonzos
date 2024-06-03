@@ -57,4 +57,3 @@ namespace Tabloid.Models
     }
 }
 
-
