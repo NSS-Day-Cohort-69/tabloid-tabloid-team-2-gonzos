@@ -59,12 +59,12 @@ public class ReactionController:ControllerBase
     [Authorize]
     public IActionResult GetAllReactions()
     {
-        return (IActionResult)_dbContext.Reactions.Select(r => new ReactionDTO
+        return Ok(_dbContext.Reactions.Select(r => new ReactionDTO
         {
             Id = r.Id,
             Name = r.Name,
             Reaction = r.ReactionEmoji
-        }).ToList();
+        }).ToList());
     }
 
 }

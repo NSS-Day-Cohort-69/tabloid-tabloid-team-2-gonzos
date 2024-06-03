@@ -7,3 +7,11 @@
     margin: 0 10px;
     text-decoration-line: underline;
 }
+
+.reaction-btns {
+    display: flex;
+}
+
+.reaction-btn {
+    margin: 0px 2.5px;
+}
