@@ -11,7 +11,6 @@ export const PostDetails = ({ loggedInUser }) => {
     const [post, setPost] = useState({});
     const [showConfirmation, setShowConfirmation] = useState(false);
     const { id } = useParams();
-    const [comments, setComments] = useState([]);
     const [addCommentSwitch, toggleAddComment] = useState(false);
     const [tags, setTags] = useState([])
     const [selectedTags, setSelectedTags] = useState([]);
@@ -59,11 +58,6 @@ export const PostDetails = ({ loggedInUser }) => {
             });
     };
 
-    // Comment Functions
-    useEffect(() => {
-        getComments(id).then(setComments)
-    }, [post]);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setCommentObj(prevState => ({
@@ -72,16 +66,13 @@ export const PostDetails = ({ loggedInUser }) => {
         }))
     };
 
-    const handleCommentDeletion = (id) => {
-        deleteComment(id).then(() => {
-            getComments(post.id).then(setComments)
-        toggleDeleteConfirmWindow(0)
-        })
-    };
-
     const resetCommentFields = () => {
-        commentObj.Content = "";
-        commentObj.Subject = "";
+        setCommentObj({
+            Subject: "",
+            Content: "",
+            PostId: id,
+            AuthorId: loggedInUser.id
+        });
     };
 
     // Tag Functions
@@ -137,7 +128,15 @@ export const PostDetails = ({ loggedInUser }) => {
                 {/* This section pertains to associating comments with the post */}
                 <div className="comments-container">
                     <h3>Comments</h3>
-                    <Button onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}</Button>
+                    <Button
+                        color="success"
+                        onClick={() => navigate(`/comments/post/${id}`)}
+                        >
+                            See comments
+                    </Button>
+                    <Button
+                        onClick={() => toggleAddComment(!addCommentSwitch)}>{addCommentSwitch ? "Back" : "Add a comment"}
+                    </Button>
                     {addCommentSwitch ?
                     <div>
                         <Label>
@@ -154,63 +153,36 @@ export const PostDetails = ({ loggedInUser }) => {
                             name="Content" 
                             onChange={handleInputChange} 
                             value={commentObj.Content} />
-                        <Button onClick={() => createComment(commentObj).then(() => getComments(post.id).then(setComments).then(() => resetCommentFields()))}>
+                        <Button onClick={() => createComment(commentObj).then( () => resetCommentFields() )}>
                             Post Comment
                         </Button>
                     </div> : <div></div>}
-                    {comments.map(c => {
-                        return(
-                            <div className="comment-container" key={c.id}>
-                                <p><b>{c.author.firstName} {c.author.lastName}</b> • {c.creationDate ? new Date(c.creationDate).toLocaleDateString('en-US') : 'N/A'}</p>
-                                <p>Subject: {c.subject}</p>
-                                <p>{c.content}</p>
-                                {loggedInUser?.id == c.authorId ? 
-                                <div>
-                                    <Button
-                                        className="comment-option"
-                                        color="danger"
-                                        onClick={() => toggleDeleteConfirmWindow(c.id)}>
-                                        🗑️
-                                    </Button>
-                                    <Button
-                                        className="comment-option"
-                                        color="success"
-                                        onClick={() => navigate(`/posts/editComment/${c.id}`)}>
-                                        ✏️
-                                    </Button>
-                                </div>
-                                : <div></div>}
-                                {deleteConfirmWindow == c.id ?
-                                <div>
-                                    <p>Are you sure you want to delete this comment?</p>
-                                    <Button
-                                        className="comment-option"
-                                        color="danger"
-                                        onClick={() => toggleDeleteConfirmWindow(0)}>
-                                        No
-                                    </Button>
-                                    <Button
-                                        className="comment-option"
-                                        color="success"
-                                        onClick={() => handleCommentDeletion(c.id)}>
-                                        Yes
-                                    </Button>
-                                </div>
-                                :<div></div>}
-                            </div>
-                        )
-                    })}
                 </div>
                 {loggedInUser && post.authorId === loggedInUser.id && (
                     <>
-                        <button onClick={() => setShowConfirmation(true)}>Delete</button>
-                        {showConfirmation && (
-                            <div>
-                                <p>Are you sure you want to delete this post?</p>
-                                <button onClick={handleDelete}>Yes</button>
-                                <button onClick={() => setShowConfirmation(false)}>No</button>
-                            </div>
-                        )}
+                        <div className="options-container">
+                            <h3>Options</h3>
+                            <Button
+                                color="danger"
+                                onClick={() => setShowConfirmation(true)}>
+                                    Delete
+                            </Button>
+                            {showConfirmation && (
+                                <div>
+                                    <p>Are you sure you want to delete this post?</p>
+                                    <Button
+                                        color="success"
+                                        onClick={handleDelete}>
+                                            Yes
+                                    </Button>
+                                    <Button
+                                        color="danger"
+                                        onClick={() => setShowConfirmation(false)}>
+                                            No
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     </>
                 )}
             </div>
