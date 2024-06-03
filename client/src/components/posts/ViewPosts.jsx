@@ -3,12 +3,14 @@ import { getPosts } from "../../managers/postManager";
 import "./ViewPosts.css";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
+import { getSearchPostByTag } from "../../managers/tagManager.js";
 
 export const ViewPosts = ({ loggedInUser }) => {
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const [searchTerm, setSearchTerm] = useState("")
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,13 +32,40 @@ export const ViewPosts = ({ loggedInUser }) => {
     const handleCategoryChange = (event) => {
         const category = event.target.value;
         setSelectedCategory(category);
-        
-        if (category === 'all') {
-            setFilteredPosts(posts);
-        } else {
-            setFilteredPosts(posts.filter(post => post.categoryId === parseInt(category)));
+        applyFilters(category, searchTerm);
+    };
+
+    const handleSearchChange = (event) =>{
+        const term = event.target.value;
+        setSearchTerm(term);
+        applyFilters(selectedCategory, term);
+    }
+
+    const applyFilters = (category, term) => {
+        let filtered = posts;
+
+        if (category !== 'all')
+        {
+            filtered = filtered.filter(post => post.categoryId === parseInt(category));
+        }
+
+        if(term)
+        {
+           getSearchPostByTag(term).then(fetchedPosts =>{
+            const postIds = fetchedPosts.map(post => post.id);
+            filtered = filtered.filter(post => postIds.includes(post.id));
+            setFilteredPosts(filtered);
+           });
+        }
+        else
+        {
+            setFilteredPosts(filtered);
         }
     };
+
+
+
+    const displayedPosts = searchTerm ? filteredPosts : filteredPosts;
 
     return (
         <>
@@ -49,6 +78,16 @@ export const ViewPosts = ({ loggedInUser }) => {
                         <option key={category.id} value={category.id}>{category.name}</option>
                     ))}
                 </select>
+            </div>
+            <div>
+                <label htmlFor="search-input">Search by tag</label>
+                <input
+                    id="search-input"
+                    type="text"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    placeholder="Enter tag name"
+                    />
             </div>
             <div className="post-master-container">
                 {filteredPosts.map(post => (
