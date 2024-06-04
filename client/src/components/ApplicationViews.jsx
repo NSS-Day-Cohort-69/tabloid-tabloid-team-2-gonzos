@@ -21,6 +21,7 @@ import { MyPosts } from "./posts/MyPosts.jsx";
 import { CommentList } from "./posts/CommentList.jsx";
 import { EditCategory } from "./categories/EditCategory.jsx";
 import { Home } from "./Home.jsx";
+import { ApprovalList } from "./approval/ApprovalList.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -58,7 +59,12 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <Route path="/tag/create" 
               element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><NewTag /></AuthorizedRoute>} />
           </Route>
-
+        <Route path="/approvals">
+          <Route index element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <ApprovalList loggedInUser={loggedInUser}/>
+            </AuthorizedRoute>} />
+        </Route>
         <Route path="/reactions" element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />
