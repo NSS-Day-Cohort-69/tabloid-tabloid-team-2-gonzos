@@ -1,0 +1,16 @@
+.form-new-post {
+    margin: 20px;
+    width: 50%;
+}
+
+.page-heading {
+    margin: 0px 20px;
+}
+
+.new-post-body-textarea {
+    height: 200px;
+}
+
+.new-post-title {
+    margin: 10px 0px;
+}
