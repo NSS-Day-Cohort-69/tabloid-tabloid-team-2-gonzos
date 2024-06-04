@@ -56,7 +56,7 @@ export const EditCategory = () => {
       </Form>
       <Button
         onClick={() => {
-          navigate("/categories");
+          navigate("/category");
         }}
       >
         Discard Changes
