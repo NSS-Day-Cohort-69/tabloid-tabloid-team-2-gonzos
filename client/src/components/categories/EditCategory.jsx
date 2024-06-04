@@ -32,7 +32,7 @@ export const EditCategory = () => {
     event.preventDefault();
     editCategory(id, categoryObj)
       .then(() => {
-        navigate(`/categories`);
+        navigate(`/category`);
       })
       .catch((error) => {
         console.error("Error:", error);
