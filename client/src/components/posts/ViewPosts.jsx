@@ -12,6 +12,7 @@ export const ViewPosts = ({ loggedInUser }) => {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState("")
     const navigate = useNavigate();
+    const imageUrl = `https://localhost:5001/Uploads/`;
 
     useEffect(() => {
         getPosts().then(fetchedPosts => {
@@ -91,7 +92,8 @@ export const ViewPosts = ({ loggedInUser }) => {
             </div>
             <div className="post-master-container">
                 {filteredPosts.map(post => (
-                    <div className="post" key={post.id}>
+                    <div className="post" key={post.id}>   
+                        <img style={{height: 100}} src={`${imageUrl}${post.headerImage}`} alt={post.title} />
                         <h3>Title: {post.title}</h3>
                         <h5>Body: {post.body}</h5>
                         <h6><Link className="link" to={`user/${post.authorId}`}>Author: {post.author.firstName + " " + post.author.lastName}</Link></h6>
