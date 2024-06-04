@@ -44,3 +44,13 @@ export const editCategory = (id, category) => {
       throw error;
     });
 };
+
+export const deleteCategory = (id) => {
+  return fetch(`${_catURL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(id),
+  }).then((res) => res.json());
+};
