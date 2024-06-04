@@ -72,3 +72,16 @@ export const deletePost = (postId) => {
 export const getPostsByUserId = async (userId) => {
     return await fetch(`${_apiUrl}/user/${userId}`).then((res) => res.json())
 }
+
+export const getUnapprovedPosts = () => {
+    return fetch(`${_apiUrl}/unapproved`).then((res) => res.json())
+}
+
+export const approvePostById = (postId) => {
+    return fetch(`${_apiUrl}/${postId}/approve`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
