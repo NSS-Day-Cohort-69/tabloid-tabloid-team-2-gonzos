@@ -349,4 +349,82 @@ public class PostController : ControllerBase
 
         return Ok(postDTOs);
     }
+
+    [HttpGet("unapproved")]
+    // [Authorize]
+    public IActionResult GetUnapprovedPosts()
+    {
+        // Get all posts where postApproved is false
+        var posts = _dbContext.Posts
+                            .Where(p => !p.PostApproved)
+                            .Include(p => p.Author)
+                                .ThenInclude(up => up.IdentityUser)
+                            .Include(p => p.Category)
+                            .Include(p => p.PostTags)
+                                .ThenInclude(pt => pt.Tag)
+                            .OrderByDescending(p => p.PublicationDate)
+                            .ToList();
+
+        // Map the posts to DTOs
+        var postDTOs = posts.Select(p => new PostDTO
+        {
+            Id = p.Id,
+            Title = p.Title,
+            AuthorId = p.AuthorId,
+            Author = new UserProfileDTO
+            {
+                Id = p.Author.Id,
+                FirstName = p.Author.FirstName,
+                LastName = p.Author.LastName,
+                UserName = p.Author.UserName,
+                Email = p.Author.Email,
+                CreateDateTime = p.Author.CreateDateTime,
+                ImageLocation = p.Author.ImageLocation,
+                IdentityUserId = p.Author.IdentityUserId,
+                IsActive = p.Author.IsActive,
+                IdentityUser = new IdentityUser
+                {
+                    Id = p.Author.IdentityUser.Id,
+                    UserName = p.Author.IdentityUser.UserName
+                }
+            },
+            PublicationDate = p.PublicationDate,
+            Body = p.Body,
+            CategoryId = p.CategoryId,
+            Category = new CategoryDTO
+            {
+                Id = p.Category.Id,
+                Name = p.Category.Name
+            },
+            HeaderImage = p.HeaderImage,
+            PostApproved = p.PostApproved,
+            EstimatedReadTime = p.EstimatedReadTime,
+            Tags = p.PostTags.Select(pt => new TagDTO
+            {
+                Id = pt.Tag.Id,
+                Name = pt.Tag.Name
+            }).ToList()
+        }).ToList();
+
+        return Ok(postDTOs);
+    }
+
+
+    [HttpPut("{id}/approve")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult ApprovePost(int id)
+    {
+        Post post = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.PostApproved = true;
+
+        _dbContext.SaveChanges();
+        
+        return Ok();
+    }
 }

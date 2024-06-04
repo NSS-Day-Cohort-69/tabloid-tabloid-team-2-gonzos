@@ -116,4 +116,38 @@ public class TagController : ControllerBase
 
         return Ok(postDTOs);
     }
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public IActionResult GetTagById(int id)
+    {
+        var tag = _dbContext
+            .Tags.Where(t => t.Id == id)
+            .Select(t => new TagDTO { Id = t.Id, Name = t.Name })
+            .FirstOrDefault();
+
+        if (tag == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(tag);
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult EditTag(int id, Tag updatedTag)
+    {
+        Tag existingTag = _dbContext.Tags.FirstOrDefault(t => t.Id == id);
+        if (existingTag == null)
+        {
+            return NotFound();
+        }
+
+        existingTag.Name = updatedTag.Name ?? existingTag.Name;
+
+        _dbContext.SaveChanges();
+
+        return Ok(existingTag);
+    }
 }

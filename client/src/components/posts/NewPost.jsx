@@ -14,7 +14,7 @@ export const NewPost = ({ loggedInUser }) => {
         body: "",
         categoryId: "", 
         headerImage: "",
-        postApproved: true,
+        postApproved: false,
         estimatedReadTime: 0,
         PostTags: []
     });
