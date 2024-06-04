@@ -47,16 +47,15 @@ export const NewPost = ({ loggedInUser }) => {
             setImgSrc(x.target.result)
           }
           reader.readAsDataURL(imageFile)
-          }
-          else{
-            setImage("");
-          setImgSrc("/Images/emp.png")
-          }     
-          
           setPostObj({
             ...postObj,
-            headerImage: image
+            headerImage: imageFile
         });
+        }
+        else{
+        setImage("");
+        setImgSrc("/Images/emp.png")
+        }     
       }
 
     const handleCategoryChange = (event) => {

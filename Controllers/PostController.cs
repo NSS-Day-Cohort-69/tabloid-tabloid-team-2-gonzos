@@ -144,7 +144,6 @@ public class PostController : ControllerBase
         {
             return BadRequest("Body is required.");
         }
-
         // Decode the base64 image and save it
             if (!string.IsNullOrEmpty(post.HeaderImage))
             {
@@ -154,13 +153,12 @@ public class PostController : ControllerBase
                 if (!string.IsNullOrEmpty(base64Data) && !string.IsNullOrEmpty(imageType))
                 {
                     byte[] imageBytes = Convert.FromBase64String(base64Data);
-                    var imagePath = Path.Combine($"{Guid.NewGuid()}.{imageType}");
-                    Directory.CreateDirectory("Uploads"); // Ensure the directory exists
-
+                    string imageName = Guid.NewGuid()+"." + imageType;
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads",imageName);
                     try
                     {
                         System.IO.File.WriteAllBytes(imagePath, imageBytes);
-                        post.HeaderImage = imagePath; // Store the image path instead of base64 string
+                        post.HeaderImage = imageName; 
                     }
                     catch (Exception ex)
                     {

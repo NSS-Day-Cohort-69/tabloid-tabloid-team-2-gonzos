@@ -26,7 +26,6 @@ export const createPost = async (postObj) => {
     if (postObj.headerImage) {
         try {
             postObj.headerImage = await convertImageToBase64(postObj.headerImage);
-            // delete postObj.headerImage; // Remove the file object as it is now converted to base64
         } catch (error) {
             throw new Error("Failed to convert image to base64");
         }
