@@ -23,3 +23,21 @@ export const createTag=(tag)=>{
         return res.json();
       });
   };
+
+  export const getTagById = (id) => {
+    return fetch(`${_apiUrl}/${id}`)
+      .then((response) => response.json());
+  };
+  
+  export const updateTag = (tag) => {
+    return fetch(`${_apiUrl}/${tag.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tag),
+    });
+  };
+  
+
+  
