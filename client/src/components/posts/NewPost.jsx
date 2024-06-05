@@ -114,11 +114,6 @@ export const NewPost = ({ loggedInUser }) => {
                         required
                     />
                 </div>
-                <div>
-                    <label>Upload Header Image:</label>
-                    <img style={{ height: 120, width: 100 }} src={imgSrc} className="card-img-top" />   
-                    <input type="file" name="headerImage" onChange={handleFileChange} required />
-                </div>
                 <div className="new-post-category">
                     <label>Category:</label>
                     <select
