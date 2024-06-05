@@ -15,7 +15,7 @@ export const createNewCategory = (category) => {
       "Content-type": "application/json",
     },
     body: JSON.stringify(category),
-  }).then((res) => res.json());
+  });
 };
 
 export const editCategory = (id, category) => {
@@ -43,4 +43,14 @@ export const editCategory = (id, category) => {
       console.error("Fetch error:", error);
       throw error;
     });
+};
+
+export const deleteCategory = (id) => {
+  return fetch(`${_catURL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
 };

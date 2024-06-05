@@ -77,7 +77,20 @@ public class CategoryController : ControllerBase
         _dbContext.SaveChanges();
         return Ok(currentCat);
     }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
+
+    public IActionResult Delete(int id)
+    {
+        Category chosenCat = _dbContext.Categories.SingleOrDefault(cc => cc.Id == id);
+
+        if (chosenCat == null)
+        {
+            return NotFound("Category Not Found");
+        }
+        _dbContext.Categories.Remove(chosenCat);
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
 }
-
-
-
