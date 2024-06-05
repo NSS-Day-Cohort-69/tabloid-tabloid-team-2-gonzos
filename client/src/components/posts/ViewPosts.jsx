@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../../managers/postManager";
+import { getPosts, unApproveAPost } from "../../managers/postManager";
 import "./ViewPosts.css";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
 import { getSearchPostByTag } from "../../managers/tagManager.js";
+import { Button } from "reactstrap";
 
 export const ViewPosts = ({ loggedInUser }) => {
     const [posts, setPosts] = useState([]);
@@ -40,6 +41,12 @@ export const ViewPosts = ({ loggedInUser }) => {
         const term = event.target.value;
         setSearchTerm(term);
         applyFilters(selectedCategory, term);
+    }
+
+    const handleUnApprove=(id)=>{
+        unApproveAPost(id).then(()=>{            
+            navigate(`/ViewPosts`)
+        })
     }
 
     const applyFilters = (category, term) => {
@@ -103,6 +110,9 @@ export const ViewPosts = ({ loggedInUser }) => {
                         }}>Details</button>
                         {loggedInUser && post.authorId === loggedInUser.id && (
                             <button onClick={() => handleEdit(post.id)}>Edit</button>
+                        )}
+                        {loggedInUser.roles.includes("Admin")&&(
+                            <Button onClick={handleUnApprove(post.id)}>Un-Approve</Button>
                         )}
                     </div>
                 ))}

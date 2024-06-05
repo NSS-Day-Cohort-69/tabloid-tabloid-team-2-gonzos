@@ -349,4 +349,21 @@ public class PostController : ControllerBase
 
         return Ok(postDTOs);
     }
+
+    [HttpPost("{id}/unApprove")]
+    [Authorize(Roles ="Admin")]
+    public IActionResult UnApproveAPost(int id)
+    {
+        Post postToUnApprove=_dbContext.Posts.SingleOrDefault(p=>p.Id==id);
+        
+        if(postToUnApprove==null)
+        {
+            return BadRequest("Invalid data");
+        }
+
+        postToUnApprove.PostApproved=false;
+        _dbContext.SaveChanges();
+
+        return Ok();
+    }
 }
