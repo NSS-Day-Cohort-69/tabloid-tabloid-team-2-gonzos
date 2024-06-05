@@ -314,6 +314,11 @@ namespace Tabloid.Data
                 .HasForeignKey(s => s.SubscriberId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Posts)
+                .WithOne(p => p.Category)
+                .OnDelete(DeleteBehavior.SetNull);
+
             // modelBuilder.Entity<Subscription>()
             //     .HasOne(s => s.Author)
             //     .WithMany(up => up.Subscriptions)

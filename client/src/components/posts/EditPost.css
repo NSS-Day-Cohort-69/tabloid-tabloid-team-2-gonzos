@@ -1,0 +1,20 @@
+.edit-post-form {
+    margin: 20px auto;
+    width: 50%;
+    background-color: goldenrod;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.edit-post-title {
+    margin: 10px 0px;
+    text-align: center;
+}
+
+.edit-post-btns {
+    margin-top: 10px;
+}
+
+Button {
+    margin: 0px 5px;
+}

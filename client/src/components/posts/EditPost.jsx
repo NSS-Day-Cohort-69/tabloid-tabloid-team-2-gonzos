@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { updatePost, getPostById } from "../../managers/postManager";
 import { useNavigate, useParams } from "react-router-dom";
+import "./EditPost.css";
+import { Button, Input } from "reactstrap";
 
 export const EditPost = () => {
     const [postObj, setPostObj] = useState({
@@ -48,11 +50,11 @@ export const EditPost = () => {
 
     return (
         <>
-            <h1>Edit Post</h1>
-            <form onSubmit={handleSubmit}>
+            <h1 className="edit-post-title">Edit Post</h1>
+            <form onSubmit={handleSubmit} className="edit-post-form">
                 <div>
                     <label>Title:</label>
-                    <input
+                    <Input
                         type="text"
                         name="title"
                         value={postObj.title}
@@ -62,14 +64,15 @@ export const EditPost = () => {
                 </div>
                 <div>
                     <label>Body:</label>
-                    <textarea
+                    <Input
                         name="body"
+                        type="textarea"
                         value={postObj.body}
                         onChange={handleInputChange}
                         required
                     />
                 </div>
-                <div>
+                {/* <div>
                     <label>Header Image URL:</label>
                     <input
                         type="text"
@@ -77,10 +80,10 @@ export const EditPost = () => {
                         value={postObj.headerImage}
                         onChange={handleInputChange}
                     />
-                </div>
+                </div> */}
                 <div>
                     <label>Category ID:</label>
-                    <input
+                    <Input
                         type="number"
                         name="categoryId"
                         value={postObj.categoryId}
@@ -90,18 +93,22 @@ export const EditPost = () => {
                 </div>
                 <div>
                     <label>Estimated Read Time (minutes):</label>
-                    <input
+                    <Input
                         type="number"
                         name="estimatedReadTime"
                         value={postObj.estimatedReadTime}
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type="submit">Update Post</button>
+                <div className="edit-post-btns">
+                    <Button type="submit">Update Post</Button>
+                    <Button onClick={() => {
+                        navigate("/posts")
+                        }}>
+                        Cancel Edit
+                    </Button>
+                </div>
             </form>
-            <button onClick={() => {
-                navigate("/posts")
-            }}>Cancel Edit</button>
         </>
     );
 };
