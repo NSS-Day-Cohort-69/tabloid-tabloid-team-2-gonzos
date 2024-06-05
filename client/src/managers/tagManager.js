@@ -39,5 +39,14 @@ export const createTag=(tag)=>{
     });
   };
   
+  export const deleteTag = (id) => {
+    return fetch(`${_apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(id),
+    });
+  };
 
   
