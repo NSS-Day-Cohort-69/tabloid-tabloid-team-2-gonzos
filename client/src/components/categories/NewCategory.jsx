@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, FormGroup, Input, Label, Form } from "reactstrap";
 
 export const NewCategory = () => {
-  const [newCategory, setNewCategory] = useState();
+  const [newCategory, setNewCategory] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
