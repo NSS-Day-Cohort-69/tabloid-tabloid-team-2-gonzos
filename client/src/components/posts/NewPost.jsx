@@ -7,6 +7,9 @@ import { Button, Input, Dropdown, FormText } from "reactstrap";
 import "./NewPost.css";
 
 export const NewPost = ({ loggedInUser }) => {
+    // Determine if the logged-in user is an admin
+    const isAdmin = loggedInUser.roles.includes("Admin");
+
     const [postObj, setPostObj] = useState({
         title: "",
         authorId: loggedInUser.id, 
@@ -14,7 +17,7 @@ export const NewPost = ({ loggedInUser }) => {
         body: "",
         categoryId: "", 
         headerImage: "",
-        postApproved: false,
+        postApproved: isAdmin,
         estimatedReadTime: 0,
         PostTags: []
     });
@@ -22,7 +25,7 @@ export const NewPost = ({ loggedInUser }) => {
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
     const [image, setImage] = useState("");
-    const [imgSrc,setImgSrc]=useState("/Images/NewPost.png")
+    const [imgSrc, setImgSrc] = useState("/Images/NewPost.png");
 
     useEffect(() => {
         getAllCategories().then(setCategories);
@@ -39,26 +42,24 @@ export const NewPost = ({ loggedInUser }) => {
         });
     };
 
-    const handleFileChange=(e)=>{
-        if(e.target.files&& e.target.files[0])
-        {
-          let imageFile=e.target.files[0];
-          const reader=new FileReader();
-          reader.onload=(x)=>{
-            setImage(imageFile);
-            setImgSrc(x.target.result)
-          }
-          reader.readAsDataURL(imageFile)
-          setPostObj({
-            ...postObj,
-            headerImage: imageFile
-        });
-        }
-        else{
-        setImage("");
-        setImgSrc("/Images/emp.png")
+    const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            let imageFile = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (x) => {
+                setImage(imageFile);
+                setImgSrc(x.target.result);
+            };
+            reader.readAsDataURL(imageFile);
+            setPostObj({
+                ...postObj,
+                headerImage: imageFile
+            });
+        } else {
+            setImage("");
+            setImgSrc("/Images/emp.png");
         }     
-      }
+    };
 
     const handleCategoryChange = (event) => {
         setPostObj({
@@ -112,6 +113,11 @@ export const NewPost = ({ loggedInUser }) => {
                         onChange={handleInputChange}
                         required
                     />
+                </div>
+                <div>
+                    <label>Upload Header Image:</label>
+                    <img style={{ height: 120, width: 100 }} src={imgSrc} className="card-img-top" />   
+                    <input type="file" name="headerImage" onChange={handleFileChange} required />
                 </div>
                 <div className="new-post-category">
                     <label>Category:</label>
