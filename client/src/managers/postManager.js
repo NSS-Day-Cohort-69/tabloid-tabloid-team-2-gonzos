@@ -73,6 +73,19 @@ export const getPostsByUserId = async (userId) => {
     return await fetch(`${_apiUrl}/user/${userId}`).then((res) => res.json())
 }
 
+export const getUnapprovedPosts = () => {
+    return fetch(`${_apiUrl}/unapproved`).then((res) => res.json())
+}
+
+export const approvePostById = (postId) => {
+    return fetch(`${_apiUrl}/${postId}/approve`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
+
 export const unApproveAPost=async(id)=>{
     return await fetch(`${_apiUrl}/${id}/unApprove`,{method:"POST"}).then((res=>res.json()))
 }
