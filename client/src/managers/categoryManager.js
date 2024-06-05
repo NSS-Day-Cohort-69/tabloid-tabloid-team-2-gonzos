@@ -15,7 +15,7 @@ export const createNewCategory = (category) => {
       "Content-type": "application/json",
     },
     body: JSON.stringify(category),
-  }).then((res) => res.json());
+  });
 };
 
 export const editCategory = (id, category) => {
@@ -52,5 +52,5 @@ export const deleteCategory = (id) => {
       "Content-type": "application/json",
     },
     body: JSON.stringify(id),
-  }).then((res) => res.json());
+  });
 };
