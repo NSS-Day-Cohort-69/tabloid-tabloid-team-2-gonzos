@@ -20,6 +20,9 @@ import { CommentDetail } from "./posts/CommentDetail.jsx";
 import { MyPosts } from "./posts/MyPosts.jsx";
 import { CommentList } from "./posts/CommentList.jsx";
 import { EditCategory } from "./categories/EditCategory.jsx";
+import { Home } from "./Home.jsx";
+import { ApprovalList } from "./approval/ApprovalList.jsx";
+import EditTag from "./tags/EditTag.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -29,7 +32,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           index
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Welcome to Tabloid!</p>
+              <Home loggedInUser={loggedInUser}/>
             </AuthorizedRoute>
           }
         />
@@ -56,8 +59,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><TagsList /></AuthorizedRoute>} />
               <Route path="/tag/create" 
               element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><NewTag /></AuthorizedRoute>} />
+              <Route path="/tag/edit/:tagId" 
+              element={<AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}><EditTag/></AuthorizedRoute>} />
           </Route>
-
+        <Route path="/approvals">
+          <Route index element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <ApprovalList loggedInUser={loggedInUser}/>
+            </AuthorizedRoute>} />
+        </Route>
         <Route path="/reactions" element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <Reaction />

@@ -13,6 +13,23 @@ export const getUserSubscribedPosts = (userId) => {
 }
 
 export const createPost = async (postObj) => {
+    // Convert image file to base64 string
+    const convertImageToBase64 = (imageFile) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(imageFile);
+        });
+    };
+
+    if (postObj.headerImage) {
+        try {
+            postObj.headerImage = await convertImageToBase64(postObj.headerImage);
+        } catch (error) {
+            throw new Error("Failed to convert image to base64");
+        }
+    }
     const response = await fetch(`${_apiUrl}`, {
         method: "POST",
         headers: {
@@ -54,4 +71,17 @@ export const deletePost = (postId) => {
 
 export const getPostsByUserId = async (userId) => {
     return await fetch(`${_apiUrl}/user/${userId}`).then((res) => res.json())
+}
+
+export const getUnapprovedPosts = () => {
+    return fetch(`${_apiUrl}/unapproved`).then((res) => res.json())
+}
+
+export const approvePostById = (postId) => {
+    return fetch(`${_apiUrl}/${postId}/approve`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
 }

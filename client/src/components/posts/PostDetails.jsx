@@ -26,6 +26,7 @@ export const PostDetails = ({ loggedInUser }) => {
         PostId: id,
         AuthorId: loggedInUser.id
     });
+    const imageUrl = `https://localhost:5001/Uploads/`;
 
     // Variables declared upon initial render
 
@@ -142,7 +143,7 @@ export const PostDetails = ({ loggedInUser }) => {
             <div className="post-main-container">
                 <h3>Title: {post.title}</h3>
                 <h4>Body: {post.body}</h4>
-                {post.headerImage && <img className="post-image-header" src={post.headerImage} alt={`${post.title} header`} />}
+                {post.headerImage && <img style={{height: 100}} src={`${imageUrl}${post.headerImage}`} alt={post.title} />}
                 <h6>
                     Publication Date:{" "}
                     {post.publicationDate ? new Date(post.publicationDate).toLocaleDateString("en-US") : "N/A"}

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Tabloid.Models.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Text.RegularExpressions;
 
 namespace Tabloid.Controllers;
 
@@ -127,7 +128,7 @@ public class PostController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public IActionResult Post(Post post)
+    public IActionResult Post([FromBody]Post post)
     {
         if (post == null)
         {
@@ -143,6 +144,32 @@ public class PostController : ControllerBase
         {
             return BadRequest("Body is required.");
         }
+        // Decode the base64 image and save it
+            if (!string.IsNullOrEmpty(post.HeaderImage))
+            {
+                var base64Data = Regex.Match(post.HeaderImage, @"data:image/(?<type>.+?);base64,(?<data>.+)").Groups["data"].Value;
+                var imageType = Regex.Match(post.HeaderImage, @"data:image/(?<type>.+?);base64,(?<data>.+)").Groups["type"].Value;
+
+                if (!string.IsNullOrEmpty(base64Data) && !string.IsNullOrEmpty(imageType))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(base64Data);
+                    string imageName = Guid.NewGuid()+"." + imageType;
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads",imageName);
+                    try
+                    {
+                        System.IO.File.WriteAllBytes(imagePath, imageBytes);
+                        post.HeaderImage = imageName; 
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid image format");
+                }
+            }
 
         post.PublicationDate = DateTime.Now;
 
@@ -171,9 +198,9 @@ public class PostController : ControllerBase
             _dbContext.PostTags.AddRange(postTags);
             _dbContext.SaveChanges();
         }
-
-        return Ok(new { post.Id });
+         return Ok(new { post.Id });
     }
+   
 
 
     [HttpPut("{id}")]
@@ -321,5 +348,83 @@ public class PostController : ControllerBase
         }).ToList();
 
         return Ok(postDTOs);
+    }
+
+    [HttpGet("unapproved")]
+    // [Authorize]
+    public IActionResult GetUnapprovedPosts()
+    {
+        // Get all posts where postApproved is false
+        var posts = _dbContext.Posts
+                            .Where(p => !p.PostApproved)
+                            .Include(p => p.Author)
+                                .ThenInclude(up => up.IdentityUser)
+                            .Include(p => p.Category)
+                            .Include(p => p.PostTags)
+                                .ThenInclude(pt => pt.Tag)
+                            .OrderByDescending(p => p.PublicationDate)
+                            .ToList();
+
+        // Map the posts to DTOs
+        var postDTOs = posts.Select(p => new PostDTO
+        {
+            Id = p.Id,
+            Title = p.Title,
+            AuthorId = p.AuthorId,
+            Author = new UserProfileDTO
+            {
+                Id = p.Author.Id,
+                FirstName = p.Author.FirstName,
+                LastName = p.Author.LastName,
+                UserName = p.Author.UserName,
+                Email = p.Author.Email,
+                CreateDateTime = p.Author.CreateDateTime,
+                ImageLocation = p.Author.ImageLocation,
+                IdentityUserId = p.Author.IdentityUserId,
+                IsActive = p.Author.IsActive,
+                IdentityUser = new IdentityUser
+                {
+                    Id = p.Author.IdentityUser.Id,
+                    UserName = p.Author.IdentityUser.UserName
+                }
+            },
+            PublicationDate = p.PublicationDate,
+            Body = p.Body,
+            CategoryId = p.CategoryId,
+            Category = new CategoryDTO
+            {
+                Id = p.Category.Id,
+                Name = p.Category.Name
+            },
+            HeaderImage = p.HeaderImage,
+            PostApproved = p.PostApproved,
+            EstimatedReadTime = p.EstimatedReadTime,
+            Tags = p.PostTags.Select(pt => new TagDTO
+            {
+                Id = pt.Tag.Id,
+                Name = pt.Tag.Name
+            }).ToList()
+        }).ToList();
+
+        return Ok(postDTOs);
+    }
+
+
+    [HttpPut("{id}/approve")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult ApprovePost(int id)
+    {
+        Post post = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.PostApproved = true;
+
+        _dbContext.SaveChanges();
+        
+        return Ok();
     }
 }

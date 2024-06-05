@@ -3,8 +3,13 @@ import { createPost } from "../../managers/postManager";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
 import { getTags } from "../../managers/tagManager";
+import { Button, Input, Dropdown, FormText } from "reactstrap";
+import "./NewPost.css";
 
 export const NewPost = ({ loggedInUser }) => {
+    // Determine if the logged-in user is an admin
+    const isAdmin = loggedInUser.roles.includes("Admin");
+
     const [postObj, setPostObj] = useState({
         title: "",
         authorId: loggedInUser.id, 
@@ -12,13 +17,15 @@ export const NewPost = ({ loggedInUser }) => {
         body: "",
         categoryId: "", 
         headerImage: "",
-        postApproved: true,
-        estimatedReadTime: null,
+        postApproved: isAdmin,
+        estimatedReadTime: 0,
         PostTags: []
     });
 
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
+    const [image, setImage] = useState("");
+    const [imgSrc, setImgSrc] = useState("/Images/NewPost.png");
 
     useEffect(() => {
         getAllCategories().then(setCategories);
@@ -35,6 +42,25 @@ export const NewPost = ({ loggedInUser }) => {
         });
     };
 
+    const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            let imageFile = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (x) => {
+                setImage(imageFile);
+                setImgSrc(x.target.result);
+            };
+            reader.readAsDataURL(imageFile);
+            setPostObj({
+                ...postObj,
+                headerImage: imageFile
+            });
+        } else {
+            setImage("");
+            setImgSrc("/Images/emp.png");
+        }     
+    };
+
     const handleCategoryChange = (event) => {
         setPostObj({
             ...postObj,
@@ -43,11 +69,15 @@ export const NewPost = ({ loggedInUser }) => {
     };
 
     const handleTagChange = (event) => {
-        const selectedTags = Array.from(event.target.selectedOptions, option => ({ tagId: parseInt(option.value) }));
-        setPostObj({
-            ...postObj,
-            PostTags: selectedTags
-        });
+        const { value, checked } = event.target;
+        const selectedTag = { tagId: parseInt(value) };
+
+        setPostObj((prevState) => ({
+            ...prevState,
+            PostTags: checked
+                ? [...prevState.PostTags, selectedTag]
+                : prevState.PostTags.filter(tag => tag.tagId !== selectedTag.tagId)
+        }));
     };
 
     const handleSubmit = (event) => {
@@ -61,11 +91,11 @@ export const NewPost = ({ loggedInUser }) => {
 
     return (
         <>
-            <h1>New Post</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
+            <h1 className="page-heading">New Post</h1>
+            <form onSubmit={handleSubmit} className="form-new-post">
+                <div className="new-post-title">
                     <label>Title:</label>
-                    <input
+                    <Input
                         type="text"
                         name="title"
                         value={postObj.title}
@@ -75,23 +105,16 @@ export const NewPost = ({ loggedInUser }) => {
                 </div>
                 <div>
                     <label>Body:</label>
-                    <textarea
+                    <Input
+                        className="new-post-body"
                         name="body"
+                        type="textarea"
                         value={postObj.body}
                         onChange={handleInputChange}
                         required
                     />
                 </div>
-                <div>
-                    <label>Header Image URL:</label>
-                    <input
-                        type="text"
-                        name="headerImage"
-                        value={postObj.headerImage}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div>
+                <div className="new-post-category">
                     <label>Category:</label>
                     <select
                         name="categoryId"
@@ -108,30 +131,37 @@ export const NewPost = ({ loggedInUser }) => {
                     </select>
                 </div>
                 <div>
-                    <label>Tags:</label>
-                    <select
-                        multiple
-                        name="tagIds"
-                        value={postObj.PostTags.map(tag => tag.tagId)}
-                        onChange={handleTagChange}
-                    >
-                        {tags.map(tag => (
-                            <option key={tag.id} value={tag.id}>
-                                {tag.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
                     <label>Estimated Read Time (minutes):</label>
-                    <input
+                    <Input
                         type="number"
                         name="estimatedReadTime"
                         value={postObj.estimatedReadTime}
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type="submit">Create Post</button>
+                <div className="new-post-tags">
+                <label>Tags:</label>
+                    {tags.map(tag => (
+                        <div key={tag.id} className="form-check">
+                            <Input
+                                type="checkbox"
+                                id={`tag-${tag.id}`}
+                                value={tag.id}
+                                checked={postObj.PostTags.some(selectedTag => selectedTag.tagId === tag.id)}
+                                onChange={handleTagChange}
+                            />
+                            <label className="form-check-label" htmlFor={`tag-${tag.id}`}>
+                                {tag.name}
+                            </label>
+                        </div>
+                    ))}
+                </div>
+                <div className="new-post-upload">
+                    <label>Upload Header Image:</label>
+                    <img style={{height: 120, width: 100}} src={imgSrc} className="card-img-top"/>   
+                    <Input className="upload-btn" type="file" name="headerImage" onChange={handleFileChange} required />
+                </div>
+                <Button type="submit">Create Post</Button>
             </form>
         </>
     );

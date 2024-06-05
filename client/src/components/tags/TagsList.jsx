@@ -13,15 +13,20 @@ export default function TagsList() {
   useEffect(() => {
     getTagList();
   }, []);
+  
   return (
     <>
       <p>Tags</p>
       {tags.map((t) => (
-        <p key={t.id}>{t.name}</p>
+        <div key={t.id}>
+          <p>{t.name}</p>
+          <button onClick={() => navigate(`/tag/edit/${t.id}`)}>Edit Tag</button>
+        </div>
       ))}
-      <button onClick={() => {navigate(`/tag/create`);
-        
-      }}
+      <button
+        onClick={() => {
+          navigate(`/tag/create`);
+        }}
       >
         Create New Tag
       </button>
