@@ -150,4 +150,20 @@ public class TagController : ControllerBase
 
         return Ok(existingTag);
     }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
+
+    public IActionResult Delete(int id)
+    {
+        Tag chosenTag = _dbContext.Tags.SingleOrDefault(t => t.Id == id);
+
+        if (chosenTag == null)
+        {
+            return NotFound("Tag Not Found");
+        }
+        _dbContext.Tags.Remove(chosenTag);
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
 }
