@@ -100,12 +100,14 @@ export const EditPost = () => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <Button type="submit">Update Post</Button>
-                <Button onClick={() => {
-                    navigate("/posts")
-                    }}>
-                    Cancel Edit
-                </Button>
+                <div className="edit-post-btns">
+                    <Button type="submit">Update Post</Button>
+                    <Button onClick={() => {
+                        navigate("/posts")
+                        }}>
+                        Cancel Edit
+                    </Button>
+                </div>
             </form>
         </>
     );

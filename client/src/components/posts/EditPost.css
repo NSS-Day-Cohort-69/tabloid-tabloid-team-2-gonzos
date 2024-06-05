@@ -10,3 +10,11 @@
     margin: 10px 0px;
     text-align: center;
 }
+
+.edit-post-btns {
+    margin-top: 10px;
+}
+
+Button {
+    margin: 0px 5px;
+}
