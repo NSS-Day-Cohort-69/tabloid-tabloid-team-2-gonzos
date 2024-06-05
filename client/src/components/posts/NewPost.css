@@ -1,10 +1,14 @@
 .form-new-post {
-    margin: 20px;
+    margin: 20px auto;
     width: 50%;
+    background-color: goldenrod;
+    border-radius: 20px;
+    padding: 20px;
 }
 
 .page-heading {
-    margin: 0px 20px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .new-post-body-textarea {
@@ -13,4 +17,30 @@
 
 .new-post-title {
     margin: 10px 0px;
+}
+
+.new-post-upload {
+    margin: 10px 0px;
+    display: flex;
+}
+
+.card-img-top {
+    margin: 0px 10px;
+}
+
+.new-post-category {
+    margin: 10px 0px;
+}
+
+.new-post-tags {
+    margin: 10px 0px;
+}
+
+label {
+    margin-right: 5px;
+}
+
+.upload-btn {
+    height: 36px;
+    width: 250px;
 }

@@ -104,20 +104,16 @@ export const NewPost = ({ loggedInUser }) => {
                 </div>
                 <div>
                     <label>Body:</label>
-                    <textarea
+                    <Input
                         className="new-post-body"
                         name="body"
+                        type="textarea"
                         value={postObj.body}
                         onChange={handleInputChange}
                         required
                     />
                 </div>
-                <div>
-                    <label>Upload Header Image:</label>
-                    <img style={{height: 120, width: 100}} src={imgSrc} className="card-img-top"/>   
-                    <Input type="file" name="headerImage" onChange={handleFileChange} required />
-                </div>
-                <div>
+                <div className="new-post-category">
                     <label>Category:</label>
                     <select
                         name="categoryId"
@@ -142,7 +138,7 @@ export const NewPost = ({ loggedInUser }) => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <div>
+                <div className="new-post-tags">
                 <label>Tags:</label>
                     {tags.map(tag => (
                         <div key={tag.id} className="form-check">
@@ -158,6 +154,11 @@ export const NewPost = ({ loggedInUser }) => {
                             </label>
                         </div>
                     ))}
+                </div>
+                <div className="new-post-upload">
+                    <label>Upload Header Image:</label>
+                    <img style={{height: 120, width: 100}} src={imgSrc} className="card-img-top"/>   
+                    <Input className="upload-btn" type="file" name="headerImage" onChange={handleFileChange} required />
                 </div>
                 <Button type="submit">Create Post</Button>
             </form>
