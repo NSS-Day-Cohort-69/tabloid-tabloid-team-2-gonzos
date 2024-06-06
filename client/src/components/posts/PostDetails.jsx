@@ -236,7 +236,7 @@ export const PostDetails = ({ loggedInUser }) => {
                             </Button>
                         </div> : <div></div>}
                 </div>
-                {loggedInUser && post.authorId === loggedInUser.id && (
+                {loggedInUser && (loggedInUser.id == post.authorId || loggedInUser.roles.some(role => role === "Admin"))  && (
                     <>
                         <div className="options-container">
                             <h3>Options</h3>
