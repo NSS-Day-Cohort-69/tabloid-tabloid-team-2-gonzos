@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
 import ConfirmDelete from "../modals/ConfirmDelete";
 import { deleteCategory } from "../../managers/categoryManager";
+import { Button } from "reactstrap";
+import "./Category.css"
 
 export default function CategoryList() {
   const [categories, setCategories] = useState([]);
@@ -38,29 +40,35 @@ export default function CategoryList() {
   };
   return (
     <>
-      <p>Category List</p>
-      <div>
-        {categories.map((c) => (
-          <p key={c.id}>
-            {c.name}
-            <button>
-              <Link to={`/editcategory/${c.id}`}>Edit Category</Link>
-            </button>
-            <button onClick={() => handleDeleteModal(c.id)}>
-              Delete Category
-            </button>
-          </p>
-        ))}
+      <div className="category-container">
+      <h2>Category List</h2>
+      <div className="category-list">
+          {categories.map((c) => (
+            <div className="category-item" key={c.id}>
+              <p>
+                {c.name}
+              </p>
+              <Button color="success">
+                <Link className="link" to={`/editcategory/${c.id}`}>
+                  ✏️
+                </Link>
+              </Button>
+              <Button color="danger" onClick={() => handleDeleteModal(c.id)}>
+                🗑️
+              </Button>
+            </div>
+          ))}
+        </div>
+        <Button color="success">
+          <Link className="link" to={"/newcategory"}>New Category</Link>
+        </Button>
+        <ConfirmDelete
+          isOpen={modalOpen}
+          toggle={toggleModal}
+          confirmDelete={handleDeleteCategory}
+          typeName={"category"}
+        />
       </div>
-      <button>
-        <Link to={"/newcategory"}>New Category</Link>
-      </button>
-      <ConfirmDelete
-        isOpen={modalOpen}
-        toggle={toggleModal}
-        confirmDelete={handleDeleteCategory}
-        typeName={"category"}
-      />
     </>
   );
 }

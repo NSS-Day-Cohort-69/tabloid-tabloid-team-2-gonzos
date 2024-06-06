@@ -24,20 +24,20 @@ export const NewTag = () => {
     }
 
     return <>
-    <h2>Create A New Tag</h2>
-      <Form>
-        <FormGroup>
-          <Label>Enter New Tag Name</Label>
-          <Input
-            type="text"
-            value={newTag}
-            name="tagName"
-            onChange={handleInputChange}
-          />
-        </FormGroup>
-        <Button onClick={handleSubmit} color="primary">
-          Submit New Tag
-        </Button>
+      <Form className="tag-container">
+        <h2>Create A New Tag</h2>
+          <FormGroup>
+            <Label>Enter New Tag Name</Label>
+            <Input
+              type="text"
+              value={newTag}
+              name="tagName"
+              onChange={handleInputChange}
+            />
+          </FormGroup>
+          <Button onClick={handleSubmit} color="success">
+            Submit New Tag
+          </Button>
       </Form>
     </>
 }
