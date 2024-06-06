@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { editCategory, getCategoryById } from "../../managers/categoryManager";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import "./Category.css"
 
 export const EditCategory = () => {
   const { id } = useParams();
@@ -41,8 +42,8 @@ export const EditCategory = () => {
   };
   return (
     <>
+      <Form className="category-container">
       <h1>Edit Category</h1>
-      <Form>
         <FormGroup>
           <Label>Enter Category Name</Label>
           <Input
@@ -52,15 +53,20 @@ export const EditCategory = () => {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button onClick={handleSubmit}>Save Changes</Button>
-      </Form>
-      <Button
-        onClick={() => {
-          navigate("/category");
-        }}
-      >
+        <Button
+          onClick={handleSubmit}
+          color="success">
+          Save Changes
+        </Button>
+        <Button
+        color="danger"
+          onClick={() => {
+            navigate("/category");
+          }}
+        >
         Discard Changes
       </Button>
+      </Form>
     </>
   );
 };

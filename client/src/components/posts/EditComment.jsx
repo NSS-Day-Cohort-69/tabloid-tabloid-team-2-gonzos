@@ -29,7 +29,7 @@ export const EditComment = ({loggedInUser}) => {
     };
 
     return (
-        <form onSubmit={(event) => handleSaveChanges(event)}>
+        <form className="comments-container" onSubmit={(event) => handleSaveChanges(event)}>
             <fieldset>
                 <label>
                     Subject
@@ -52,7 +52,7 @@ export const EditComment = ({loggedInUser}) => {
                     required
                 />
             </fieldset>
-            <div>
+            <div className="btn-options">
                 <Button
                     color="danger"
                     onClick={() => navigate(`/posts/${comment.postId}`)}>

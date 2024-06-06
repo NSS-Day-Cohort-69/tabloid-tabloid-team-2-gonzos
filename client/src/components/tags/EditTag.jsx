@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTagById, updateTag } from '../../managers/tagManager.js';
+import { Button, Input } from 'reactstrap';
 
 export default function EditTag() {
   const { tagId } = useParams();
@@ -24,18 +25,23 @@ export default function EditTag() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Tag Name:
-        <input
+    <form onSubmit={handleSubmit} className='tag-container'>
+      <h2>
+        Tag Name
+      </h2>
+        <Input
           type="text"
           name="name"
           value={tag.name}
           onChange={handleInputChange}
           required
         />
-      </label>
-      <button type="submit">Update Tag</button>
+      <Button
+        className='update-tag-btn'
+        color='success'
+        type="submit">
+          Update Tag
+      </Button>
     </form>
   );
 }

@@ -22,8 +22,8 @@ export const NewCategory = () => {
 
   return (
     <>
-      <h1>Create A New Category</h1>
-      <Form>
+      <Form className="category-container">
+        <h1>Create A New Category</h1>
         <FormGroup>
           <Label>Enter Category Name</Label>
           <Input
@@ -33,7 +33,9 @@ export const NewCategory = () => {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button onClick={handleSubmit}>Save</Button>
+        <Button
+          color="success"
+          onClick={handleSubmit}>Save</Button>
       </Form>
     </>
   );

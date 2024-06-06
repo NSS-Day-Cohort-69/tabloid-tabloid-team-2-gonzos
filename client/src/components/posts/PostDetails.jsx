@@ -139,10 +139,11 @@ export const PostDetails = ({ loggedInUser }) => {
 
     return (
         <>
-            <h2>Here are your details...</h2>
+        <div className="post-container">
+            <h2>Here are yur details...</h2>
             <div className="post-main-container">
-                <h3>Title: {post.title}</h3>
-                <h4>Body: {post.body}</h4>
+                <h3>{post.title}</h3>
+                <h4>{post.body}</h4>
                 {post.headerImage && <img style={{height: 100}} src={`${imageUrl}${post.headerImage}`} alt={post.title} />}
                 <h6>
                     Publication Date:{" "}
@@ -150,7 +151,7 @@ export const PostDetails = ({ loggedInUser }) => {
                 </h6>
                 <p>Username: {post.author?.identityUser?.userName}</p>
                 <div className="reactions">
-                    <h3>Reactions:</h3>
+                    <h3>Reactions</h3>
                     <div className="reaction-btns">
                         {templateReactions.map(tR => {
                             let count = 0;
@@ -164,6 +165,7 @@ export const PostDetails = ({ loggedInUser }) => {
                         return(
                         <div key={tR.id}>
                             <Button
+                                outline
                                 className="reaction-btn"
                                 onClick={() => handleReactionPost(tR.id)}>
                                 {tR.reaction} {count}
@@ -173,7 +175,7 @@ export const PostDetails = ({ loggedInUser }) => {
                     </div>
                 </div>
                 {showTagManager ? (
-                    <div>
+                    <div className="tag-container">
                         <h3>Manage Tags</h3>
                         {tags.map((tag) => (
                             <div key={tag.id}>
@@ -187,20 +189,22 @@ export const PostDetails = ({ loggedInUser }) => {
                                 </Label>
                             </div>
                         ))}
-                        <Button onClick={handleSaveTags}>Save Tags</Button>
+                        <Button className="tag-btn" onClick={handleSaveTags}>Save Tags</Button>
                     </div>
                 ) : (
                     <>
-                        <div>
-                            <h3>Tags:</h3>
-                            {post.tags && post.tags.map(tag => (
-                                <span key={tag.id} className="tag-label">{tag.name}</span>
-                            ))}
+                        <div className="tag-container">
+                            <div>
+                                <h3>Tags</h3>
+                                {post.tags && post.tags.map(tag => (
+                                    <span key={tag.id} className="tag-label">{tag.name}</span>
+                                ))}
+                            </div>
+                            <Button className="tag-btn" onClick={() => setShowTagManager(true)}>Manage Tags</Button>
                         </div>
-                        <Button onClick={() => setShowTagManager(true)}>Manage Tags</Button>
                     </>
                 )}
-                <div className="comments-container">
+                <div className="comments-container-detail">
                     <h3>Comments</h3>
                     <Button
                         color="success"
@@ -213,21 +217,21 @@ export const PostDetails = ({ loggedInUser }) => {
                     </Button>
                     {addCommentSwitch ?
                         <div>
-                            <Label>
+                            <Label className="comment-label">
                                 Subject
                             </Label>
                             <Input
                                 name="Subject"
                                 onChange={handleInputChange}
                                 value={commentObj.Subject} />
-                            <Label>
+                            <Label  className="comment-label">
                                 Content
                             </Label>
                             <Input
                                 name="Content"
                                 onChange={handleInputChange}
                                 value={commentObj.Content} />
-                            <Button onClick={() => createComment(commentObj).then(() => resetCommentFields())}>
+                            <Button className="post-comment-btn" onClick={() => createComment(commentObj).then(() => resetCommentFields())}>
                                 Post Comment
                             </Button>
                         </div> : <div></div>}
@@ -259,6 +263,7 @@ export const PostDetails = ({ loggedInUser }) => {
                         </div>
                     </>
                 )}
+            </div>
             </div>
         </>
     );

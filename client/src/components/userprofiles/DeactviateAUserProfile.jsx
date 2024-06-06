@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { deactivateUserProfile, getAllActiveList } from "../../managers/userProfileManager"
-import { Table } from "reactstrap"
+import { Button, Table } from "reactstrap"
 import { useNavigate } from "react-router-dom"
+import "./UserProfile.css"
 
 export const DeactivateAUserProfile=()=>{
     const[activeList,setActiveList]=useState([])
@@ -23,28 +24,36 @@ export const DeactivateAUserProfile=()=>{
     }
 
     return <>
-    Deactivate a user Profile
-    <div style={{alignContent:"center"}}>
-    <Table striped>
-        <thead>
-            <tr>
-                <th>Users</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {
-        activeList.map((up) => (           
-             <tr key={up.id}>
-                <td >
-                    {up.firstName} {up.lastName} {up.userName}{" "}
-                </td>               
-                <td><button name={up.id} onClick={handleDeactivate}>Deactivate</button></td>
-            </tr>   
-          ))
-        }
-        </tbody>
-    </Table>
+    <div className="userprofile-container">
+        <h2>
+            Deactivate a user Profile
+        </h2>
+        <div style={{alignContent:"center"}}>
+        <Table striped>
+            <thead>
+                <tr>
+                    <th>Users</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {
+            activeList.map((up) => (           
+                <tr key={up.id}>
+                    <td >
+                        {up.firstName} {up.lastName} {up.userName}{" "}
+                    </td>               
+                    <td>
+                        <Button color="danger" name={up.id} onClick={handleDeactivate}>
+                            Deactivate
+                        </Button>
+                    </td>
+                </tr>   
+            ))
+            }
+            </tbody>
+        </Table>
+        </div>
     </div>
     </>
 }

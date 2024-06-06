@@ -14,4 +14,36 @@
 
 .reaction-btn {
     margin: 0px 2.5px;
+    background-color: none;
+    border: 2px solid black;
+    color: black;
+    background-color: cornflowerblue;
+}
+
+.post-container {
+    background-color: goldenrod;
+    width: 50%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.reactions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tag-btn {
+    margin-top: 10px;
+}
+
+.comment-label {
+    margin: 10px 0px;
+}
+
+.post-comment-btn {
+    margin: 10px 0px;
 }
