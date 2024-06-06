@@ -21,6 +21,7 @@ export const CommentList = ({loggedInUser}) => {
         toggleDeleteConfirmWindow(0)
         })
     };
+
     
     return(
         <div className="comments-container">
@@ -36,7 +37,7 @@ export const CommentList = ({loggedInUser}) => {
                                 <p><b>{c.author.firstName} {c.author.lastName}</b> • {c.creationDate ? new Date(c.creationDate).toLocaleDateString('en-US') : 'N/A'}</p>
                                 <p>Subject: {c.subject}</p>
                                 <p>{c.content}</p>
-                                {loggedInUser?.id == c.authorId ? 
+                                {loggedInUser?.id == c.authorId || loggedInUser?.roles.some(role => role === "Admin") ? 
                                 <div>
                                     <Button
                                         className="comment-option"
