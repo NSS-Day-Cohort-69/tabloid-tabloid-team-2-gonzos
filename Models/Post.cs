@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Tabloid.Utils;
 
 namespace Tabloid.Models
 {
@@ -30,10 +31,18 @@ namespace Tabloid.Models
         [Required]
         public bool PostApproved { get; set; }
 
-        public int? EstimatedReadTime { get; set; }
+        public int? EstimatedReadTime { 
+            get
+            {                
+                int wordCount=Utilities.CountWords(Body);
+                int minutesToRead=Convert.ToInt32(Math.Ceiling((double)wordCount/256));//(~256 Words Per Minute)
+                return minutesToRead;
+            }
+         }
 
         public List<Comment> Comments { get; set; }
         public List<PostTag> PostTags { get; set; }
         public List<ReactionPost> ReactionPosts { get; set; }
+        
     }
 }

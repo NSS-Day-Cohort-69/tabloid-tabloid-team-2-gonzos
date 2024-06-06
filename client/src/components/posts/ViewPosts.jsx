@@ -28,14 +28,7 @@ export const ViewPosts = ({ loggedInUser }) => {
         getAllCategories().then(setCategories); 
     }
 
-    useEffect(() => {
-        // getPosts().then(fetchedPosts => {
-        //     const filteredPosts = fetchedPosts
-        //         .filter(post => post.postApproved && new Date(post.publicationDate) fetchingInitialData<= new Date())
-        //         .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
-        //     setPosts(filteredPosts);
-        //     setFilteredPosts(filteredPosts);
-        // });
+    useEffect(() => {        
         fetchingInitialData();
         
     }, []);
@@ -140,6 +133,7 @@ export const ViewPosts = ({ loggedInUser }) => {
                         <div className="post" key={post.id}>   
                             <img style={{height: 100}} src={`${imageUrl}${post.headerImage}`} alt={post.title} />
                             <h3>{post.title}</h3>
+                            <h5>Estimated ReadTime : {post.estimatedReadTime===1?<span>{post.estimatedReadTime} minute</span>:<span>{post.estimatedReadTime} minutes</span>}</h5>
                             <h5>{post.body}</h5>
                             <h6>Author: <Link className="link" to={`user/${post.authorId}`}>{post.author.firstName + " " + post.author.lastName}</Link></h6>
                             <p>Published on: {new Date(post.publicationDate).toLocaleDateString()}</p>

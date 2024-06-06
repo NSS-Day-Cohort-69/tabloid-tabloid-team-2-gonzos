@@ -224,9 +224,9 @@ public class PostController : ControllerBase
 
         existingPost.Title = updatedPost.Title ?? existingPost.Title;
         existingPost.Body = updatedPost.Body ?? existingPost.Body;
-        existingPost.CategoryId = updatedPost.CategoryId;
+        existingPost.CategoryId = updatedPost.CategoryId;        
         existingPost.HeaderImage = updatedPost.HeaderImage ?? existingPost.HeaderImage;
-        existingPost.EstimatedReadTime = updatedPost.EstimatedReadTime ?? existingPost.EstimatedReadTime;
+        // existingPost.EstimatedReadTime = updatedPost.EstimatedReadTime ?? existingPost.EstimatedReadTime;
 
         _dbContext.SaveChanges();
 

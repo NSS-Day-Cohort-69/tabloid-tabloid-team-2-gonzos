@@ -130,7 +130,7 @@ export const NewPost = ({ loggedInUser }) => {
                         ))}
                     </select>
                 </div>
-                <div>
+                {/* <div>
                     <label>Estimated Read Time (minutes):</label>
                     <Input
                         type="number"
@@ -138,7 +138,7 @@ export const NewPost = ({ loggedInUser }) => {
                         value={postObj.estimatedReadTime}
                         onChange={handleInputChange}
                     />
-                </div>
+                </div> */}
                 <div className="new-post-tags">
                 <label>Tags:</label>
                     {tags.map(tag => (
