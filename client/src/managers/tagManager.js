@@ -44,8 +44,7 @@ export const createTag=(tag)=>{
       method: "DELETE",
       headers: {
         "Content-type": "application/json",
-      },
-      body: JSON.stringify(id),
+      }
     });
   };
 
