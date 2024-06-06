@@ -37,22 +37,26 @@ export const CommentList = ({loggedInUser}) => {
                                 <p><b>{c.author.firstName} {c.author.lastName}</b> • {c.creationDate ? new Date(c.creationDate).toLocaleDateString('en-US') : 'N/A'}</p>
                                 <p>Subject: {c.subject}</p>
                                 <p>{c.content}</p>
-                                {loggedInUser?.id == c.authorId || loggedInUser?.roles.some(role => role === "Admin") ? 
-                                <div>
-                                    <Button
-                                        className="comment-option"
-                                        color="danger"
-                                        onClick={() => toggleDeleteConfirmWindow(c.id)}>
-                                        🗑️
-                                    </Button>
-                                    <Button
-                                        className="comment-option"
-                                        color="success"
-                                        onClick={() => navigate(`/posts/editComment/${c.id}`)}>
-                                        ✏️
-                                    </Button>
-                                </div>
-                                : <div></div>}
+                                {
+                                    (loggedInUser?.id === c.authorId || loggedInUser?.roles.some(role => role === "Admin")) ? 
+                                        <div>
+                                            <Button
+                                                className="comment-option"
+                                                color="danger"
+                                                onClick={() => toggleDeleteConfirmWindow(c.id)}>
+                                                🗑️
+                                            </Button>
+                                            {loggedInUser?.id === c.authorId && (
+                                                <Button
+                                                    className="comment-option"
+                                                    color="success"
+                                                    onClick={() => navigate(`/posts/editComment/${c.id}`)}>
+                                                    ✏️
+                                                </Button>
+                                            )}
+                                        </div>
+                                    : <div></div>
+                                }
                                 {deleteConfirmWindow == c.id ?
                                 <div>
                                     <p>Are you sure you want to delete this comment?</p>
