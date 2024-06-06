@@ -92,13 +92,8 @@ export const EditPost = () => {
                     />
                 </div>
                 <div>
-                    <label>Estimated Read Time (minutes):</label>
-                    <Input
-                        type="number"
-                        name="estimatedReadTime"
-                        value={postObj.estimatedReadTime}
-                        onChange={handleInputChange}
-                    />
+                    <label>Estimated Read Time:</label>
+                    {postObj.estimatedReadTime===1?<span>{postObj.estimatedReadTime} minute</span>:<span>{postObj.estimatedReadTime} minutes</span>}
                 </div>
                 <div className="edit-post-btns">
                     <Button type="submit">Update Post</Button>
