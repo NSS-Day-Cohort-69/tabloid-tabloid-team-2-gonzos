@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProfile } from "../../managers/userProfileManager";
 
 export default function UserProfileDetails() {
   const [userProfile, setUserProfile] = useState();
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
 
 

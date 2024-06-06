@@ -24,3 +24,14 @@ export const deactivateUserProfile=(id)=>{
 export const activateUserProfile=(id)=>{
   return fetch(_apiUrl+`/${id}`+`/activate`,{method:"POST"});
 }
+
+export const updateProfile = (id, profile) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(profile)
+  }).then(response => response.json());
+};
+
