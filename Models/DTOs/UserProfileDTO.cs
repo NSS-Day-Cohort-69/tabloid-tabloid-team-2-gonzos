@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 
 namespace Tabloid.Models.DTOs
@@ -15,5 +16,7 @@ namespace Tabloid.Models.DTOs
 
         public IdentityUser IdentityUser {get; set;}
         public bool IsActive { get; set; }
+
+        public List<string> Roles {get; set;}
     }
 }

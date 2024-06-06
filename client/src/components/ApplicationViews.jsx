@@ -23,6 +23,7 @@ import { EditCategory } from "./categories/EditCategory.jsx";
 import { Home } from "./Home.jsx";
 import { ApprovalList } from "./approval/ApprovalList.jsx";
 import EditTag from "./tags/EditTag.jsx";
+import { EditUserProfile } from "./userprofiles/EditUserProfile.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -53,6 +54,11 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+          <Route path="edit/:id" element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <EditUserProfile />
+            </AuthorizedRoute>
+          }/>
         </Route>
           <Route path="/tag">
             <Route index
