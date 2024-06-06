@@ -39,14 +39,15 @@ export default function TagsList() {
   
   return (
     <>
+    <div className="tag-container">
       <p>Tags</p>
       {tags.map((t) => (
-        <div key={t.id}>
+        <div className="tag-item" key={t.id}>
           <p>{t.name}</p>
-          <button onClick={() => navigate(`/tag/edit/${t.id}`)}>Edit Tag</button>
-          <button onClick={() => handleDeleteModal(t.id)}>
+          <Button color="success" onClick={() => navigate(`/tag/edit/${t.id}`)}>Edit Tag</Button>
+          <Button color="danger" onClick={() => handleDeleteModal(t.id)}>
               Delete Tag
-            </button>
+            </Button>
         </div>
       ))}
       <button
@@ -62,6 +63,7 @@ export default function TagsList() {
         confirmDelete={handleDeleteTag}
         typeName={"tag"}
       />
+      </div>
     </>
   );
 }
