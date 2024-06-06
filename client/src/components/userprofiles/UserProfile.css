@@ -1,0 +1,40 @@
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.userprofile-container {
+    background-color: goldenrod;
+    width: 50%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.userprofile-item {
+    margin: 15px auto;
+    border: 2px solid black;
+    padding: 10px;
+    width: 30%;
+    border-radius: 10px;
+    background-color: cornflowerblue;
+}
+
+.userprofile-list {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.update-userprofile-btn {
+    margin-top: 10px;
+}
+
+.userprofile-btns {
+    display: flex;
+    justify-content: center;
+}
+
+.item-detail {
+    margin: 10px 0px;
+}

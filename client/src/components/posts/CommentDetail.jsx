@@ -14,7 +14,7 @@ export const CommentDetail = ({loggedInUser}) => {
     }, [id])
 
     return(
-        <div>
+        <div className="comments-container">
             <div>
                 <h3>Subject: {comment.subject}</h3>
                 <p>{loggedInUser.userName} • {comment.creationDate ? new Date(comment.creationDate).toLocaleDateString('en-US') : 'N/A'}</p>

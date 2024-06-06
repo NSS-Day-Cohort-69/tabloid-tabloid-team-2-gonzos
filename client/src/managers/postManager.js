@@ -77,6 +77,10 @@ export const getUnapprovedPosts = () => {
     return fetch(`${_apiUrl}/unapproved`).then((res) => res.json())
 }
 
+export const getApprovedPosts = () => {
+    return fetch(`${_apiUrl}/approved`).then((res) => res.json())
+}
+
 export const approvePostById = (postId) => {
     return fetch(`${_apiUrl}/${postId}/approve`, {
         method: "PUT",
@@ -84,4 +88,8 @@ export const approvePostById = (postId) => {
             "Content-Type": "application/json"
         }
     })
+}
+
+export const unApproveAPost=async(id)=>{
+    return await fetch(`${_apiUrl}/${id}/unApprove`,{method:"POST"})
 }

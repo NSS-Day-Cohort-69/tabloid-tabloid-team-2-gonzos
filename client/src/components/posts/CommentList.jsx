@@ -21,6 +21,7 @@ export const CommentList = ({loggedInUser}) => {
         toggleDeleteConfirmWindow(0)
         })
     };
+
     
     return(
         <div className="comments-container">
@@ -28,13 +29,15 @@ export const CommentList = ({loggedInUser}) => {
             <div className="comments-container-empty">
                 No comments made yet...
                 <img src={shrug} alt="shrug" width="200" />
-            </div> : comments.map(c => {
+            </div> : 
+            
+            comments.map(c => {
                         return(
                             <div className="comment-container" key={c.id}>
                                 <p><b>{c.author.firstName} {c.author.lastName}</b> • {c.creationDate ? new Date(c.creationDate).toLocaleDateString('en-US') : 'N/A'}</p>
                                 <p>Subject: {c.subject}</p>
                                 <p>{c.content}</p>
-                                {loggedInUser?.id == c.authorId ? 
+                                {loggedInUser?.id == c.authorId || loggedInUser?.roles.some(role => role === "Admin") ? 
                                 <div>
                                     <Button
                                         className="comment-option"
@@ -69,7 +72,8 @@ export const CommentList = ({loggedInUser}) => {
                                 :<div></div>}
                             </div>
                         )
-                    })}
+                    })
+                    }
                 <Button className="back-btn" onClick={() => {
                     navigate(`/posts/${id}`)}}>
                     Back

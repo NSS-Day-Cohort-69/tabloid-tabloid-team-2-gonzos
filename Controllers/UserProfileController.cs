@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Tabloid.Models.DTOs;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Tabloid.Controllers;
 
@@ -176,4 +177,61 @@ public class UserProfileController : ControllerBase
         _dbContext.SaveChanges();
         return NoContent();
     }
+
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult UpdateUserProfile(int id, UserProfileDTO updatedProfile)
+    {
+        var userProfile = _dbContext.UserProfiles
+            .Include(up => up.IdentityUser)
+            .FirstOrDefault(up => up.Id == id);
+
+        if (userProfile == null)
+        {
+            return NotFound("User profile not found.");
+        }
+
+        userProfile.IdentityUser.UserName = updatedProfile.UserName;
+        userProfile.IdentityUser.Email = updatedProfile.Email;
+
+        var existingRoles = _dbContext.UserRoles
+            .Where(ur => ur.UserId == userProfile.IdentityUserId)
+            .ToList();
+
+        _dbContext.UserRoles.RemoveRange(existingRoles);
+
+        foreach (var role in updatedProfile.Roles)
+        {
+            var roleEntity = _dbContext.Roles.SingleOrDefault(r => r.Name == role);
+                    if (roleEntity != null)
+            {
+                _dbContext.UserRoles.Add(new IdentityUserRole<string>
+                {
+                    UserId = userProfile.IdentityUserId,
+                    RoleId = roleEntity.Id
+                });
+            }
+        }
+
+        try
+        {
+            _dbContext.SaveChanges();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_dbContext.UserProfiles.Any(up => up.Id == id))
+            {
+                return NotFound("User profile not found.");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
+    }
+
+
+
 }

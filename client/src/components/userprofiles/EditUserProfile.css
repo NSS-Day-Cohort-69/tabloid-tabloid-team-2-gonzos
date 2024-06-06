@@ -1,8 +1,4 @@
-.plain-list {
-    list-style-type: none;
-}
-
-.home-container {
+.master-form {
     background-color: goldenrod;
     width: 50%;
     margin: 20px auto;
