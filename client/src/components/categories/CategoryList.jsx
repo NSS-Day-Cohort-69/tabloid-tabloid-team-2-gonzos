@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
 import ConfirmDelete from "../modals/ConfirmDelete";
 import { deleteCategory } from "../../managers/categoryManager";
@@ -36,6 +36,12 @@ export default function CategoryList() {
     deleteCategory(deleteCategoryById).then(() => {
       setCategories(categories.filter((c) => c.Id !== deleteCategoryById));
       toggleModal();
+      getAllCategories().then((updatedCategories) => {
+        const sortedCategories = updatedCategories.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+        setCategories(sortedCategories);
+      });
     });
   };
   return (
