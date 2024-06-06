@@ -4,20 +4,29 @@
 }
 
 .post {
-    background-color: lightcoral;
+    background-color: cornflowerblue;
     border: 2px solid black;
+    border-radius: 10px;
     margin: 10px 0;
+    padding: 20px;
 }
 
 .comments-container {
-    margin: 20px;
+    background-color: goldenrod;
+    width: 50%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .comment-container {
     border: 2px solid black;
+    border-radius: 10px;
     width: 33%;
     margin: 10px 0px;
     padding: 10px;
+    background-color: cornflowerblue;
 }
 
 .comment-option {
@@ -35,6 +44,7 @@
 .comments-container-empty {
     margin: 20px 0px;
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -50,4 +60,32 @@
 .link:hover {
     text-decoration: none;
     color: rgb(105, 105, 105);
+}
+
+.post-list-container {
+    background-color: goldenrod;
+    width: 50%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.post-list-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.post-list-search {
+    display: flex;
+}
+
+.btn-options {
+    margin-top: 15px;
+}
+
+.needs-margin {
+    margin-top: 15px;
 }

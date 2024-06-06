@@ -2,6 +2,7 @@ import { useState } from "react"
 import { createReaction } from "../../managers/reactionManager"
 import { useNavigate } from "react-router-dom"
 import { Button, Form, FormGroup, Input, Label } from "reactstrap"
+import "./Reaction.css"
 
 export const Reaction=()=>{
     const[reactionEmoji,setReaction]=useState("")
@@ -33,8 +34,8 @@ export const Reaction=()=>{
     
 
     return <>
-    <h2>Create Reaction</h2>
-      <Form>
+      <Form className="reaction-container">
+        <h2>Create Reaction</h2>
         <FormGroup>
           <Label>Name</Label>
           <Input
@@ -54,7 +55,7 @@ export const Reaction=()=>{
           >  
           </Input>
         </FormGroup>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={handleSubmit} color="success">
           Submit
         </Button>
       </Form>

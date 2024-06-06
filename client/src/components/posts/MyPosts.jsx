@@ -12,13 +12,13 @@ export const MyPosts = () => {
     }, [id])
 
     return(
-        <div>
+        <div className="comments-container">
             <div>
                 {posts.map(p => (
                     <div className="post" key={p.id}>
                         <img style={{height: 100}} src={`${imageUrl}${p.headerImage}`} alt={p.title} />
-                        <h3>Title: {p.title}</h3>
-                        <h5>Body: {p.body}</h5>
+                        <h3 className="needs-margin">{p.title}</h3>
+                        <h5>{p.body}</h5>
                         <h6>Author: {p.author.firstName + " " + p.author.lastName}</h6>
                         <p>Published on: {new Date(p.publicationDate).toLocaleDateString()}</p>
                     </div>
