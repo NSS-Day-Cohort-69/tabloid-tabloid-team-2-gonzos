@@ -16,23 +16,28 @@ export const ViewPosts = ({ loggedInUser }) => {
     const navigate = useNavigate();
     const imageUrl = `https://localhost:5001/Uploads/`;
 
-    useEffect(() => {
-        // getPosts().then(fetchedPosts => {
-        //     const filteredPosts = fetchedPosts
-        //         .filter(post => post.postApproved && new Date(post.publicationDate) <= new Date())
-        //         .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
-        //     setPosts(filteredPosts);
-        //     setFilteredPosts(filteredPosts);
-        // });
+    const fetchingInitialData=()=>{
         getPosts().then(fetchedPosts => {
             const filteredPosts = fetchedPosts
                 .filter(post=>new Date(post.publicationDate) <= new Date())
                 .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
             setPosts(filteredPosts);
             setFilteredPosts(filteredPosts);
-        });       
+        });      
 
-        getAllCategories().then(setCategories);
+        getAllCategories().then(setCategories); 
+    }
+
+    useEffect(() => {
+        // getPosts().then(fetchedPosts => {
+        //     const filteredPosts = fetchedPosts
+        //         .filter(post => post.postApproved && new Date(post.publicationDate) fetchingInitialData<= new Date())
+        //         .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
+        //     setPosts(filteredPosts);
+        //     setFilteredPosts(filteredPosts);
+        // });
+        fetchingInitialData();
+        
     }, []);
 
     useEffect(()=>{
@@ -63,14 +68,16 @@ export const ViewPosts = ({ loggedInUser }) => {
     }
 
     const handleUnApprove=(id)=>{
-        unApproveAPost(id).then(()=>{            
-            navigate(`/ViewPosts`)
+        unApproveAPost(id).then(()=>{     
+            fetchingInitialData();
+            navigate(`/posts`)
         })
     }
 
     const handleApprove=(id)=>{
         approvePostById(id).then(()=>{
-            navigate(`/ViewPosts`)
+            fetchingInitialData();
+            navigate(`/posts`)
         })
     }
 
