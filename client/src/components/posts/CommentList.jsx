@@ -21,7 +21,6 @@ export const CommentList = ({loggedInUser}) => {
         toggleDeleteConfirmWindow(0)
         })
     };
-
     
     return(
         <div className="comments-container">
