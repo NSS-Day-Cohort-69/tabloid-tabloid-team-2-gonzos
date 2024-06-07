@@ -25,8 +25,9 @@ export const activateUserProfile=(id)=>{
   return fetch(_apiUrl+`/${id}`+`/activate`,{method:"POST"});
 }
 
-export const updateProfile = (id, profile) => {
-  return fetch(`${_apiUrl}/${id}`, {
+export const updateProfile = (profile) => {
+  console.log(profile)
+  return fetch(`${_apiUrl}/${profile.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

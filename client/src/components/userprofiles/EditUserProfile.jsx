@@ -8,8 +8,14 @@ export const EditUserProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState({
+    id: 0,
+    firstName: '',
+    lastName: '',
     userName: '',
     email: '',
+    createDateTime: '',
+    identityUserId: 0,
+    isActive: true,
     roles: ['Author']
   });
   const [isFetching, setIsFetching] = useState(true);
@@ -17,8 +23,14 @@ export const EditUserProfile = () => {
   const fetchProfile = () => {
     getProfile(id).then(profile => {
       setUserProfile({
+        id: profile.id,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
         userName: profile.userName || '',
         email: profile.email || '',
+        createDateTime: profile.createDateTime,
+        identityUserId: profile.identityUserId,
+        isActive: profile.isActive,
         roles: profile.roles || ['Author']
       });
       setIsFetching(false);
@@ -46,8 +58,8 @@ export const EditUserProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateProfile(id, userProfile).then(() => {
-      fetchProfile();
+    updateProfile(userProfile).then(() => {
+        navigate("/userprofiles")
     });
   };
 
@@ -93,8 +105,10 @@ export const EditUserProfile = () => {
           </select>
         </label>
       </div>
-      <Button color="success" type="submit" onClick={() => {navigate("/userprofiles")}}>Save</Button>
+      <Button color="success" type="submit">Save</Button>
       <Button color="danger" type="button" onClick={() => {navigate("/userprofiles")}}>Cancel</Button>
     </form>
   );
 };
+
+
