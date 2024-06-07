@@ -17,8 +17,13 @@ export const NewCategory = () => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const category = { Name: newCategory };
-    createNewCategory(category).then(navigate("/category"));
+    createNewCategory(category).then(() => {
+      setTimeout(() => {
+        navigate("/category");
+      }, 250);
+    });
   };
+  
 
   return (
     <>
