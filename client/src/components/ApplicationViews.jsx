@@ -24,6 +24,8 @@ import { Home } from "./Home.jsx";
 import { ApprovalList } from "./approval/ApprovalList.jsx";
 import EditTag from "./tags/EditTag.jsx";
 import { EditUserProfile } from "./userprofiles/EditUserProfile.jsx";
+import { EditReaction } from "./reaction/EditReaction.jsx";
+import { NewReaction } from "./reaction/NewReaction.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -74,11 +76,16 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <ApprovalList loggedInUser={loggedInUser}/>
             </AuthorizedRoute>} />
         </Route>
-        <Route path="/reactions" element={
-              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                <Reaction />
-              </AuthorizedRoute>
-            }/>   
+
+        <Route path="/reactions">
+              <Route index element={
+                      <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                        <Reaction />
+                      </AuthorizedRoute>}/>
+              <Route path="/reactions/newReaction" element={<NewReaction/>}/>
+              <Route path="/reactions/:id" element={<EditReaction />}/>                    
+        </Route>
+
           <Route path="/activateUserProfile" element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <ActivateAUserProfile />
