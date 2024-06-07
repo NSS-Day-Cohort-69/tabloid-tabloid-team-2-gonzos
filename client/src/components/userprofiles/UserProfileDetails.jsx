@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProfile } from "../../managers/userProfileManager";
+import { Button } from "reactstrap";
 
 export default function UserProfileDetails() {
   const [userProfile, setUserProfile] = useState();
@@ -21,6 +22,11 @@ export default function UserProfileDetails() {
     return null;
   }
   const imageUrl = `https://localhost:5001/Uploads/${userProfile.imageLocation}`;
+
+  const handleEdit = () => {
+    navigate(`/userprofiles/edit/${id}`);
+  };
+
   return (
     <>
       <div className="userprofile-container">
@@ -30,7 +36,9 @@ export default function UserProfileDetails() {
         <p>Email: {userProfile.email}</p>
         <p>Creation Date: {userProfile.formattedDateTime}</p>
         <p>Role: {role}</p>
+        <Button color="success" onClick={handleEdit}>Edit Details</Button>
       </div>
+      
     </>
   );
 }

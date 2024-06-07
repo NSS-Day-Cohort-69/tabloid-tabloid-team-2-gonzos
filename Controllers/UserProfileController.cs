@@ -178,13 +178,13 @@ public class UserProfileController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{updatedprofile.id}")]
     [Authorize(Roles = "Admin")]
-    public IActionResult UpdateUserProfile(int id, UserProfileDTO updatedProfile)
+    public IActionResult UpdateUserProfile(UserProfileDTO updatedProfile)
     {
         var userProfile = _dbContext.UserProfiles
             .Include(up => up.IdentityUser)
-            .FirstOrDefault(up => up.Id == id);
+            .FirstOrDefault(up => up.Id == updatedProfile.Id);
 
         if (userProfile == null)
         {
@@ -219,7 +219,7 @@ public class UserProfileController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!_dbContext.UserProfiles.Any(up => up.Id == id))
+            if (!_dbContext.UserProfiles.Any(up => up.Id == updatedProfile.Id))
             {
                 return NotFound("User profile not found.");
             }
@@ -229,7 +229,7 @@ public class UserProfileController : ControllerBase
             }
         }
 
-        return NoContent();
+        return Ok(updatedProfile);
     }
 
 
