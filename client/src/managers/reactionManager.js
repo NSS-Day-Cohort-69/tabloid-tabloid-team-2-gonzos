@@ -1,7 +1,7 @@
 const _apiURL="/api/reaction";
 
-export const createReaction=(reaction)=>{
-    return fetch(_apiURL,{
+export const createReaction=async(reaction)=>{
+    return await fetch(_apiURL,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -10,6 +10,26 @@ export const createReaction=(reaction)=>{
       }).then((res) => res.json);
 }
 
-export const getReactions = () => {
-  return fetch(`${_apiURL}`).then((res) => res.json());
+export const getReactions = async() => {
+  return await fetch(`${_apiURL}`).then((res) => res.json());
+}
+
+export const getReactionsById=async(id)=>{
+  return await fetch(`${_apiURL}/${id}`).then((res)=>res.json());
+}
+
+export const updateReaction=async(reaction)=>{
+  return await fetch(`${_apiURL}/${reaction.id}`,{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reaction),
+    });
+}
+
+export const deleteReaction=async(id)=>{
+  return await fetch(`${_apiURL}/${id}`,{
+      method: "DELETE"
+    });
 }
